@@ -71,7 +71,7 @@ menu.MenuBuscaAlumo();
         alumno.setComentarios(getCadena("Comentarios"));
         alumno.setEstado(getCadena("Estado"));
         // Comprobar si se han introducido todos los campos obligatorios
-        if (comprobarAlumo(alumno)){
+        if (validarAlumno(alumno)){
             List <Alumno> listaAlumnos = daoAlumno.leer(alumno);
             // Comprobar si el alumno ya existe
             if (listaAlumnos.size()>0){
@@ -128,7 +128,7 @@ menu.MenuBuscaAlumo();
                     break;
 // faltan resto de campos        
                     case "x":
-                        if (!comprobarAlumo(alumno)){
+                        if (!validarAlumno(alumno)){
                             showCadena("Error: No se han introducido todos los campos obligatorios. "+
                                        "Las modificaciones realizadas no se guardaran");
                         }else{
@@ -167,8 +167,8 @@ menu.MenuBuscaAlumo();
     }    
     
     
-// falta crear metodo en Alumno    
-private boolean comprobarAlumo(Alumno alumno){return false;};
+// crear metodo validarAlumno    
+// private boolean comprobarAlumo(Alumno alumno){return false;};
 
 // daoAlumno: leer y otras operaciones recibiendo un alumno
 // devolviendo booleano y mostrando por pantalla el resultado
