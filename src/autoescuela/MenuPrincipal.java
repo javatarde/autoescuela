@@ -93,7 +93,7 @@ MenuBuscaAlumo();
         List <Alumno> listaAlumnos = daoAlumno.leer(id);
         if (listaAlumnos.size()>0){
         // Mostrar datos del alumno
-            Alumno alumno = listaAlumnos.get(1);
+            Alumno alumno = listaAlumnos.get(0);
             mostrarAlumo(alumno);
             String cadena = getCadena("¿Desea eliminar al alumno? (si/no) ");
             if (cadena.equals("si")){
