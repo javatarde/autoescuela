@@ -42,16 +42,16 @@ public class MenuPrincipal implements Menu{
         String opcion = getCadena("\n Elige una opcion del menu");
         switch (opcion){
             case "1":
-menu.MenuAltaAlumo();
+MenuAltaAlumo();
                 break;
             case "2":
-menu.MenuBajaAlumo();
+MenuBajaAlumo();
                 break;
             case "3":
-menu.MenuModificaAlumo();
+MenuModificaAlumo();
                 break;
             case "4":
-menu.MenuBuscaAlumo();
+MenuBuscaAlumo();
                 break;
             case "5":
                 exit(0);
