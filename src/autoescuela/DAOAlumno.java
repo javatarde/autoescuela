@@ -103,13 +103,25 @@ public class DAOAlumno {
     return lista;
   }
   
+  public ArrayList leer(String nombre, String apellidos) {
+    ArrayList lista = null;
+    lista = new ArrayList();
+    return lista;    
+  }
+  
+  public ArrayList leer(int id) {
+    ArrayList lista = null;
+    lista = new ArrayList();
+    return lista;    
+  }
+  
   public void mostrarAlumno(int id) {
     String SQL = "SELECT id, nombre, apellidos dni, telefono, estado, comentarios FROM "+tabla+" WHERE ID = "+id;
     System.out.println("LEO ALUMNO");
   }
   
   //ACTUALIZAR
-  public void actualizar(Alumno a) {
+  public boolean actualizar(Alumno a) {
     Connection conn = null;
     Statement stmt = null;
     ResultSet rs = null;
@@ -137,17 +149,18 @@ public class DAOAlumno {
       
     }    
     
-    System.out.println("ACTUALIZO ALUMNO");    
+    System.out.println("ACTUALIZO ALUMNO");
+    return true;
   }
   
   //ELIMINAR
-  public void eliminar(Alumno a) {
+  public boolean eliminar(int id) {
     Connection conn = null;
     Statement stmt = null;
     ResultSet rs = null;
     String SQL;
     
-    SQL = "DELETE FROM "+tabla+" WHERE ID = "+a.getId();
+    SQL = "DELETE FROM "+tabla+" WHERE ID = "+id;
     
     //conexion
     try {
@@ -164,5 +177,6 @@ public class DAOAlumno {
       System.out.println(esql.getMessage());
     }
     System.out.println("ELIMINO ALUMNO");
+    return true;
   }
 }
