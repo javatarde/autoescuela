@@ -60,7 +60,7 @@ public class DAOAlumno {
   
   //LEER
   public ArrayList leer() {
-    ArrayList respuesta = null;
+    ArrayList lista = null;
     
     Connection conn = null;
     Statement stmt = null;
@@ -77,7 +77,7 @@ public class DAOAlumno {
       stmt = conn.createStatement();
       rs = stmt.executeQuery(SQL);
       
-      respuesta = new ArrayList();
+      lista = new ArrayList();
       
       Alumno alumno = null;
       while (rs.next()) {
@@ -87,8 +87,11 @@ public class DAOAlumno {
         alumno.setApellidos(rs.getString("apellidos"));
         alumno.setDni(rs.getString("dni"));
         alumno.setTelefono(rs.getString("telefono"));
-        
+        alumno.setEstado(rs.getString("estado"));
+        alumno.setComentarios(rs.getString("comentarios"));        
       } //while
+      
+      lista.add(alumno);
       
       rs.close();
       stmt.close();
@@ -96,7 +99,7 @@ public class DAOAlumno {
     } catch (SQLException esql) {
       
     }
-    return respuesta;
+    return lista;
   }
   
   public void mostrarAlumno(int id) {
