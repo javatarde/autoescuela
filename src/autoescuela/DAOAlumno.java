@@ -209,7 +209,7 @@ public class DAOAlumno {
          +" WHERE ID = "+a.getId();
     
     try {
-      conn = ConnectDB.getConnect();
+      conn = ConnectDB.getInstance().getConnect();
       
       stmt = conn.createStatement();
       rs = stmt.executeQuery(SQL);
@@ -234,10 +234,12 @@ public class DAOAlumno {
     
     SQL = "DELETE FROM "+tabla+" WHERE ID = "+id;
     
+    //System.out.println(SQL);
+    
     //conexion
     try {
       //usamos getConnect porque es el contructor del singleton es privado
-      conn = ConnectDB.getConnect();
+      conn = ConnectDB.getInstance().getConnect();
       
       stmt = conn.createStatement();
       rs = stmt.executeQuery(SQL);
