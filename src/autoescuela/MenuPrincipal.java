@@ -39,7 +39,7 @@ public class MenuPrincipal implements Menu{
         showCadena(" 3) Modificar alumno");
         showCadena(" 4) Buscar alumno");
         showCadena(" 5) Salir");
-        String opcion = getCadena("\n Elige una opcion del menu: ");
+        String opcion = getCadena("\n Elige una opcion del menu");
         switch (opcion){
             case "1":
 menu.MenuAltaAlumo();
