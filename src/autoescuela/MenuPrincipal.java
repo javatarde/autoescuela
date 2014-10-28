@@ -71,7 +71,7 @@ menu.MenuBuscaAlumo();
         alumno.setComentarios(getCadena("Comentarios"));
         alumno.setEstado(getCadena("Estado"));
         // Comprobar si se han introducido todos los campos obligatorios
-        if (validarAlumno(alumno)){
+        if (alumno.validarAlumno()){
             List <Alumno> listaAlumnos = daoAlumno.leer(alumno);
             // Comprobar si el alumno ya existe
             if (listaAlumnos.size()>0){
@@ -97,7 +97,7 @@ menu.MenuBuscaAlumo();
             mostrarAlumo(alumno);
             String cadena = getCadena("¿Desea eliminar al alumno? (si/no) ");
             if (cadena.equals("si")){
-                boolean resultado = daoAlumno.eliminar(alumno);
+                boolean resultado = daoAlumno.eliminar(id);
             }
         }else{
             showCadena("Error: El alumno no existe en la base de datos");
@@ -128,7 +128,7 @@ menu.MenuBuscaAlumo();
                     break;
 // faltan resto de campos        
                     case "x":
-                        if (!validarAlumno(alumno)){
+                        if (!alumno.validarAlumno()){
                             showCadena("Error: No se han introducido todos los campos obligatorios. "+
                                        "Las modificaciones realizadas no se guardaran");
                         }else{
