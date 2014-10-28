@@ -65,17 +65,17 @@ public class DAOAlumno {
     ResultSet rs = null;
     String SQL;
     
-    SQL = "SELECT id, nombre, apellidos dni, telefono, estado, comentarios FROM "+tabla;
+    SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios FROM "+tabla;
     
     //conexion
     try {
       //usamos getConnect porque es el contructor del singleton es privado
-      conn = ConnectDB.getConnect();
+      conn = ConnectDB.getInstance().getConnect();
       
       stmt = conn.createStatement();
       rs = stmt.executeQuery(SQL);
       
-      lista = new ArrayList();
+      lista = new ArrayList<>();
       
       Alumno alumno = null;
       while (rs.next()) {
@@ -102,19 +102,94 @@ public class DAOAlumno {
   
   public List<Alumno> leer(String nombre, String apellidos) {
     List<Alumno> lista = null;
-    lista = new ArrayList();
-    return null;    
+    
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+    String SQL;
+    
+    SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
+        + " FROM "+tabla
+        + " WHERE nombre = \'"+nombre+"\' AND apellidos=\'"+apellidos+"\'";
+    
+    //System.out.println(SQL);
+    
+    try {
+      conn = ConnectDB.getInstance().getConnect();
+      
+      stmt = conn.createStatement();
+      rs = stmt.executeQuery(SQL);
+      
+      lista = new ArrayList<>();
+      
+      Alumno alumno = null;
+      
+      while (rs.next()) {
+        alumno = new Alumno();
+        alumno.setId(rs.getInt("id"));
+        alumno.setNombre(rs.getString("nombre"));
+        alumno.setApellidos(rs.getString("apellidos"));
+        alumno.setDni(rs.getString("dni"));
+        alumno.setTelefono(rs.getString("telefono"));
+        alumno.setEstado(rs.getString("estado"));
+        alumno.setComentarios(rs.getString("comentarios"));
+        lista.add(alumno);
+      } //while      
+      
+      rs.close();
+      stmt.close();
+      conn.close(); 
+      
+    } catch (SQLException sqle) {
+      
+    }
+    return lista;  
   }
   
   public List<Alumno> leer(int id) {
     List<Alumno> lista = null;
-    lista = new ArrayList();
-    return lista;    
-  }
-  
-  public void mostrarAlumno(int id) {
-    String SQL = "SELECT id, nombre, apellidos dni, telefono, estado, comentarios FROM "+tabla+" WHERE ID = "+id;
-    System.out.println("LEO ALUMNO");
+    
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+    String SQL;
+    
+    SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
+        + " FROM "+tabla
+        + " WHERE id = "+id;
+    
+    //System.out.println(SQL);
+    
+    try {
+      conn = ConnectDB.getInstance().getConnect();
+      
+      stmt = conn.createStatement();
+      rs = stmt.executeQuery(SQL);
+      
+      lista = new ArrayList<>();
+      
+      Alumno alumno = null;
+      
+      while (rs.next()) {
+        alumno = new Alumno();
+        alumno.setId(rs.getInt("id"));
+        alumno.setNombre(rs.getString("nombre"));
+        alumno.setApellidos(rs.getString("apellidos"));
+        alumno.setDni(rs.getString("dni"));
+        alumno.setTelefono(rs.getString("telefono"));
+        alumno.setEstado(rs.getString("estado"));
+        alumno.setComentarios(rs.getString("comentarios"));
+        lista.add(alumno);
+      } //while      
+      
+      rs.close();
+      stmt.close();
+      conn.close(); 
+      
+    } catch (SQLException sqle) {
+      
+    }
+    return lista;   
   }
   
   //ACTUALIZAR
