@@ -22,7 +22,7 @@ public class DAOAlumno {
   private final String tabla = "AU_ALUMNO";
   //CRUD
   //CREAR
-  public void crear(Alumno a) {
+  public boolean crear(Alumno a) {
     Connection conn = null;
     Statement stmt = null;
     ResultSet rs = null;
@@ -50,12 +50,13 @@ public class DAOAlumno {
       
       rs.close();
       stmt.close();
-      conn.close();      
+      conn.close();
       
-      System.out.println("Se han creado: "+fila_afectadas+" alumno(s).");
-    } catch (SQLException e) {
-      System.out.println("Error al crear alumno en la BD: "+e);      
+      System.out.println("Se han creado: "+fila_afectadas+" alumno(s).");      
+    } catch (SQLException esql) {
+      System.out.println("Error al crear alumno en la BD: "+esql.getMessage());      
     }
+    return true;    
   }
   
   //LEER
@@ -160,7 +161,7 @@ public class DAOAlumno {
       stmt.close();
       conn.close();      
     } catch (SQLException esql) {
-    
+      System.out.println(esql.getMessage());
     }
     System.out.println("ELIMINO ALUMNO");
   }
