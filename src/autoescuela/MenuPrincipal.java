@@ -1,6 +1,7 @@
 package autoescuela;
 
 import static java.lang.System.exit;
+import java.util.List;
 import java.util.Scanner;
 
 /*
@@ -15,7 +16,7 @@ import java.util.Scanner;
  */
 public class MenuPrincipal implements Menu{
     private MenuPrincipal menu;
-    private DAOAlumno daoAlumno;
+    private DAOAlumno daoAlumno = new DAOAlumno();
     private final String cadenaDatosAlumno = "id  -   Nombre  -   Apellidos  -  DNI  -  Telefono -  Estado ";
 
 
@@ -32,25 +33,25 @@ public class MenuPrincipal implements Menu{
     }
     
     public MenuPrincipal MenuPrincipal(){
-        showCadena("Autoescuela FORINEMAS: ");
+        showCadena("\nAutoescuela FORINEMAS: ");
         showCadena(" 1) Crear nuevo alumno");
         showCadena(" 2) Borrar alumno");
         showCadena(" 3) Modificar alumno");
         showCadena(" 4) Buscar alumno");
         showCadena(" 5) Salir");
-        String opcion = getCadena("\n Elige una opcion del menu: ");
+        String opcion = getCadena("\n Elige una opcion del menu");
         switch (opcion){
             case "1":
-menu.MenuAltaAlumo();
+MenuAltaAlumo();
                 break;
             case "2":
-menu.MenuBajaAlumo();
+MenuBajaAlumo();
                 break;
             case "3":
-menu.MenuModificaAlumo();
+MenuModificaAlumo();
                 break;
             case "4":
-menu.MenuBuscaAlumo();
+MenuBuscaAlumo();
                 break;
             case "5":
                 exit(0);
@@ -70,17 +71,14 @@ menu.MenuBuscaAlumo();
         alumno.setComentarios(getCadena("Comentarios"));
         alumno.setEstado(getCadena("Estado"));
         // Comprobar si se han introducido todos los campos obligatorios
-        if (comprobarAlumo(alumno)){
-//            daoAlumno.leer(alumno);
-int id=-1;
-daoAlumno.leer(id);
-            // Comprobar si el alumno ya existe
-            if (false){
-                showCadena("Error: El alumno ya existe en la base de datos");
-            }else{
-//                daoAlumno.crear(alumno);
-daoAlumno.crear();
-            }
+        if (alumno.validarAlumno()){            
+          List <Alumno> listaAlumnos = daoAlumno.leer(alumno.getNombre(), alumno.getApellidos());
+          // Comprobar si el alumno ya existe
+          if (listaAlumnos.size()>0){
+              showCadena("Error: El alumno ya existe en la base de datos");
+          }else{   
+              boolean resultado = daoAlumno.crear(alumno);
+          }
         }else{
             showCadena("Error: No se han introducido todos los campos obligatorios");
         }
@@ -92,16 +90,14 @@ daoAlumno.crear();
         showCadena("Introduce los siguientes datos del alumno a borrar: ");
         int id = new Integer(getCadena("id: "));
         // Comprobar si el alumno existe
-        
-daoAlumno.leer(id);
-        if (false){
-            // Mostrar datos del alumno
-Alumno alumno = new Alumno();
-daoAlumno.leer(id);
+        List <Alumno> listaAlumnos = daoAlumno.leer(id);
+        if (listaAlumnos.size()>0){
+        // Mostrar datos del alumno
+            Alumno alumno = listaAlumnos.get(0);
             mostrarAlumo(alumno);
             String cadena = getCadena("¿Desea eliminar al alumno? (si/no) ");
             if (cadena.equals("si")){
-                daoAlumno.eliminar(id);
+                boolean resultado = daoAlumno.eliminar(id);
             }
         }else{
             showCadena("Error: El alumno no existe en la base de datos");
@@ -114,12 +110,10 @@ daoAlumno.leer(id);
         showCadena("Introduce los siguientes datos del alumno a modificar: ");
         int id = new Integer(getCadena("id: "));
         // Comprobar si el alumno existe
-        
-daoAlumno.leer(id);
-        if (false){
+        List <Alumno> listaAlumnos = daoAlumno.leer(id);
+        if (listaAlumnos.size()>0){
             // Mostrar datos del alumno
-Alumno alumno = new Alumno();
-daoAlumno.leer(id);
+            Alumno alumno = listaAlumnos.get(1);
             boolean seguir = true;
             do{
                 // Elegir los campos a modificar
@@ -134,13 +128,12 @@ daoAlumno.leer(id);
                     break;
 // faltan resto de campos        
                     case "x":
-                        if (!comprobarAlumo(alumno)){
+                        if (!alumno.validarAlumno()){
                             showCadena("Error: No se han introducido todos los campos obligatorios. "+
                                        "Las modificaciones realizadas no se guardaran");
                         }else{
                             seguir = false;
-//                            daoAlumno.actualizar(alumno);
-daoAlumno.actualizar(id);
+                            boolean resultado = daoAlumno.actualizar(alumno);
                         }}
             }while (seguir);
 
@@ -158,12 +151,9 @@ daoAlumno.actualizar(id);
         
 // nota: ampliar la busqueda a otros campos
         
-daoAlumno.leer(id);
-        if (false){
+        List <Alumno> listaAlumnos = daoAlumno.leer(id);
+        if (listaAlumnos.size()>0){
             // Mostrar datos del alumno
-Alumno alumno = new Alumno();
-daoAlumno.leer(id);
-Alumno[] listaAlumnos = {alumno};
             // Si hay varios alumnos que se ajustan a esa busqueda, mostrarlos todos
             showCadena(cadenaDatosAlumno);
             for (Alumno alumnoI : listaAlumnos) {
@@ -177,19 +167,11 @@ Alumno[] listaAlumnos = {alumno};
     }    
     
     
-// falta crear metodo en Alumno    
-private boolean comprobarAlumo(Alumno alumno){return false;};
+// crear metodo validarAlumno    
+// private boolean comprobarAlumo(Alumno alumno){return false;};
 
-// daoAlumno: leer y otras operaciones recibiendo un alumno, 
-// devolviendo booleano y mostrando por pantalla el resultado// daoAlumno: leer y otras operaciones recibiendo un alumno, 
-// devolviendo booleano y mostrando por pantalla el resultado// daoAlumno: leer y otras operaciones recibiendo un alumno, 
-// devolviendo booleano y mostrando por pantalla el resultado// daoAlumno: leer y otras operaciones recibiendo un alumno, 
-// devolviendo booleano y mostrando por pantalla el resultado// daoAlumno: leer y otras operaciones recibiendo un alumno, 
-// devolviendo booleano y mostrando por pantalla el resultado// daoAlumno: leer y otras operaciones recibiendo un alumno, 
-// devolviendo booleano y mostrando por pantalla el resultado// daoAlumno: leer y otras operaciones recibiendo un alumno, 
-// devolviendo booleano y mostrando por pantalla el resultado// daoAlumno: leer y otras operaciones recibiendo un alumno, 
+// daoAlumno: leer y otras operaciones recibiendo un alumno
 // devolviendo booleano y mostrando por pantalla el resultado
-      
 
 
     public static void main(String[] args) {

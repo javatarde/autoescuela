@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -22,16 +23,14 @@ public class DAOAlumno {
   private final String tabla = "AU_ALUMNO";
   //CRUD
   //CREAR
-  public void crear(Alumno a) {
+  public boolean crear(Alumno a) {
     Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;
     String SQL;
     
     //conexion
     try {
       //usamos getConnect porque es el contructor del singleton es privado
-      conn = ConnectDB.getConnect();
+      conn = ConnectDB.getInstance().getConnect();
       
       SQL = "INSERT INTO "+tabla+" VALUES (?,?,?,?,?,?,?)";
       
@@ -48,36 +47,35 @@ public class DAOAlumno {
       //ejecuto la SQL
       int fila_afectadas=pst.executeUpdate();
       
-      rs.close();
-      stmt.close();
-      conn.close();      
+      conn.close();
       
-      System.out.println("Se han creado: "+fila_afectadas+" alumno(s).");
-    } catch (SQLException e) {
-      System.out.println("Error al crear alumno en la BD: "+e);      
+      System.out.println("Se han creado: "+fila_afectadas+" alumno(s).");      
+    } catch (SQLException esql) {
+      System.out.println("Error al crear alumno en la BD: "+esql.getMessage());      
     }
+    return true;    
   }
   
   //LEER
-  public ArrayList leer() {
-    ArrayList lista = null;
+  public List<Alumno> leer() {
+    List<Alumno> lista = null;
     
     Connection conn = null;
     Statement stmt = null;
     ResultSet rs = null;
     String SQL;
     
-    SQL = "SELECT id, nombre, apellidos dni, telefono, estado, comentarios FROM "+tabla;
+    SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios FROM "+tabla;
     
     //conexion
     try {
       //usamos getConnect porque es el contructor del singleton es privado
-      conn = ConnectDB.getConnect();
+      conn = ConnectDB.getInstance().getConnect();
       
       stmt = conn.createStatement();
       rs = stmt.executeQuery(SQL);
       
-      lista = new ArrayList();
+      lista = new ArrayList<>();
       
       Alumno alumno = null;
       while (rs.next()) {
@@ -102,13 +100,100 @@ public class DAOAlumno {
     return lista;
   }
   
-  public void mostrarAlumno(int id) {
-    String SQL = "SELECT id, nombre, apellidos dni, telefono, estado, comentarios FROM "+tabla+" WHERE ID = "+id;
-    System.out.println("LEO ALUMNO");
+  public List<Alumno> leer(String nombre, String apellidos) {
+    List<Alumno> lista = null;
+    
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+    String SQL;
+    
+    SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
+        + " FROM "+tabla
+        + " WHERE nombre = \'"+nombre+"\' AND apellidos=\'"+apellidos+"\'";
+    
+    //System.out.println(SQL);
+    
+    try {
+      conn = ConnectDB.getInstance().getConnect();
+      
+      stmt = conn.createStatement();
+      rs = stmt.executeQuery(SQL);
+      
+      lista = new ArrayList<>();
+      
+      Alumno alumno = null;
+      
+      while (rs.next()) {
+        alumno = new Alumno();
+        alumno.setId(rs.getInt("id"));
+        alumno.setNombre(rs.getString("nombre"));
+        alumno.setApellidos(rs.getString("apellidos"));
+        alumno.setDni(rs.getString("dni"));
+        alumno.setTelefono(rs.getString("telefono"));
+        alumno.setEstado(rs.getString("estado"));
+        alumno.setComentarios(rs.getString("comentarios"));
+        lista.add(alumno);
+      } //while      
+      
+      rs.close();
+      stmt.close();
+      conn.close(); 
+      
+    } catch (SQLException sqle) {
+      
+    }
+    return lista;  
+  }
+  
+  public List<Alumno> leer(int id) {
+    List<Alumno> lista = null;
+    
+    Connection conn = null;
+    Statement stmt = null;
+    ResultSet rs = null;
+    String SQL;
+    
+    SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
+        + " FROM "+tabla
+        + " WHERE id = "+id;
+    
+    //System.out.println(SQL);
+    
+    try {
+      conn = ConnectDB.getInstance().getConnect();
+      
+      stmt = conn.createStatement();
+      rs = stmt.executeQuery(SQL);
+      
+      lista = new ArrayList<>();
+      
+      Alumno alumno = null;
+      
+      while (rs.next()) {
+        alumno = new Alumno();
+        alumno.setId(rs.getInt("id"));
+        alumno.setNombre(rs.getString("nombre"));
+        alumno.setApellidos(rs.getString("apellidos"));
+        alumno.setDni(rs.getString("dni"));
+        alumno.setTelefono(rs.getString("telefono"));
+        alumno.setEstado(rs.getString("estado"));
+        alumno.setComentarios(rs.getString("comentarios"));
+        lista.add(alumno);
+      } //while      
+      
+      rs.close();
+      stmt.close();
+      conn.close(); 
+      
+    } catch (SQLException sqle) {
+      
+    }
+    return lista;   
   }
   
   //ACTUALIZAR
-  public void actualizar(Alumno a) {
+  public boolean actualizar(Alumno a) {
     Connection conn = null;
     Statement stmt = null;
     ResultSet rs = null;
@@ -136,17 +221,18 @@ public class DAOAlumno {
       
     }    
     
-    System.out.println("ACTUALIZO ALUMNO");    
+    System.out.println("ACTUALIZO ALUMNO");
+    return true;
   }
   
   //ELIMINAR
-  public void eliminar(Alumno a) {
+  public boolean eliminar(int id) {
     Connection conn = null;
     Statement stmt = null;
     ResultSet rs = null;
     String SQL;
     
-    SQL = "DELETE FROM "+tabla+" WHERE ID = "+a.getId();
+    SQL = "DELETE FROM "+tabla+" WHERE ID = "+id;
     
     //conexion
     try {
@@ -160,8 +246,9 @@ public class DAOAlumno {
       stmt.close();
       conn.close();      
     } catch (SQLException esql) {
-    
+      System.out.println(esql.getMessage());
     }
     System.out.println("ELIMINO ALUMNO");
+    return true;
   }
 }
