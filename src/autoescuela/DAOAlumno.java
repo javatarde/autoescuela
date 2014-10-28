@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -24,14 +25,12 @@ public class DAOAlumno {
   //CREAR
   public boolean crear(Alumno a) {
     Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;
     String SQL;
     
     //conexion
     try {
       //usamos getConnect porque es el contructor del singleton es privado
-      conn = ConnectDB.getConnect();
+      conn = ConnectDB.getInstance().getConnect();
       
       SQL = "INSERT INTO "+tabla+" VALUES (?,?,?,?,?,?,?)";
       
@@ -48,8 +47,6 @@ public class DAOAlumno {
       //ejecuto la SQL
       int fila_afectadas=pst.executeUpdate();
       
-      rs.close();
-      stmt.close();
       conn.close();
       
       System.out.println("Se han creado: "+fila_afectadas+" alumno(s).");      
@@ -60,8 +57,8 @@ public class DAOAlumno {
   }
   
   //LEER
-  public ArrayList leer() {
-    ArrayList lista = null;
+  public List<Alumno> leer() {
+    List<Alumno> lista = null;
     
     Connection conn = null;
     Statement stmt = null;
@@ -103,14 +100,14 @@ public class DAOAlumno {
     return lista;
   }
   
-  public ArrayList leer(String nombre, String apellidos) {
-    ArrayList lista = null;
+  public List<Alumno> leer(String nombre, String apellidos) {
+    List<Alumno> lista = null;
     lista = new ArrayList();
-    return lista;    
+    return null;    
   }
   
-  public ArrayList leer(int id) {
-    ArrayList lista = null;
+  public List<Alumno> leer(int id) {
+    List<Alumno> lista = null;
     lista = new ArrayList();
     return lista;    
   }
