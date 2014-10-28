@@ -33,7 +33,7 @@ public class MenuPrincipal implements Menu{
     }
     
     public MenuPrincipal MenuPrincipal(){
-        showCadena("Autoescuela FORINEMAS: ");
+        showCadena("\nAutoescuela FORINEMAS: ");
         showCadena(" 1) Crear nuevo alumno");
         showCadena(" 2) Borrar alumno");
         showCadena(" 3) Modificar alumno");
