@@ -72,7 +72,7 @@ menu.MenuBuscaAlumo();
         alumno.setEstado(getCadena("Estado"));
         // Comprobar si se han introducido todos los campos obligatorios
         if (alumno.validarAlumno()){
-            List <Alumno> listaAlumnos = daoAlumno.leer(alumno);
+            List <Alumno> listaAlumnos = daoAlumno.leer(nombre, apellidos);
             // Comprobar si el alumno ya existe
             if (listaAlumnos.size()>0){
                 showCadena("Error: El alumno ya existe en la base de datos");
