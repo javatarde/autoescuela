@@ -16,7 +16,7 @@ import java.util.Scanner;
  */
 public class MenuPrincipal implements Menu{
     private MenuPrincipal menu;
-    private DAOAlumno daoAlumno;
+    private DAOAlumno daoAlumno = new DAOAlumno();
     private final String cadenaDatosAlumno = "id  -   Nombre  -   Apellidos  -  DNI  -  Telefono -  Estado ";
 
 
