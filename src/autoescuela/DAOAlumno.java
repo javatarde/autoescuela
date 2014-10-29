@@ -111,7 +111,7 @@ public class DAOAlumno {
     
     SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
         + " FROM "+tabla
-        + " WHERE nombre = \'"+nombre+"\' AND apellidos=\'"+apellidos+"\'";
+        + " WHERE nombre = '"+nombre+"' AND apellidos='"+apellidos+"'";
     
     //System.out.println(SQL);
     
@@ -155,9 +155,14 @@ public class DAOAlumno {
     ResultSet rs = null;
     String SQL;
     
-    SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
-        + " FROM "+tabla
-        + " WHERE id = "+id;
+    if (id!=0) {
+      SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
+          + " FROM "+tabla
+          + " WHERE id = "+id;
+    } else {
+      SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
+          + " FROM "+tabla;
+    }
     
     //System.out.println(SQL);
     
@@ -199,13 +204,13 @@ public class DAOAlumno {
     String SQL;
     
     SQL = "UPDATE "+tabla
-         +" SET nombre=\'"+a.getNombre()
-         +"\',apellidos=\'"+a.getApellidos()
-         +"\',dni=\'"+a.getDni()
-         +"\',telefono=\'"+a.getTelefono()
-         +"\',estado=\'"+a.getEstado()
-         +"\',comentarios=\'"+a.getComentarios()
-         +"\' WHERE ID = "+a.getId();
+         +" SET nombre='"+a.getNombre()
+         +"',apellidos='"+a.getApellidos()
+         +"',dni='"+a.getDni()
+         +"',telefono='"+a.getTelefono()
+         +"',estado='"+a.getEstado()
+         +"',comentarios='"+a.getComentarios()
+         +"' WHERE ID = "+a.getId();
     
     //System.out.println(SQL);
     
