@@ -77,8 +77,4 @@ public class ConnectDB {
     public static void setConnect(Connection conexion) {
         ConnectDB.conexion = conexion;
     }
- 
-    
-    
-    
 }

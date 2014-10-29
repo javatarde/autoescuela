@@ -49,11 +49,12 @@ public class DAOAlumno {
       
       conn.close();
       
-      System.out.println("Se han creado: "+fila_afectadas+" alumno(s).");      
+      System.out.println("Se han creado: "+fila_afectadas+" alumno(s).");
+      return true;   
     } catch (SQLException esql) {
-      System.out.println("Error al crear alumno en la BD: "+esql.getMessage());      
-    }
-    return true;    
+      System.out.println("Error al crear alumno en la BD: "+esql.getMessage());
+      return false;
+    }        
   }
   
   //LEER
@@ -138,10 +139,9 @@ public class DAOAlumno {
       
       rs.close();
       stmt.close();
-      conn.close(); 
-      
-    } catch (SQLException sqle) {
-      
+      //conn.close();
+      ConnectDB.getInstance().closeInstance();
+    } catch (SQLException sqle) {      
     }
     return lista;  
   }
@@ -184,7 +184,8 @@ public class DAOAlumno {
       
       rs.close();
       stmt.close();
-      conn.close(); 
+      ConnectDB.getInstance().closeInstance();
+      //conn.close(); 
       
     } catch (SQLException sqle) {
       
@@ -217,40 +218,39 @@ public class DAOAlumno {
       rs.close();
       stmt.close();
       conn.close();
-    } catch (SQLException esql) {
       
-    }    
-    
-    System.out.println("ACTUALIZO ALUMNO");
-    return true;
+      System.out.println("ACTUALIZO ALUMNO");
+      return true;
+    } catch (SQLException esql) {
+      return false;
+    }
   }
   
   //ELIMINAR
   public boolean eliminar(int id) {
     Connection conn = null;
     Statement stmt = null;
-    ResultSet rs = null;
     String SQL;
     
     SQL = "DELETE FROM "+tabla+" WHERE ID = "+id;
     
-    //System.out.println(SQL);
+    System.out.println(SQL);
     
     //conexion
     try {
       //usamos getConnect porque es el contructor del singleton es privado
-      conn = ConnectDB.getInstance().getConnect();
-      
+      conn = ConnectDB.getInstance().getConnect();      
       stmt = conn.createStatement();
-      rs = stmt.executeQuery(SQL);
       
-      rs.close();
+      stmt.executeUpdate(SQL);
+      
       stmt.close();
-      conn.close();      
+      conn.close();
+      System.out.println("ELIMINO ALUMNO");
+      return true;
     } catch (SQLException esql) {
-      System.out.println(esql.getMessage());
-    }
-    System.out.println("ELIMINO ALUMNO");
-    return true;
+      System.out.println("Error al eliminar alumno: "+esql.getMessage());
+      return false;
+    }    
   }
 }
