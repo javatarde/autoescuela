@@ -15,6 +15,7 @@ import java.util.Objects;
 public class Matricula {
     private int id;
     private int idAlumno;
+    private int idPermiso;
     private int idTipoMatricula;
     private Calendar fechaAlta;
     private Calendar fechaBaja;
@@ -23,13 +24,22 @@ public class Matricula {
     public Matricula() {
     }
 
-    public Matricula(int id, int idAlumno, int idTipoMatricula, Calendar fechaAlta, Calendar fechaBaja, String motivoBaja) {
+    public Matricula(int id, int idAlumno, int idPermiso, int idTipoMatricula, Calendar fechaAlta, Calendar fechaBaja, String motivoBaja) {
         this.id = id;
         this.idAlumno = idAlumno;
+        this.idPermiso = idPermiso;
         this.idTipoMatricula = idTipoMatricula;
         this.fechaAlta = fechaAlta;
         this.fechaBaja = fechaBaja;
         this.motivoBaja = motivoBaja;
+    }
+
+    public int getIdPermiso() {
+        return idPermiso;
+    }
+
+    public void setIdPermiso(int idPermiso) {
+        this.idPermiso = idPermiso;
     }
 
     public int getId() {
@@ -82,13 +92,14 @@ public class Matricula {
 
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + this.id;
-        hash = 83 * hash + this.idAlumno;
-        hash = 83 * hash + this.idTipoMatricula;
-        hash = 83 * hash + Objects.hashCode(this.fechaAlta);
-        hash = 83 * hash + Objects.hashCode(this.fechaBaja);
-        hash = 83 * hash + Objects.hashCode(this.motivoBaja);
+        int hash = 5;
+        hash = 41 * hash + this.id;
+        hash = 41 * hash + this.idAlumno;
+        hash = 41 * hash + this.idPermiso;
+        hash = 41 * hash + this.idTipoMatricula;
+        hash = 41 * hash + Objects.hashCode(this.fechaAlta);
+        hash = 41 * hash + Objects.hashCode(this.fechaBaja);
+        hash = 41 * hash + Objects.hashCode(this.motivoBaja);
         return hash;
     }
 
@@ -107,6 +118,9 @@ public class Matricula {
         if (this.idAlumno != other.idAlumno) {
             return false;
         }
+        if (this.idPermiso != other.idPermiso) {
+            return false;
+        }
         if (this.idTipoMatricula != other.idTipoMatricula) {
             return false;
         }
@@ -121,6 +135,8 @@ public class Matricula {
         }
         return true;
     }
+
+    
 
     
 

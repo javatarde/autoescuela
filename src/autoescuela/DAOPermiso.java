@@ -25,8 +25,6 @@ public class DAOPermiso {
     ResultSet rs = null;
     String SQL;
     Statement st_default = null;
-
-    
     
     public void crear (Permiso p){
         
@@ -142,7 +140,7 @@ public class DAOPermiso {
         String valor, descripcionPermiso;
         Scanner sc = new Scanner(System.in);
         int valornum;
-        //test insercion (Crear)
+        //**TEST INSERCION (Crear)
 //        System.out.println("Tipo Permiso:");
 //        valor= sc.nextLine();
 //        System.out.println("Descripcion Permiso:");
