@@ -39,15 +39,36 @@ public class ConnectDB {
         }
         return instancia;
     }
-
-    public static void closeInstance(){
+    
+    //se cierra la conexion
+    //********VERSION ORIGINAL***********
+//    public static void closeInstance(){
+//        try{
+//            conexion.close();
+//            instancia=null;
+//            System.out.println("BBDD OFFLINE");
+//        }
+//        catch(SQLException e){
+//            System.out.println("Error al cerrar conexion: "+e.getMessage());
+//        }
+//    }
+    
+    //****PRUEBA que FUNCIONA OK*****
+   
+    public static ConnectDB closeInstance(){
         try{
-        conexion.close();
+            conexion.close();
+            instancia=null;
+            conexion = null;
+            System.out.println("BBDD OFFLINE");
         }
         catch(SQLException e){
             System.out.println("Error al cerrar conexion: "+e.getMessage());
         }
+        return instancia;
     }
+    
+    
     //Getter & Setter
     public static Connection getConnect() {
         return conexion;
