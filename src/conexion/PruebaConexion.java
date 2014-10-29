@@ -5,6 +5,7 @@
  */
 package conexion;
 
+import java.sql.Connection;
 import java.sql.Statement;
 
 /**
@@ -15,7 +16,9 @@ public class PruebaConexion {
     
     
     public static void main(String[] args) {
-        ConnectDB con = ConnectDB.getInstance();
+        Connection con;
+        
+        con=ConnectDB.getInstance().getConnect();
         
        
     }
