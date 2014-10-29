@@ -55,7 +55,7 @@ public class DAOPermiso {
             //cerramos resultset, statement y conexion.
             rs.close();
             st_default.close();
-            conn.close();
+            conn=ConnectDB.closeInstance().getConnect();
         
         }catch (SQLException e){
             System.out.println("Error al crear permiso de conducir en la BD: "+e);
@@ -64,19 +64,25 @@ public class DAOPermiso {
     }
     
     public void leer (){
-        conn = ConnectDB.getInstance().getConnect();
+        
         
         try{
-        SQL="select id,valor,descripcion from AU_PERMISO order by valor";
+            conn = ConnectDB.getInstance().getConnect();
+            SQL="select id,valor,descripcion from AU_PERMISO order by valor";
         
-        st_default=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); 
+            st_default=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); 
             //ejecutamos el statement (consulta)
             rs=st_default.executeQuery(SQL);       
             
             System.out.println("****--Consulta de Permisos de Conducir disponibles--****");
             while (rs.next()){
-                System.out.println("Permiso: "+rs.getString("valor")+" | Descripción: "+rs.getString("Descripcion"));
+                System.out.println("ID: "+rs.getInt("id")+" | Permiso: "+rs.getString("valor")+" | Descripción: "+rs.getString("Descripcion"));
             }
+            
+            rs.close();
+            st_default.close();
+//            conn.close();
+            conn=ConnectDB.closeInstance().getConnect();
             
         }catch(SQLException e){
             System.out.println("Error al consultar los permisos de conducir en la BD: "+e);
@@ -85,13 +91,56 @@ public class DAOPermiso {
         
     }
     
-    //Prueba de funcionamiento.
+    public void eliminar (int IDPermiso){
+        try{
+            conn = ConnectDB.getInstance().getConnect();
+            SQL = "DELETE FROM AU_PERMISO WHERE ID = "+IDPermiso;
+            st_default=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            
+            rs=st_default.executeQuery(SQL);
+            
+            System.out.println("El permiso con ID: "+IDPermiso+ "ha sido eliminado");
+            
+            rs.close();
+            st_default.close();
+            conn=ConnectDB.closeInstance().getConnect();
+            
+        }catch(SQLException e){
+            System.out.println("Error al eliminar permiso de conducir en la BD: "+e);
+        }
+    }
+    
+    public boolean actualizar (Permiso p){
+        boolean ok;
+        
+        try{
+            conn = ConnectDB.getInstance().getConnect();
+            //UPDATE AU_PERMISO SET VALOR='F2', DESCRIPCION='Permiso desconocio' where ID=7
+            SQL = "UPDATE AU_PERMISO SET VALOR='"+p.getValor()+"',DESCRIPCION='"+p.getDescripcion()+"'where ID="+p.getId();
+            
+            st_default=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+            
+            rs=st_default.executeQuery(SQL);
+            
+            rs.close();
+            st_default.close();
+            conn=ConnectDB.closeInstance().getConnect();
+            ok=true;
+        }catch(SQLException e){
+            System.out.println("Error al actualizar permiso de conducir en la BD: "+e);
+            ok=false;
+        }
+        return ok;
+    }
+    
+    
+//Pruebas de funcionamiento.
     public static void main(String[] args) {
         Permiso permiso = new Permiso();
         DAOPermiso DAOPermiso=new DAOPermiso();
         String valor, descripcionPermiso;
         Scanner sc = new Scanner(System.in);
-       
+        int valornum;
         //test insercion (Crear)
 //        System.out.println("Tipo Permiso:");
 //        valor= sc.nextLine();
@@ -107,5 +156,30 @@ public class DAOPermiso {
         //test consulta
         DAOPermiso.leer();
         //fin test consulta
+        
+        //test eliminación
+//        System.out.println("ID de permiso a eliminar: ");
+//        valornum=sc.nextInt();
+//        DAOPermiso.eliminar(valornum);
+        //fin test eliminacion
+        
+        //test actualizacion
+//        System.out.println("Introducir datos de actualización");
+//        //introduce id
+//        System.out.println("ID del elemento a actualizar: ");
+//        permiso.setId(valornum=sc.nextInt());
+//        //introduce nuevo tipo
+//        System.out.println("Nuevo tipo permiso:");
+//        valor=sc.nextLine();
+//                valor=sc.nextLine();
+//        permiso.setValor(valor);
+//        //introudce nueva descripcion
+//        System.out.println("Nueva descripcion:");
+//        valor=sc.nextLine();
+//        permiso.setDescripcion(valor);
+//        
+//     //   System.out.println("Valor actual--ID: "+permiso.getId()+" --Tipo: "+permiso.getValor()+" --Comentario: "+permiso.getDescripcion());
+//        DAOPermiso.actualizar(permiso);
+        //fin test actualizacion
     }
 }
