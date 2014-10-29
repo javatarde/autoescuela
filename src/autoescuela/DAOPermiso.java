@@ -36,7 +36,7 @@ public class DAOPermiso {
             conn = ConnectDB.getInstance().getConnect(); 
 
             //Statement y cursor.
-            SQL="select id,valor,descripcion from AU_PERMISO";
+            SQL="select id,valor,descripcion from "+tabla;
             st_default=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); 
             //ejecutamos el statement (consulta)
             rs=st_default.executeQuery(SQL);        
@@ -68,7 +68,7 @@ public class DAOPermiso {
         
         try{
             conn = ConnectDB.getInstance().getConnect();
-            SQL="select id,valor,descripcion from AU_PERMISO order by valor";
+            SQL="select id,valor,descripcion from "+tabla+" order by valor";
         
             st_default=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); 
             //ejecutamos el statement (consulta)
@@ -94,7 +94,7 @@ public class DAOPermiso {
     public void eliminar (int IDPermiso){
         try{
             conn = ConnectDB.getInstance().getConnect();
-            SQL = "DELETE FROM AU_PERMISO WHERE ID = "+IDPermiso;
+            SQL = "DELETE FROM "+tabla+" WHERE ID = "+IDPermiso;
             st_default=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
             
             rs=st_default.executeQuery(SQL);
@@ -115,8 +115,7 @@ public class DAOPermiso {
         
         try{
             conn = ConnectDB.getInstance().getConnect();
-            //UPDATE AU_PERMISO SET VALOR='F2', DESCRIPCION='Permiso desconocio' where ID=7
-            SQL = "UPDATE AU_PERMISO SET VALOR='"+p.getValor()+"',DESCRIPCION='"+p.getDescripcion()+"'where ID="+p.getId();
+            SQL = "UPDATE "+tabla+" SET VALOR='"+p.getValor()+"',DESCRIPCION='"+p.getDescripcion()+"'where ID="+p.getId();
             
             st_default=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
             
@@ -133,8 +132,10 @@ public class DAOPermiso {
         return ok;
     }
     
+/*******************************    
+ *  Pruebas de funcionamiento. *
+ *******************************/    
     
-//Pruebas de funcionamiento.
     public static void main(String[] args) {
         Permiso permiso = new Permiso();
         DAOPermiso DAOPermiso=new DAOPermiso();
@@ -153,17 +154,17 @@ public class DAOPermiso {
 //        DAOPermiso.crear(permiso);
         //fin test insercion
         
-        //test consulta
+        //***TEST CONSULTA***
         DAOPermiso.leer();
-        //fin test consulta
+        //***fin test consulta***
         
-        //test eliminación
+        //***TEST ELIMINACION***
 //        System.out.println("ID de permiso a eliminar: ");
 //        valornum=sc.nextInt();
 //        DAOPermiso.eliminar(valornum);
-        //fin test eliminacion
+        //***fin test eliminacion***
         
-        //test actualizacion
+        //***TEST ACTUALIZACION***
 //        System.out.println("Introducir datos de actualización");
 //        //introduce id
 //        System.out.println("ID del elemento a actualizar: ");
@@ -180,6 +181,6 @@ public class DAOPermiso {
 //        
 //     //   System.out.println("Valor actual--ID: "+permiso.getId()+" --Tipo: "+permiso.getValor()+" --Comentario: "+permiso.getDescripcion());
 //        DAOPermiso.actualizar(permiso);
-        //fin test actualizacion
+        //***fin test actualizacion***
     }
 }
