@@ -19,7 +19,8 @@ import java.util.Scanner;
 public class MenuPrincipal{
     private Menu menuP = null;
     private DAOAlumno daoAlumno = new DAOAlumno();
-    private final String cadenaDatosAlumno = "id  -  Nombre  -  Apellidos  -  DNI  -  Telefono  -  Estado ";
+    private final String cadenaDatosAlumno = "\nid   Nombre      Apellidos           DNI       Telefono    Estado"
+                                           + "\n--   ------      ---------           ---       --------    ------";
 
 
     public MenuPrincipal() {
@@ -229,13 +230,25 @@ public class MenuPrincipal{
     
     // Mostrar todos los campos del alumno en una linea
     private static void mostrarAlumnoLinea(Alumno alumno){
-//        showCadena(cadenaDatosAlumno);
-        showCadena(new Integer(alumno.getId()).toString() + " " +
+//    showCadena(cadenaDatosAlumno);
+      
+      System.out.printf("%-5s%-12s%-20s%-10s%-12s%-10s\n",
+              alumno.getId(),
+              alumno.getNombre(),
+              alumno.getApellidos(),
+              alumno.getDni(),
+              alumno.getTelefono(),
+              alumno.getEstado()
+      );
+      
+      /*
+              showCadena(new Integer(alumno.getId()).toString() + " " +
                    alumno.getNombre() + " " +
                    alumno.getApellidos() + " " +
                    alumno.getDni() + " " +
                    alumno.getTelefono() + " " +
                    alumno.getEstado());
+      */
 // nota: El campo comentarios no se muestra porque puede tener varias lineas        
 //        showCadena("Comentarios: ",alumno.getComentarios());
     }
@@ -265,15 +278,15 @@ public class MenuPrincipal{
     }
     
     private static void showCadena(String cadena){
-        System.out.println(cadena);
+      System.out.println(cadena);
     }
     
     private static void showCadena(String cadena, String cadenaOpcional){
-        if (cadenaOpcional == null){
-            showCadena(cadena);
-        }else{
-            showCadena(cadena + cadenaOpcional);
-        }
+      if (cadenaOpcional == null){
+          showCadena(cadena);
+      }else{
+          showCadena(cadena + cadenaOpcional);
+      }
     }
     
 }
