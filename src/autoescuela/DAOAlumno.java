@@ -68,9 +68,9 @@ public class DAOAlumno {
     
     SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios FROM "+tabla;
     
-    //conexion
+    //System.out.println(SQL);
+    
     try {
-      //usamos getConnect porque es el contructor del singleton es privado
       conn = ConnectDB.getInstance().getConnect();
       
       stmt = conn.createStatement();
@@ -79,6 +79,7 @@ public class DAOAlumno {
       lista = new ArrayList<>();
       
       Alumno alumno = null;
+      
       while (rs.next()) {
         alumno = new Alumno();
         alumno.setId(rs.getInt("id"));
@@ -87,16 +88,16 @@ public class DAOAlumno {
         alumno.setDni(rs.getString("dni"));
         alumno.setTelefono(rs.getString("telefono"));
         alumno.setEstado(rs.getString("estado"));
-        alumno.setComentarios(rs.getString("comentarios"));        
-      } //while
-      
-      lista.add(alumno);
+        alumno.setComentarios(rs.getString("comentarios"));
+        lista.add(alumno);
+      } //while      
       
       rs.close();
       stmt.close();
       conn = ConnectDB.closeInstance().getConnect();
-    } catch (SQLException esql) {
-      
+      ConnectDB.getInstance().closeInstance();
+    } catch (SQLException sqle) {
+      System.out.println("Error al eliminar alumno: "+sqle.getMessage());
     }
     return lista;
   }
