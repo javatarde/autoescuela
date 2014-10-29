@@ -230,7 +230,7 @@ public class MenuPrincipal{
     
     // Mostrar todos los campos del alumno en una linea
     private static void mostrarAlumnoLinea(Alumno alumno){
-//    showCadena(cadenaDatosAlumno);
+//      showCadena(cadenaDatosAlumno);
       
       System.out.printf("%-5s%-12s%-20s%-10s%-12s%-10s\n",
               alumno.getId(),
