@@ -229,12 +229,11 @@ public class DAOAlumno {
   public boolean eliminar(int id) {
     Connection conn = null;
     Statement stmt = null;
-    ResultSet rs = null;
     String SQL;
     
     SQL = "DELETE FROM "+tabla+" WHERE ID = "+id;
     
-    //System.out.println(SQL);
+    System.out.println(SQL);
     
     //conexion
     try {
@@ -242,9 +241,8 @@ public class DAOAlumno {
       conn = ConnectDB.getInstance().getConnect();
       
       stmt = conn.createStatement();
-      rs = stmt.executeQuery(SQL);
+      stmt.executeUpdate(SQL);
       
-      rs.close();
       stmt.close();
       conn.close();      
     } catch (SQLException esql) {
