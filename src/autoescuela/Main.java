@@ -12,7 +12,7 @@ package autoescuela;
 public class Main {
     
     public static void main(String[] args) {
-        MenuPrincipalz m = new MenuPrincipalz();
+        MenuPrincipal m = new MenuPrincipal();
         m.mostrarMenu();
     }
     

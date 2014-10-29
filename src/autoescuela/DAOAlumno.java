@@ -47,7 +47,7 @@ public class DAOAlumno {
       //ejecuto la SQL
       int fila_afectadas=pst.executeUpdate();
       
-      conn.close();
+      conn = ConnectDB.closeInstance().getConnect();
       
       System.out.println("Se han creado: "+fila_afectadas+" alumno(s).");
       return true;   
@@ -94,7 +94,7 @@ public class DAOAlumno {
       
       rs.close();
       stmt.close();
-      conn.close(); 
+      conn = ConnectDB.closeInstance().getConnect();
     } catch (SQLException esql) {
       
     }
@@ -111,7 +111,7 @@ public class DAOAlumno {
     
     SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
         + " FROM "+tabla
-        + " WHERE nombre = \'"+nombre+"\' AND apellidos=\'"+apellidos+"\'";
+        + " WHERE nombre = '"+nombre+"' AND apellidos='"+apellidos+"'";
     
     //System.out.println(SQL);
     
@@ -139,9 +139,10 @@ public class DAOAlumno {
       
       rs.close();
       stmt.close();
-      //conn.close();
+      conn = ConnectDB.closeInstance().getConnect();
       ConnectDB.getInstance().closeInstance();
-    } catch (SQLException sqle) {      
+    } catch (SQLException sqle) {
+      System.out.println("Error al eliminar alumno: "+sqle.getMessage());
     }
     return lista;  
   }
@@ -154,9 +155,14 @@ public class DAOAlumno {
     ResultSet rs = null;
     String SQL;
     
-    SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
-        + " FROM "+tabla
-        + " WHERE id = "+id;
+    if (id!=0) {
+      SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
+          + " FROM "+tabla
+          + " WHERE id = "+id;
+    } else {
+      SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
+          + " FROM "+tabla;
+    }
     
     //System.out.println(SQL);
     
@@ -184,11 +190,9 @@ public class DAOAlumno {
       
       rs.close();
       stmt.close();
-      ConnectDB.getInstance().closeInstance();
-      //conn.close(); 
-      
+      conn = ConnectDB.closeInstance().getConnect();
     } catch (SQLException sqle) {
-      
+      System.out.println("Error al eliminar alumno: "+sqle.getMessage());
     }
     return lista;   
   }
@@ -197,31 +201,32 @@ public class DAOAlumno {
   public boolean actualizar(Alumno a) {
     Connection conn = null;
     Statement stmt = null;
-    ResultSet rs = null;
     String SQL;
     
-    SQL = "UPDATE FROM "+tabla
-         +" SET nombre="+a.getNombre()
-         +",apellidos="+a.getApellidos()
-         +",dni="+a.getDni()
-         +",telefono="+a.getTelefono()
-         +",estado="+a.getEstado()
-         +",comentarios="+a.getComentarios()
-         +" WHERE ID = "+a.getId();
+    SQL = "UPDATE "+tabla
+         +" SET nombre='"+a.getNombre()
+         +"',apellidos='"+a.getApellidos()
+         +"',dni='"+a.getDni()
+         +"',telefono='"+a.getTelefono()
+         +"',estado='"+a.getEstado()
+         +"',comentarios='"+a.getComentarios()
+         +"' WHERE ID = "+a.getId();
+    
+    //System.out.println(SQL);
     
     try {
       conn = ConnectDB.getInstance().getConnect();
       
       stmt = conn.createStatement();
-      rs = stmt.executeQuery(SQL);
+      stmt.executeUpdate(SQL);
       
-      rs.close();
       stmt.close();
-      conn.close();
+      conn = ConnectDB.closeInstance().getConnect();
       
       System.out.println("ACTUALIZO ALUMNO");
       return true;
-    } catch (SQLException esql) {
+    } catch (SQLException sqle) {
+      System.out.println("Error al eliminar alumno: "+sqle.getMessage());
       return false;
     }
   }
@@ -234,7 +239,7 @@ public class DAOAlumno {
     
     SQL = "DELETE FROM "+tabla+" WHERE ID = "+id;
     
-    System.out.println(SQL);
+    //System.out.println(SQL);
     
     //conexion
     try {
@@ -245,11 +250,11 @@ public class DAOAlumno {
       stmt.executeUpdate(SQL);
       
       stmt.close();
-      conn.close();
+      conn = ConnectDB.closeInstance().getConnect();
       System.out.println("ELIMINO ALUMNO");
       return true;
-    } catch (SQLException esql) {
-      System.out.println("Error al eliminar alumno: "+esql.getMessage());
+    } catch (SQLException sqle) {
+      System.out.println("Error al eliminar alumno: "+sqle.getMessage());
       return false;
     }    
   }
