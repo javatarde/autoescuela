@@ -89,6 +89,38 @@ public class DAOPermiso {
         
     }
     
+    public Permiso leer (int IDPermiso){
+        Permiso permiso = new Permiso();
+        
+        try{
+            conn = ConnectDB.getInstance().getConnect();
+            SQL="select id,valor,descripcion from "+tabla+" WHERE ID ="+IDPermiso+" order by valor";
+        
+            st_default=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); 
+            //ejecutamos el statement (consulta)
+            rs=st_default.executeQuery(SQL);       
+            
+            System.out.println("****--Consulta de Permisos de Conducir disponibles--****");
+            if (rs.next()){
+              permiso.setId(rs.getInt("id"));
+              permiso.setValor(rs.getString("valor"));
+              permiso.setDescripcion(rs.getString("Descripcion"));
+              
+              //System.out.println("ID: "+rs.getInt("id")+" | Permiso: "+rs.getString("valor")+" | Descripción: "+rs.getString("Descripcion"));
+            }
+            
+            rs.close();
+            st_default.close();
+//          conn.close();
+            conn=ConnectDB.closeInstance().getConnect();
+            return permiso;
+            
+        }catch(SQLException e){
+            System.out.println("Error al consultar los permisos de conducir en la BD: "+e);
+            return null;
+        }
+    }
+    
     public void eliminar (int IDPermiso){
         try{
             conn = ConnectDB.getInstance().getConnect();
