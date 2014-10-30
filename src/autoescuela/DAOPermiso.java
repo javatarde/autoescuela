@@ -61,7 +61,7 @@ public class DAOPermiso {
         
     }
     
-    public void leer (){
+    public void mostrarPermisos (){
         
         
         try{
@@ -165,7 +165,7 @@ public class DAOPermiso {
 /*******************************    
  *  Pruebas de funcionamiento. *
  *******************************/    
-    
+/*    
     public static void main(String[] args) {
         Permiso permiso = new Permiso();
         DAOPermiso DAOPermiso=new DAOPermiso();
@@ -213,4 +213,5 @@ public class DAOPermiso {
 //        DAOPermiso.actualizar(permiso);
         //***fin test actualizacion***
     }
+*/
 }

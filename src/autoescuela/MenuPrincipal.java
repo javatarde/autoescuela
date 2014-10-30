@@ -17,10 +17,14 @@ import java.util.List;
  * @author Formacion
  */
 public class MenuPrincipal{
+    private Menu menu  = null;
+    private Menu menuP = null;
     private Menu menuA = null;
     private Menu menuM = null;
     private Alumno alumno = null;
+    private Permiso permiso = null;
     private DAOAlumno daoAlumno = new DAOAlumno();
+    private DAOPermiso daoPermiso = new DAOPermiso();
     private final String cadenaDatosAlumno = "\nid   Nombre      Apellidos           DNI       Telefono    Estado"
                                            + "\n--   ------      ---------           ---       --------    ------";
 
@@ -29,7 +33,24 @@ public class MenuPrincipal{
     
       Menu m = new Menu();
       
-      final Opcion opcion1 = m.new Opcion("Crear nuevo alumno", new Accion(){
+      // Opciones del Menu principal
+      final Opcion opcion1 = m.new Opcion("Gestion de alumnos", (Accion) () -> {
+          return menuA;
+      });
+      
+      final Opcion opcion2 = m.new Opcion("Gestion de permisos", (Accion) () -> {
+          return menuP;
+      });
+      
+      final Opcion opcion5 = m.new Opcion("Salir", (Accion) () -> {
+          Utilidades.showCadena("\n Fin del programa");
+          exit(0);
+          return null;
+      });
+      
+      
+      // Opciones del Menu de alumnos
+      final Opcion opcionA1 = m.new Opcion("Crear nuevo alumno", new Accion(){
         @Override
         public Menu ejecutar() {
             Utilidades.showCadena("Introduzca los siguientes datos del nuevo alumno: ");
@@ -59,7 +80,7 @@ public class MenuPrincipal{
       });
     
     
-      final Opcion opcion2 = m.new Opcion("Borrar alumno", new Accion(){
+      final Opcion opcionA2 = m.new Opcion("Borrar alumno", new Accion(){
         @Override
         public Menu ejecutar() {
             Utilidades.showCadena("Introduzca los siguientes datos del alumno a borrar: ");
@@ -82,7 +103,7 @@ public class MenuPrincipal{
       });
     
     
-      final Opcion opcion3 = m.new Opcion("Modificar alumno", new Accion(){
+      final Opcion opcionA3 = m.new Opcion("Modificar alumno", new Accion(){
         @Override
         public Menu ejecutar() {
             Utilidades.showCadena("Introduzca los siguientes datos del alumno a modificar: ");
@@ -101,7 +122,7 @@ public class MenuPrincipal{
       });
     
     
-      final Opcion opcion4 = m.new Opcion("Buscar alumno", new Accion(){
+      final Opcion opcionA4 = m.new Opcion("Buscar alumno", new Accion(){
         @Override
         public Menu ejecutar() {
             Utilidades.showCadena("Introduzca los siguientes datos del alumno a buscar: ");
@@ -126,120 +147,174 @@ public class MenuPrincipal{
         }
       });
       
-      // Esta opcion se ha definido con una funcion lambda
-      final Opcion opcion5 = m.new Opcion("Salir", (Accion) () -> {
-          Utilidades.showCadena("\n Fin del programa");
-          exit(0);
-          return null;
+      final Opcion opcionA5 = m.new Opcion("Volver al menu principal", (Accion) () -> {
+          return menuA.getAnterior();
       });
-/*      
-      // Version anterior (hecha con una clase anonima interna):
-      final Opcion opcion5 = m.new Opcion("Salir", new Accion(){
-        @Override
-        public Menu ejecutar() {
-            Utilidades.showCadena("\n Fin del programa");
-            exit(0);
-            return null;
-        }
-      });
-*/      
       
-      // Opciones del Menu Modificar alumno
-      final Opcion opcionM1 = m.new Opcion("Nombre", (Accion) () -> {
+      
+        // Opciones del Menu Modificar alumno
+        final Opcion opcionM1 = m.new Opcion("Nombre", (Accion) () -> {
+            mostrarAlumo(alumno);
+            Utilidades.showCadena(" ");
+            alumno.setNombre(Utilidades.getCadena("Nombre"));
+            return menuM;
+        });      
+
+        final Opcion opcionM2 = m.new Opcion("Apellidos", (Accion) () -> {
           mostrarAlumo(alumno);
           Utilidades.showCadena(" ");
-          alumno.setNombre(Utilidades.getCadena("Nombre"));
+          alumno.setApellidos(Utilidades.getCadena("Apellidos"));
           return menuM;
-      });      
-      
-      final Opcion opcionM2 = m.new Opcion("Apellidos", (Accion) () -> {
-        mostrarAlumo(alumno);
-        Utilidades.showCadena(" ");
-        alumno.setApellidos(Utilidades.getCadena("Apellidos"));
-        return menuM;
-      });
-      
-      final Opcion opcionM3 = m.new Opcion("DNI", (Accion) () -> {
-        mostrarAlumo(alumno);
-        Utilidades.showCadena(" ");
-        alumno.setDni(Utilidades.getCadena("DNI"));
-        return menuM;
-      });
-      
-      final Opcion opcionM4 = m.new Opcion("Telefono", (Accion) () -> {
-        mostrarAlumo(alumno);
-        Utilidades.showCadena(" ");
-        alumno.setTelefono(Utilidades.getCadena("Telefono"));
-        return menuM;
-      });
-      
-      final Opcion opcionM5 = m.new Opcion("Comentarios", (Accion) () -> {
-        mostrarAlumo(alumno);
-        Utilidades.showCadena(" ");
-        alumno.setComentarios(Utilidades.getCadena("Comentarios"));
-        return menuM;
-      });
+        });
 
-      final Opcion opcionM6 = m.new Opcion("Estado", (Accion) () -> {
-        mostrarAlumo(alumno);
-        Utilidades.showCadena(" ");
-        alumno.setEstado(Utilidades.getCadena("Estado"));
-        return menuM;
-      });
-      
-      final Opcion opcionM7 = m.new Opcion("Mostrar todos los campos", (Accion) () -> {
-        Utilidades.showCadena(" ");
-        mostrarAlumo(alumno);
-        return menuM;
-      });
-      
-      final Opcion opcionM8 = m.new Opcion("Guardar cambios", (Accion) () -> {
-        if (!alumno.validarAlumno()){
-            Utilidades.showCadena("ERROR: No se han introducido todos los campos obligatorios. "+
-                                  "Las modificaciones realizadas no se guardaran");
-        }else{
-            Utilidades.showCadena(" ");
-            mostrarAlumo(alumno);
-            boolean resultado = daoAlumno.actualizar(alumno);
-        }
-        return menuM.getAnterior();
-      });
-      
-      final Opcion opcionM9 = m.new Opcion("Volver al menu anterior", (Accion) () -> {
-        return menuM.getAnterior();
-      });
-      
-      // Incluir las opciones en el menu de Alumnos
-      List <Opcion> listaOpcionesMenuA = new ArrayList<>();
-      listaOpcionesMenuA.add(opcion1);
-      listaOpcionesMenuA.add(opcion2);
-      listaOpcionesMenuA.add(opcion3);
-      listaOpcionesMenuA.add(opcion4);
-      listaOpcionesMenuA.add(opcion5);
-      menuA = new Menu(listaOpcionesMenuA);
-      menuA.setRotuloMenu("Menu de alumnos");
+        final Opcion opcionM3 = m.new Opcion("DNI", (Accion) () -> {
+          mostrarAlumo(alumno);
+          Utilidades.showCadena(" ");
+          alumno.setDni(Utilidades.getCadena("DNI"));
+          return menuM;
+        });
 
-      // Incluir las opciones en el menu de Modificar Alumno
-      List <Opcion> listaOpcionesMenuM = new ArrayList<>();
-      listaOpcionesMenuM.add(opcionM1);
-      listaOpcionesMenuM.add(opcionM2);
-      listaOpcionesMenuM.add(opcionM3);
-      listaOpcionesMenuM.add(opcionM4);
-      listaOpcionesMenuM.add(opcionM5);
-      listaOpcionesMenuM.add(opcionM6);
-      listaOpcionesMenuM.add(opcionM7);
-      listaOpcionesMenuM.add(opcionM8);
-      listaOpcionesMenuM.add(opcionM9);
-      menuM = new Menu(listaOpcionesMenuM);
-      menuM.setRotuloMenu("Elija un campo del alumno a modificar");
-      menuM.setAnterior(menuA);
-      
+        final Opcion opcionM4 = m.new Opcion("Telefono", (Accion) () -> {
+          mostrarAlumo(alumno);
+          Utilidades.showCadena(" ");
+          alumno.setTelefono(Utilidades.getCadena("Telefono"));
+          return menuM;
+        });
+
+        final Opcion opcionM5 = m.new Opcion("Comentarios", (Accion) () -> {
+          mostrarAlumo(alumno);
+          Utilidades.showCadena(" ");
+          alumno.setComentarios(Utilidades.getCadena("Comentarios"));
+          return menuM;
+        });
+
+        final Opcion opcionM6 = m.new Opcion("Estado", (Accion) () -> {
+          mostrarAlumo(alumno);
+          Utilidades.showCadena(" ");
+          alumno.setEstado(Utilidades.getCadena("Estado"));
+          return menuM;
+        });
+
+        final Opcion opcionM7 = m.new Opcion("Mostrar todos los campos", (Accion) () -> {
+          Utilidades.showCadena(" ");
+          mostrarAlumo(alumno);
+          return menuM;
+        });
+
+        final Opcion opcionM8 = m.new Opcion("Guardar cambios", (Accion) () -> {
+          if (!alumno.validarAlumno()){
+              Utilidades.showCadena("ERROR: No se han introducido todos los campos obligatorios. "+
+                                    "Las modificaciones realizadas no se guardaran");
+          }else{
+              Utilidades.showCadena(" ");
+              mostrarAlumo(alumno);
+              boolean resultado = daoAlumno.actualizar(alumno);
+          }
+          return menuM.getAnterior();
+        });
+
+        final Opcion opcionM9 = m.new Opcion("Volver al menu anterior", (Accion) () -> {
+          return menuM.getAnterior();
+        });
+        
+        
+        // Opciones del Menu de permisos
+        final Opcion opcionP1 = m.new Opcion("Crear permiso", (Accion) () -> {
+            Utilidades.showCadena("Introduzca los siguientes datos del nuevo permiso: ");
+            permiso = new Permiso();
+            permiso.setValor(Utilidades.getCadena("Tipo de permiso"));
+            permiso.setDescripcion(Utilidades.getCadena("Descripcion"));
+            daoPermiso.crear(permiso);
+            return menuP;
+        });
+        
+        final Opcion opcionP2 = m.new Opcion("Borrar permiso", (Accion) () -> {
+            Utilidades.showCadena("Introduzca los siguientes datos del permiso a borrar: ");
+            int id = Utilidades.getEntero("id");
+            daoPermiso.eliminar(id);
+            return menuP;
+        });
+        
+        final Opcion opcionP3 = m.new Opcion("Actualizar tipo permiso", (Accion) () -> {
+            Utilidades.showCadena("Introduzca los siguientes datos del permiso a modificar: ");
+            int id = Utilidades.getEntero("id");
+            permiso = daoPermiso.leer(id);
+            permiso.setValor(Utilidades.getCadena("Tipo de permiso"));
+            daoPermiso.actualizar(permiso);
+            return menuP;
+        });
+        
+        final Opcion opcionP4 = m.new Opcion("Actualizar descripcion de permiso", (Accion) () -> {
+            Utilidades.showCadena("Introduzca los siguientes datos del permiso a modificar: ");
+            int id = Utilidades.getEntero("id");
+            permiso = daoPermiso.leer(id);
+            permiso.setDescripcion(Utilidades.getCadena("Descripcion de permiso"));
+            daoPermiso.actualizar(permiso);
+            return menuP;
+        });
+        
+        final Opcion opcionP5 = m.new Opcion("Mostrar todos los permisos", (Accion) () -> {
+            daoPermiso.mostrarPermisos();
+            return menuP;
+        });
+        
+        final Opcion opcionP6 = m.new Opcion("Volver al menu anterior", (Accion) () -> {
+          return menuP.getAnterior();
+        });
+        
+        
+        // Incluir las opciones en el menu pricipal
+        List <Opcion> listaOpcionesMenu = new ArrayList<>();
+        listaOpcionesMenu.add(opcion1);
+        listaOpcionesMenu.add(opcion2);
+        listaOpcionesMenu.add(opcion5);
+        menu = new Menu(listaOpcionesMenu);
+        menu.setRotuloMenu("Menu principal");
+
+        // Incluir las opciones en el menu de Alumnos
+        List <Opcion> listaOpcionesMenuA = new ArrayList<>();
+        listaOpcionesMenuA.add(opcionA1);
+        listaOpcionesMenuA.add(opcionA2);
+        listaOpcionesMenuA.add(opcionA3);
+        listaOpcionesMenuA.add(opcionA4);
+        listaOpcionesMenuA.add(opcionA5);
+        menuA = new Menu(listaOpcionesMenuA);
+        menuA.setRotuloMenu("Menu de alumnos");
+        menuA.setAnterior(menu);
+
+        // Incluir las opciones en el menu de Modificar Alumno
+        List <Opcion> listaOpcionesMenuM = new ArrayList<>();
+        listaOpcionesMenuM.add(opcionM1);
+        listaOpcionesMenuM.add(opcionM2);
+        listaOpcionesMenuM.add(opcionM3);
+        listaOpcionesMenuM.add(opcionM4);
+        listaOpcionesMenuM.add(opcionM5);
+        listaOpcionesMenuM.add(opcionM6);
+        listaOpcionesMenuM.add(opcionM7);
+        listaOpcionesMenuM.add(opcionM8);
+        listaOpcionesMenuM.add(opcionM9);
+        menuM = new Menu(listaOpcionesMenuM);
+        menuM.setRotuloMenu("Elija un campo del alumno a modificar");
+        menuM.setAnterior(menuA);
+
+        // Incluir las opciones en el menu de Permisos
+        List <Opcion> listaOpcionesMenuP = new ArrayList<>();
+        listaOpcionesMenuP.add(opcionP1);
+        listaOpcionesMenuP.add(opcionP2);
+        listaOpcionesMenuP.add(opcionP3);
+        listaOpcionesMenuP.add(opcionP4);
+        listaOpcionesMenuP.add(opcionP5);
+        listaOpcionesMenuP.add(opcionP6);
+        menuP = new Menu(listaOpcionesMenuP);
+        menuP.setRotuloMenu("Menu de permisos de conducir");
+        menuP.setAnterior(menu);
+
     }
     
     
     // Mostrar todas las opciones del menuActual y ejecuta la elegida por el usuario
     public void mostrarMenu() {
-        Menu menuActual = menuA;
+        Menu menuActual = menu;
         do{
             Utilidades.showCadena("\n------------------------------------------------------");
             Utilidades.showCadena("Autoescuela FORINEMAS. Software de gestion de alumnos:  ");
