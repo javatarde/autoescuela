@@ -1,6 +1,5 @@
 package autoescuela;
 
-import autoescuela.Utilidades;
 import autoescuela.Menu.Opcion;
 import static java.lang.System.exit;
 import java.util.ArrayList;
@@ -18,7 +17,7 @@ import java.util.List;
  * @author Formacion
  */
 public class MenuPrincipal{
-    private Menu menuP = null;
+    private Menu menuA = null;
     private Menu menuM = null;
     private Alumno alumno = null;
     private DAOAlumno daoAlumno = new DAOAlumno();
@@ -55,7 +54,7 @@ public class MenuPrincipal{
                 Utilidades.showCadena("ERROR: No se han introducido todos los campos obligatorios. "+
                            "El nuevo alumno no se guardara");
             }
-            return menuP;
+            return menuA;
         }
       });
     
@@ -78,7 +77,7 @@ public class MenuPrincipal{
             }else{
                 Utilidades.showCadena("ERROR: El alumno no existe en la base de datos");
             }
-            return menuP;
+            return menuA;
         }
       });
     
@@ -97,7 +96,7 @@ public class MenuPrincipal{
             }else{
                 Utilidades.showCadena("ERROR: El alumno no existe en la base de datos");
             }
-            return menuP;
+            return menuA;
         }
       });
     
@@ -123,7 +122,7 @@ public class MenuPrincipal{
             }else{
                 Utilidades.showCadena("ERROR: No existen resultados para esa busqueda");
             }
-            return menuP;
+            return menuA;
         }
       });
       
@@ -206,7 +205,7 @@ public class MenuPrincipal{
         return menuM.getAnterior();
       });
       
-      final Opcion opcionM9 = m.new Opcion("Volver al Menu anterior", (Accion) () -> {
+      final Opcion opcionM9 = m.new Opcion("Volver al menu anterior", (Accion) () -> {
         return menuM.getAnterior();
       });
       
@@ -217,8 +216,8 @@ public class MenuPrincipal{
       listaOpcionesMenuA.add(opcion3);
       listaOpcionesMenuA.add(opcion4);
       listaOpcionesMenuA.add(opcion5);
-      menuP = new Menu(listaOpcionesMenuA);
-      menuP.setRotuloMenu("Menu de alumnos");
+      menuA = new Menu(listaOpcionesMenuA);
+      menuA.setRotuloMenu("Menu de alumnos");
 
       // Incluir las opciones en el menu de Modificar Alumno
       List <Opcion> listaOpcionesMenuM = new ArrayList<>();
@@ -233,14 +232,14 @@ public class MenuPrincipal{
       listaOpcionesMenuM.add(opcionM9);
       menuM = new Menu(listaOpcionesMenuM);
       menuM.setRotuloMenu("Elija un campo del alumno a modificar");
-      menuM.setAnterior(menuP);
+      menuM.setAnterior(menuA);
       
     }
     
     
     // Mostrar todas las opciones del menuActual y ejecuta la elegida por el usuario
     public void mostrarMenu() {
-        Menu menuActual = menuP;
+        Menu menuActual = menuA;
         do{
             Utilidades.showCadena("\n------------------------------------------------------");
             Utilidades.showCadena("Autoescuela FORINEMAS. Software de gestion de alumnos:  ");
@@ -278,18 +277,9 @@ public class MenuPrincipal{
                         alumno.getDni(),
                         alumno.getTelefono(),
                         alumno.getEstado()
-        );
-      /*
-              showCadena(new Integer(alumno.getId()).toString() + " " +
-                   alumno.getNombre() + " " +
-                   alumno.getApellidos() + " " +
-                   alumno.getDni() + " " +
-                   alumno.getTelefono() + " " +
-                   alumno.getEstado());
-      */
 // nota: El campo comentarios no se muestra porque puede tener varias lineas        
 //        showCadena("Comentarios: ",alumno.getComentarios());
+        );
     }
-    
 
 }

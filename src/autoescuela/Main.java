@@ -7,7 +7,7 @@ package autoescuela;
 
 /**
  *
- * @author Administracion
+ * @author Formacion
  */
 public class Main {
     
