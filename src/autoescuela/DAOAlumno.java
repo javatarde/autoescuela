@@ -94,8 +94,7 @@ public class DAOAlumno {
       
       rs.close();
       stmt.close();
-      conn = ConnectDB.closeInstance().getConnect();
-      ConnectDB.getInstance().closeInstance();
+      ConnectDB.getInstance().closeInstance(); //cerrar
     } catch (SQLException sqle) {
       System.out.println("Error al mostrar alumnos: "+sqle.getMessage());
     }
@@ -140,8 +139,7 @@ public class DAOAlumno {
       
       rs.close();
       stmt.close();
-      conn = ConnectDB.closeInstance().getConnect();
-      ConnectDB.getInstance().closeInstance();
+      ConnectDB.getInstance().closeInstance(); //cerrar
     } catch (SQLException sqle) {
       System.out.println("Error al mostrar alumno por nombre: "+sqle.getMessage());
     }
