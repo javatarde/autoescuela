@@ -19,13 +19,16 @@ import java.util.List;
  *
  * @author Formacion
  */
-public class DAOAlumno {
+public abstract class DAOAlumno implements GestionCrud {
   private final String tabla = "AU_ALUMNO";
-  //CRUD
+  Connection conn = null;
+  Statement stmt = null;
+  ResultSet rs = null;
+  String SQL;
   
   //CREAR
+  //@Override
   public boolean crear(Alumno a) {
-    Connection conn = null;
     String SQL;
     
     //conexion
@@ -60,13 +63,9 @@ public class DAOAlumno {
   
   
   //LEER
+  @Override
   public List<Alumno> leer() {
     List<Alumno> lista = null;
-    
-    Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;
-    String SQL;
     
     SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios FROM "+tabla;
     
@@ -102,13 +101,9 @@ public class DAOAlumno {
   }
   
   
+  @Override
   public List<Alumno> leer(String nombre, String apellidos) {
     List<Alumno> lista = null;
-    
-    Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;
-    String SQL;
     
     SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
         + " FROM "+tabla
@@ -146,13 +141,9 @@ public class DAOAlumno {
   }
   
   
+  @Override
   public List<Alumno> leer(int id) {
     List<Alumno> lista = null;
-    
-    Connection conn = null;
-    Statement stmt = null;
-    ResultSet rs = null;
-    String SQL;
     
     //cuando la ID es 0, se muestran todos los alumnos.
     if (id!=0) {
@@ -195,10 +186,8 @@ public class DAOAlumno {
   }
   
   //ACTUALIZAR
+  //@Override
   public boolean actualizar(Alumno a) {
-    Connection conn = null;
-    Statement stmt = null;
-    String SQL;
     
     SQL = "UPDATE "+tabla
          +" SET nombre='"+a.getNombre()
@@ -227,18 +216,16 @@ public class DAOAlumno {
   }
   
   //ELIMINAR
+  @Override
   public boolean eliminar(int id) {
-    Connection conn = null;
-    Statement stmt = null;
-    String SQL;
     
     SQL = "DELETE FROM "+tabla+" WHERE ID = "+id;
     //conexion
     try {
       //usamos getConnect porque es el contructor del singleton es privado
-      conn = ConnectDB.getInstance().getConnect();      
-      stmt = conn.createStatement();
+      conn = ConnectDB.getInstance().getConnect(); 
       
+      stmt = conn.createStatement();      
       stmt.executeUpdate(SQL);
       
       stmt.close();
@@ -249,6 +236,5 @@ public class DAOAlumno {
       Utilidades.showCadena("ERROR al eliminar el alumno: "+sqle.getMessage());
       return false;
     }    
-  }
-  
+  }  
 }
