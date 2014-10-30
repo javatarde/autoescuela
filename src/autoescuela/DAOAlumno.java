@@ -22,6 +22,7 @@ import java.util.List;
 public class DAOAlumno {
   private final String tabla = "AU_ALUMNO";
   //CRUD
+  
   //CREAR
   public boolean crear(Alumno a) {
     Connection conn = null;
@@ -49,13 +50,14 @@ public class DAOAlumno {
       
       conn = ConnectDB.closeInstance().getConnect();
       
-      System.out.println("Se han creado: "+fila_afectadas+" alumno(s).");
+      Utilidades.showCadena("Se han creado: "+fila_afectadas+" alumno(s).");
       return true;   
     } catch (SQLException esql) {
-      System.out.println("Error al crear alumno en la BD: "+esql.getMessage());
+          Utilidades.showCadena("ERROR al crear alumno en la BD: "+esql.getMessage());
       return false;
     }        
   }
+  
   
   //LEER
   public List<Alumno> leer() {
@@ -67,8 +69,6 @@ public class DAOAlumno {
     String SQL;
     
     SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios FROM "+tabla;
-    
-    //System.out.println(SQL);
     
     try {
       conn = ConnectDB.getInstance().getConnect();
@@ -96,10 +96,11 @@ public class DAOAlumno {
       stmt.close();
       ConnectDB.getInstance().closeInstance(); //cerrar
     } catch (SQLException sqle) {
-      System.out.println("Error al mostrar alumnos: "+sqle.getMessage());
+      Utilidades.showCadena("ERROR al mostrar los alumnos: "+sqle.getMessage());
     }
     return lista;
   }
+  
   
   public List<Alumno> leer(String nombre, String apellidos) {
     List<Alumno> lista = null;
@@ -113,8 +114,6 @@ public class DAOAlumno {
         + " FROM "+tabla
         + " WHERE nombre = '"+nombre+"' AND apellidos='"+apellidos+"'";
     
-    //System.out.println(SQL);
-    
     try {
       conn = ConnectDB.getInstance().getConnect();
       
@@ -141,10 +140,11 @@ public class DAOAlumno {
       stmt.close();
       ConnectDB.getInstance().closeInstance(); //cerrar
     } catch (SQLException sqle) {
-      System.out.println("Error al mostrar alumno por nombre: "+sqle.getMessage());
+      Utilidades.showCadena("ERROR al mostrar alumno por nombre: "+sqle.getMessage());
     }
     return lista;  
   }
+  
   
   public List<Alumno> leer(int id) {
     List<Alumno> lista = null;
@@ -164,8 +164,6 @@ public class DAOAlumno {
           + " FROM "+tabla;
     }
     
-    //System.out.println(SQL);
-    
     try {
       conn = ConnectDB.getInstance().getConnect();
       
@@ -173,7 +171,6 @@ public class DAOAlumno {
       rs = stmt.executeQuery(SQL);
       
       lista = new ArrayList<>();
-      
       Alumno alumno = null;
       
       while (rs.next()) {
@@ -192,7 +189,7 @@ public class DAOAlumno {
       stmt.close();
       conn = ConnectDB.closeInstance().getConnect();
     } catch (SQLException sqle) {
-      System.out.println("Error al mostrar alumnos: "+sqle.getMessage());
+      Utilidades.showCadena("ERROR al mostrar alumnos: "+sqle.getMessage());
     }
     return lista;   
   }
@@ -212,8 +209,6 @@ public class DAOAlumno {
          +"',comentarios='"+a.getComentarios()
          +"' WHERE ID = "+a.getId();
     
-    //System.out.println(SQL);
-    
     try {
       conn = ConnectDB.getInstance().getConnect();
       
@@ -223,10 +218,10 @@ public class DAOAlumno {
       stmt.close();
       conn = ConnectDB.closeInstance().getConnect();
       
-      System.out.println("Alumno actualizado");
+      Utilidades.showCadena("Alumno actualizado correctamente");
       return true;
     } catch (SQLException sqle) {
-      System.out.println("Error al eliminar alumno: "+sqle.getMessage());
+      Utilidades.showCadena("ERROR al eliminar alumno: "+sqle.getMessage());
       return false;
     }
   }
@@ -238,9 +233,6 @@ public class DAOAlumno {
     String SQL;
     
     SQL = "DELETE FROM "+tabla+" WHERE ID = "+id;
-    
-    //System.out.println(SQL);
-    
     //conexion
     try {
       //usamos getConnect porque es el contructor del singleton es privado
@@ -251,11 +243,12 @@ public class DAOAlumno {
       
       stmt.close();
       conn = ConnectDB.closeInstance().getConnect();
-      System.out.println("Alumno borrado.");
+      Utilidades.showCadena("Alumno borrado correctamente");
       return true;
     } catch (SQLException sqle) {
-      System.out.println("Error al eliminar alumno: "+sqle.getMessage());
+      Utilidades.showCadena("ERROR al eliminar el alumno: "+sqle.getMessage());
       return false;
     }    
   }
+  
 }

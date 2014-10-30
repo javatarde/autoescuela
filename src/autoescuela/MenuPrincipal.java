@@ -225,22 +225,35 @@ public class MenuPrincipal{
             permiso.setValor(Utilidades.getCadena("Tipo de permiso"));
             permiso.setDescripcion(Utilidades.getCadena("Descripcion"));
             daoPermiso.crear(permiso);
+            Utilidades.showCadena("El nuevo permiso creado tiene los siguientes datos: ");
+            mostrarPermiso(permiso);
             return menuP;
         });
         
         final Opcion opcionP2 = m.new Opcion("Borrar permiso", (Accion) () -> {
             Utilidades.showCadena("Introduzca los siguientes datos del permiso a borrar: ");
             int id = Utilidades.getEntero("id");
-            daoPermiso.eliminar(id);
+            permiso = daoPermiso.leer(id);
+            if (permiso == null){ // El permiso no existe
+                  Utilidades.showCadena("ERROR: El permiso no existe en la base de datos");
+            }else{
+                daoPermiso.eliminar(id);
+            }
             return menuP;
         });
         
-        final Opcion opcionP3 = m.new Opcion("Actualizar tipo permiso", (Accion) () -> {
+        final Opcion opcionP3 = m.new Opcion("Actualizar tipo de permiso", (Accion) () -> {
             Utilidades.showCadena("Introduzca los siguientes datos del permiso a modificar: ");
             int id = Utilidades.getEntero("id");
             permiso = daoPermiso.leer(id);
-            permiso.setValor(Utilidades.getCadena("Tipo de permiso"));
-            daoPermiso.actualizar(permiso);
+            if (permiso == null){ // El permiso no existe
+                Utilidades.showCadena("ERROR: El permiso no existe en la base de datos");
+            }else{
+                permiso.setValor(Utilidades.getCadena("Nuevo tipo de permiso"));
+                daoPermiso.actualizar(permiso);
+                Utilidades.showCadena("Los nuevos datos del permiso son: ");
+                mostrarPermiso(permiso);
+            }
             return menuP;
         });
         
@@ -248,8 +261,14 @@ public class MenuPrincipal{
             Utilidades.showCadena("Introduzca los siguientes datos del permiso a modificar: ");
             int id = Utilidades.getEntero("id");
             permiso = daoPermiso.leer(id);
-            permiso.setDescripcion(Utilidades.getCadena("Descripcion de permiso"));
-            daoPermiso.actualizar(permiso);
+            if (permiso == null){ // El permiso no existe
+                  Utilidades.showCadena("ERROR: El permiso no existe en la base de datos");
+            }else{
+                permiso.setDescripcion(Utilidades.getCadena("Nueva descripcion del permiso"));
+                daoPermiso.actualizar(permiso);
+                Utilidades.showCadena("Los nuevos datos del permiso son: ");
+                mostrarPermiso(permiso);
+            }
             return menuP;
         });
         
@@ -356,5 +375,13 @@ public class MenuPrincipal{
 //        showCadena("Comentarios: ",alumno.getComentarios());
         );
     }
+        
+    // Mostrar todos los campos del permiso en una linea
+    private static void mostrarPermiso(Permiso permiso){
+        Utilidades.showCadena("ID: "+new Integer(permiso.getId()).toString()+
+                              " | Permiso: "+permiso.getValor()+
+                              " | Descripcion: "+permiso.getDescripcion());
+    }
+        
 
 }
