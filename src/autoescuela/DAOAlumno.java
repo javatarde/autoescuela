@@ -97,7 +97,7 @@ public class DAOAlumno {
       conn = ConnectDB.closeInstance().getConnect();
       ConnectDB.getInstance().closeInstance();
     } catch (SQLException sqle) {
-      System.out.println("Error al eliminar alumno: "+sqle.getMessage());
+      System.out.println("Error al mostrar alumnos: "+sqle.getMessage());
     }
     return lista;
   }
@@ -143,7 +143,7 @@ public class DAOAlumno {
       conn = ConnectDB.closeInstance().getConnect();
       ConnectDB.getInstance().closeInstance();
     } catch (SQLException sqle) {
-      System.out.println("Error al eliminar alumno: "+sqle.getMessage());
+      System.out.println("Error al mostrar alumno por nombre: "+sqle.getMessage());
     }
     return lista;  
   }
@@ -156,6 +156,7 @@ public class DAOAlumno {
     ResultSet rs = null;
     String SQL;
     
+    //cuando la ID es 0, se muestran todos los alumnos.
     if (id!=0) {
       SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
           + " FROM "+tabla
@@ -193,7 +194,7 @@ public class DAOAlumno {
       stmt.close();
       conn = ConnectDB.closeInstance().getConnect();
     } catch (SQLException sqle) {
-      System.out.println("Error al eliminar alumno: "+sqle.getMessage());
+      System.out.println("Error al mostrar alumnos: "+sqle.getMessage());
     }
     return lista;   
   }
@@ -224,7 +225,7 @@ public class DAOAlumno {
       stmt.close();
       conn = ConnectDB.closeInstance().getConnect();
       
-      System.out.println("ACTUALIZO ALUMNO");
+      System.out.println("Alumno actualizado");
       return true;
     } catch (SQLException sqle) {
       System.out.println("Error al eliminar alumno: "+sqle.getMessage());
@@ -252,7 +253,7 @@ public class DAOAlumno {
       
       stmt.close();
       conn = ConnectDB.closeInstance().getConnect();
-      System.out.println("ELIMINO ALUMNO");
+      System.out.println("Alumno borrado.");
       return true;
     } catch (SQLException sqle) {
       System.out.println("Error al eliminar alumno: "+sqle.getMessage());
