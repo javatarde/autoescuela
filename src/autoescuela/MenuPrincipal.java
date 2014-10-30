@@ -42,7 +42,7 @@ public class MenuPrincipal{
           return menuP;
       });
       
-      final Opcion opcion5 = m.new Opcion("Salir", (Accion) () -> {
+      final Opcion opcion3 = m.new Opcion("Salir", (Accion) () -> {
           Utilidades.showCadena("\n Fin del programa");
           exit(0);
           return null;
@@ -67,7 +67,7 @@ public class MenuPrincipal{
               List <Alumno> listaAlumnos = daoAlumno.leer(alumno.getNombre(), alumno.getApellidos());
               // Comprobar si el alumno ya existe
               if (listaAlumnos.size()>0){
-                  Utilidades.showCadena("ERROR: El alumno ya existe en la base de datos");
+                  Utilidades.showCadena("ERROR: Ya existe un alumno con esos valores en la base de datos");
               }else{
                   boolean resultado = daoAlumno.crear(alumno);
               }
@@ -87,7 +87,7 @@ public class MenuPrincipal{
             int id = Utilidades.getEntero("id");
             // Comprobar si el alumno existe
             List <Alumno> listaAlumnos = daoAlumno.leer(id);
-            if (listaAlumnos.size()>0){
+            if (listaAlumnos.size()==1){
                 // Mostrar datos del alumno antes de borrarlo
                 alumno = listaAlumnos.get(0);
                 mostrarAlumo(alumno);
@@ -110,7 +110,7 @@ public class MenuPrincipal{
             int id = Utilidades.getEntero("id");
             // Comprobar si el alumno existe
             List <Alumno> listaAlumnos = daoAlumno.leer(id);
-            if (listaAlumnos.size()>0){
+            if (listaAlumnos.size()==1){
                 // Ir al menu Modificar datos del alumno
                 alumno = listaAlumnos.get(0);
                 return menuM;
@@ -126,10 +126,8 @@ public class MenuPrincipal{
         @Override
         public Menu ejecutar() {
             Utilidades.showCadena("Introduzca los siguientes datos del alumno a buscar: ");
-            Utilidades.showCadena(" (Con id=0, se muestran todos los alumnos)");
             int id = Utilidades.getEntero("id");
-// nota: ampliar la busqueda con otros campos
-            
+// nota: se podria ampliar la busqueda con otros campos
             // Comprobar si el alumno existe
             List <Alumno> listaAlumnos = daoAlumno.leer(id);
             if (listaAlumnos.size()>0){
@@ -147,7 +145,27 @@ public class MenuPrincipal{
         }
       });
       
-      final Opcion opcionA5 = m.new Opcion("Volver al menu principal", (Accion) () -> {
+      final Opcion opcionA5 = m.new Opcion("Mostrar todos los alumnos", new Accion(){
+        @Override
+        public Menu ejecutar() {
+            // Al buscar con id=0, se devuelven todos los alumnos
+            List <Alumno> listaAlumnos = daoAlumno.leer(0);
+            if (listaAlumnos.size()>0){
+                // Mostrar datos del todos los alumnos
+                // Si hay varios alumnos que se ajustan a esa busqueda, mostrarlos todos
+                Utilidades.showCadena(cadenaDatosAlumno);
+                for (Alumno alumnoI : listaAlumnos) {
+                    // Mostrar los datos de cada alumno en una sola linea                
+                    mostrarAlumnoLinea(alumnoI);
+                }
+            }else{
+                Utilidades.showCadena("No existen ningun alumno en la base de datos");
+            }
+            return menuA;
+        }
+      });
+      
+      final Opcion opcionA6 = m.new Opcion("Volver al menu principal", (Accion) () -> {
           return menuA.getAnterior();
       });
       
@@ -286,7 +304,7 @@ public class MenuPrincipal{
         List <Opcion> listaOpcionesMenu = new ArrayList<>();
         listaOpcionesMenu.add(opcion1);
         listaOpcionesMenu.add(opcion2);
-        listaOpcionesMenu.add(opcion5);
+        listaOpcionesMenu.add(opcion3);
         menu = new Menu(listaOpcionesMenu);
         menu.setRotuloMenu("Menu principal");
 
@@ -297,6 +315,7 @@ public class MenuPrincipal{
         listaOpcionesMenuA.add(opcionA3);
         listaOpcionesMenuA.add(opcionA4);
         listaOpcionesMenuA.add(opcionA5);
+        listaOpcionesMenuA.add(opcionA6);
         menuA = new Menu(listaOpcionesMenuA);
         menuA.setRotuloMenu("Menu de alumnos");
         menuA.setAnterior(menu);
@@ -331,7 +350,7 @@ public class MenuPrincipal{
     }
     
     
-    // Mostrar todas las opciones del menuActual y ejecuta la elegida por el usuario
+    // Mostrar todas las opciones del menuActual y ejecutar la elegida por el usuario
     public void mostrarMenu() {
         Menu menuActual = menu;
         do{
@@ -375,7 +394,7 @@ public class MenuPrincipal{
 //        showCadena("Comentarios: ",alumno.getComentarios());
         );
     }
-        
+    
     // Mostrar todos los campos del permiso en una linea
     private static void mostrarPermiso(Permiso permiso){
         Utilidades.showCadena("ID: "+new Integer(permiso.getId()).toString()+
