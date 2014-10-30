@@ -53,7 +53,7 @@ public abstract class DAOAlumno implements GestionCrud {
       
       conn = ConnectDB.closeInstance().getConnect();
       
-      Utilidades.showCadena("Se han creado: "+fila_afectadas+" alumno(s).");
+      Utilidades.showCadena("Se han creado "+fila_afectadas+" alumno(s).");
       return true;   
     } catch (SQLException esql) {
           Utilidades.showCadena("ERROR al crear alumno en la BD: "+esql.getMessage());
