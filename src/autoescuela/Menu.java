@@ -16,6 +16,7 @@ public class Menu {
     private Menu siguiente = null;
     private Menu anterior = null;
     private List<Opcion> listaOpciones = null;
+    private String rotuloMenu = null;
 
     public Menu() {
         // constructor vacio
@@ -65,6 +66,14 @@ public class Menu {
 
     public void setAnterior(Menu anterior) {
         this.anterior = anterior;
+    }
+
+    public void setRotuloMenu(String rotuloMenu) {
+        this.rotuloMenu = rotuloMenu;
+    }
+
+    public String getRotuloMenu() {
+        return rotuloMenu;
     }
     
     
