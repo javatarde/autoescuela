@@ -147,69 +147,68 @@ public class MenuPrincipal{
       
       // Opciones del Menu Modificar alumno
       final Opcion opcionM1 = m.new Opcion("Nombre", (Accion) () -> {
-          alumno.setNombre(Utilidades.getCadena("Nombre"));
           mostrarAlumo(alumno);
+          Utilidades.showCadena(" ");
+          alumno.setNombre(Utilidades.getCadena("Nombre"));
           return menuM;
       });      
       
       final Opcion opcionM2 = m.new Opcion("Apellidos", (Accion) () -> {
-        alumno.setApellidos(Utilidades.getCadena("Apellidos"));
         mostrarAlumo(alumno);
+        Utilidades.showCadena(" ");
+        alumno.setApellidos(Utilidades.getCadena("Apellidos"));
         return menuM;
       });
       
       final Opcion opcionM3 = m.new Opcion("DNI", (Accion) () -> {
-        alumno.setDni(Utilidades.getCadena("DNI"));
         mostrarAlumo(alumno);
+        Utilidades.showCadena(" ");
+        alumno.setDni(Utilidades.getCadena("DNI"));
         return menuM;
       });
       
       final Opcion opcionM4 = m.new Opcion("Telefono", (Accion) () -> {
-        alumno.setTelefono(Utilidades.getCadena("Telefono"));
         mostrarAlumo(alumno);
+        Utilidades.showCadena(" ");
+        alumno.setTelefono(Utilidades.getCadena("Telefono"));
         return menuM;
       });
       
       final Opcion opcionM5 = m.new Opcion("Comentarios", (Accion) () -> {
-        alumno.setComentarios(Utilidades.getCadena("Comentarios"));
         mostrarAlumo(alumno);
+        Utilidades.showCadena(" ");
+        alumno.setComentarios(Utilidades.getCadena("Comentarios"));
         return menuM;
       });
 
       final Opcion opcionM6 = m.new Opcion("Estado", (Accion) () -> {
+        mostrarAlumo(alumno);
+        Utilidades.showCadena(" ");
         alumno.setEstado(Utilidades.getCadena("Estado"));
+        return menuM;
+      });
+      
+      final Opcion opcionM7 = m.new Opcion("Mostrar todos los campos", (Accion) () -> {
+        Utilidades.showCadena(" ");
         mostrarAlumo(alumno);
         return menuM;
       });
       
-      final Opcion opcionM7 = m.new Opcion("Guardar cambios", (Accion) () -> {
+      final Opcion opcionM8 = m.new Opcion("Guardar cambios", (Accion) () -> {
         if (!alumno.validarAlumno()){
             Utilidades.showCadena("ERROR: No se han introducido todos los campos obligatorios. "+
                                   "Las modificaciones realizadas no se guardaran");
         }else{
+            Utilidades.showCadena(" ");
+            mostrarAlumo(alumno);
             boolean resultado = daoAlumno.actualizar(alumno);
         }
         return menuM.getAnterior();
       });
       
-      final Opcion opcionM8 = m.new Opcion("Volver al Menu anterior", (Accion) () -> {
+      final Opcion opcionM9 = m.new Opcion("Volver al Menu anterior", (Accion) () -> {
         return menuM.getAnterior();
       });
-      
-      // Incluir las opciones en el menu de Modificar Alumno
-      List <Opcion> listaOpcionesMenuM = new ArrayList<>();
-      listaOpcionesMenuM.add(opcionM1);
-      listaOpcionesMenuM.add(opcionM2);
-      listaOpcionesMenuM.add(opcionM3);
-      listaOpcionesMenuM.add(opcionM4);
-      listaOpcionesMenuM.add(opcionM5);
-      listaOpcionesMenuM.add(opcionM6);
-      listaOpcionesMenuM.add(opcionM7);
-      listaOpcionesMenuM.add(opcionM8);
-      menuM = new Menu(listaOpcionesMenuM);
-      menuM.setRotuloMenu("Elija un campo del alumno a modificar");
-      menuM.setAnterior(menuP);
-      
       
       // Incluir las opciones en el menu de Alumnos
       List <Opcion> listaOpcionesMenuA = new ArrayList<>();
@@ -220,6 +219,22 @@ public class MenuPrincipal{
       listaOpcionesMenuA.add(opcion5);
       menuP = new Menu(listaOpcionesMenuA);
       menuP.setRotuloMenu("Menu de alumnos");
+
+      // Incluir las opciones en el menu de Modificar Alumno
+      List <Opcion> listaOpcionesMenuM = new ArrayList<>();
+      listaOpcionesMenuM.add(opcionM1);
+      listaOpcionesMenuM.add(opcionM2);
+      listaOpcionesMenuM.add(opcionM3);
+      listaOpcionesMenuM.add(opcionM4);
+      listaOpcionesMenuM.add(opcionM5);
+      listaOpcionesMenuM.add(opcionM6);
+      listaOpcionesMenuM.add(opcionM7);
+      listaOpcionesMenuM.add(opcionM8);
+      listaOpcionesMenuM.add(opcionM9);
+      menuM = new Menu(listaOpcionesMenuM);
+      menuM.setRotuloMenu("Elija un campo del alumno a modificar");
+      menuM.setAnterior(menuP);
+      
     }
     
     
