@@ -22,6 +22,8 @@ public class MenuPrincipal{
     private Menu menuM = null;
     private Alumno alumno = null;
     private Permiso permiso = null;
+    private VistaAlumno vistaAlumno = new VistaAlumno();
+
     private DAOAlumno daoAlumno = new DAOAlumno();
     private DAOPermiso daoPermiso = new DAOPermiso();
     private final String cadenaDatosAlumno = "\nid   Nombre      Apellidos           DNI       Telefono    Estado"
@@ -54,16 +56,10 @@ public class MenuPrincipal{
         public Menu ejecutar() {
             Utilidades.showCadena("Introduzca los siguientes datos del nuevo alumno: ");
             // Nota: el id se genera automaticamente en la bbdd al insertar el nuevo alumno
-            alumno = new Alumno();
-            alumno.setNombre(Utilidades.getCadena("Nombre"));
-            alumno.setApellidos(Utilidades.getCadena("Apellidos"));
-            alumno.setDni(Utilidades.getCadena("DNI"));
-            alumno.setTelefono(Utilidades.getCadena("Telefono"));
-            alumno.setComentarios(Utilidades.getCadena("Comentarios"));
-            alumno.setEstado(Utilidades.getCadena("Estado"));
+            alumno = vistaAlumno.getAlumno();
             // Comprobar si se han introducido todos los campos obligatorios
             if (alumno.validar()){
-              List <Alumno> listaAlumnos = daoAlumno.leer(alumno.getNombre(), alumno.getApellidos());
+              List <Alumno> listaAlumnos = daoAlumno.leer(alumno);
               // Comprobar si el alumno ya existe
               if (!listaAlumnos.isEmpty()){
                   Utilidades.showCadena("ERROR: Ya existe un alumno con esos valores en la base de datos");
