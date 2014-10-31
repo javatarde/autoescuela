@@ -107,12 +107,12 @@ public class DAOAlumno implements GestionCrud<Alumno> {
   
   //LEER
   @Override
-  public List<Alumno> leer(String nombre, String apellidos) {
+  public List<Alumno> leer(Alumno a) {
     List<Alumno> lista = null;
     
     SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
         + " FROM "+tabla
-        + " WHERE nombre = '"+nombre+"' AND apellidos='"+apellidos+"'";
+        + " WHERE nombre = '"+a.getNombre()+"' AND apellidos='"+a.getApellidos()+"'";
     
     try {
       conn = ConnectDB.getInstance().getConnect();

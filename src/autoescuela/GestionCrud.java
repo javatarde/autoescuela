@@ -23,7 +23,7 @@ public interface GestionCrud<T>{
   
   //LEER  
   List<T> leer(int id);
-  List<T> leer(String nombre, String apellidos);  
+  List<T> leer(T target);  
   void mostrarTodos();
   
   //ELIMINAR
