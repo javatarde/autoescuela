@@ -79,5 +79,13 @@ public class Permiso {
         return true;
     }
     
+    // Devolver todos los campos del permiso en una linea
+    @Override
+    public String toString(){
+        return ("ID: "+new Integer(getId()).toString()+
+                " | Permiso: "+getValor()+
+                " | Descripcion: "+getDescripcion());
+    }
+    
     
 }

@@ -15,25 +15,23 @@ import java.util.List;
  *
  * @author Formacion
  */
-public class MenuPrincipal{
+public class MenuGenerico<T,DAO>{
     private Menu menu  = null;
-    private Menu menuP = null;
-    private Menu menuA = null;
-    private Menu menuM = null;
-    private Alumno alumno = null;
-    private Permiso permiso = null;
-    private DAOAlumno daoAlumno = new DAOAlumno();
-    private DAOPermiso daoPermiso = new DAOPermiso();
-    private final String cadenaDatosAlumno = "\nid   Nombre      Apellidos           DNI       Telefono    Estado"
-                                           + "\n--   ------      ---------           ---       --------    ------";
+    private T elemento = null;
+    private DAO dao = new <DAO>();
+    private final String cadena = "\nid   Nombre      Apellidos           DNI       Telefono    Estado"
+                                + "\n--   ------      ---------           ---       --------    ------";
 
-
-    public MenuPrincipal() {
+    public ClaseGenerica(<T> o) {
+        <T> obj = o;
+    }
+    
+    public MenuGenerico() {
     
       Menu m = new Menu();
-      
+/*      
       // Opciones del Menu principal
-      final Opcion opcion1 = m.new Opcion("Gestion de alumnos", (Accion) () -> {
+      final Opcion opcion1 = m.new Opcion("Gestion de "+elemento.getClass(), (Accion) () -> {
           return menuA;
       });
       
@@ -46,15 +44,15 @@ public class MenuPrincipal{
           exit(0);
           return null;
       });
-      
+*/      
       
       // Opciones del Menu de alumnos
-      final Opcion opcionA1 = m.new Opcion("Crear nuevo alumno", new Accion(){
+      final Opcion opcionA1 = m.new Opcion("Crear nuevo "+elemento.getClass(), new Accion(){
         @Override
         public Menu ejecutar() {
-            Utilidades.showCadena("Introduzca los siguientes datos del nuevo alumno: ");
+            Utilidades.showCadena("Introduzca los siguientes datos del nuevo "+elemento.getClass()+": ");
             // Nota: el id se genera automaticamente en la bbdd al insertar el nuevo alumno
-            alumno = new Alumno();
+            elemento = new <T>();
             alumno.setNombre(Utilidades.getCadena("Nombre"));
             alumno.setApellidos(Utilidades.getCadena("Apellidos"));
             alumno.setDni(Utilidades.getCadena("DNI"));
@@ -62,19 +60,19 @@ public class MenuPrincipal{
             alumno.setComentarios(Utilidades.getCadena("Comentarios"));
             alumno.setEstado(Utilidades.getCadena("Estado"));
             // Comprobar si se han introducido todos los campos obligatorios
-            if (alumno.validarAlumno()){
-              List <Alumno> listaAlumnos = daoAlumno.leer(alumno.getNombre(), alumno.getApellidos());
+            if (elemento.validar()){
+              List <T> lista = dao.leer(elemento.getNombre(), elemento.getApellidos());
               // Comprobar si el alumno ya existe
-              if (!listaAlumnos.isEmpty()){
+              if (!lista.isEmpty()){
                   Utilidades.showCadena("ERROR: Ya existe un alumno con esos valores en la base de datos");
               }else{
-                  boolean resultado = daoAlumno.crear(alumno);
+                  boolean resultado = dao.crear(elemento);
               }
             }else{
                 Utilidades.showCadena("ERROR: No se han introducido todos los campos obligatorios. "+
-                           "El nuevo alumno no se guardara");
+                           "El nuevo "+elemento.getClass()+" no se guardara");
             }
-            return menuA;
+            return menu;
         }
       });
     
