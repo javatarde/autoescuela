@@ -162,7 +162,7 @@ public class DAOPermiso implements GestionCrud<Permiso>{
     }
 
     @Override
-    public List<Permiso> leer(String nombre, String apellidos) {
+    public List<Permiso> leer(Permiso p) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
