@@ -72,6 +72,21 @@ public abstract class Persona {
       return false;
     }
     final Persona other = (Persona) obj;
+    
+    if (!nombre.equals(other.nombre)) {
+      return false;
+    }
+    if (!apellidos.equals(other.apellidos)) {
+      return false;
+    }
+    if (!dni.equals(other.dni)) {
+      return false;
+    }
+    if (!telefono.equals(other.telefono)) {
+      return false;
+    }
+    
+    /*
     if (!Objects.equals(this.nombre, other.nombre)) {
       return false;
     }
@@ -84,6 +99,7 @@ public abstract class Persona {
     if (!Objects.equals(this.telefono, other.telefono)) {
       return false;
     }
+    */
     return true;
   }
 }

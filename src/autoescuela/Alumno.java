@@ -46,10 +46,10 @@ public class Alumno extends Persona {
   }
   
   public boolean validarAlumno() {
-    if (this.getNombre()==null || this.getNombre().equals("")
-        || this.getApellidos()==null || this.getApellidos().equals("")
-        || this.getDni()==null || this.getDni().equals("")
-        || this.getTelefono()==null || this.getTelefono().equals("")
+    if (this.getNombre()==null || this.getNombre().isEmpty()
+        || this.getApellidos()==null || this.getApellidos().isEmpty()
+        || this.getDni()==null || this.getDni().isEmpty()
+        || this.getTelefono()==null || this.getTelefono().isEmpty()
        ) {
       return false;
     }
@@ -77,12 +77,21 @@ public class Alumno extends Persona {
     if (this.id != other.id) {
       return false;
     }
+    if (!estado.equals(other.estado)) {
+      return false;
+    }
+    if (!comentarios.equals(other.estado)) {
+      return false;
+    }
+    
+    /*
     if (!Objects.equals(this.estado, other.estado)) {
       return false;
     }
     if (!Objects.equals(this.comentarios, other.comentarios)) {
       return false;
     }
+    */
     return true;
   }
 }
