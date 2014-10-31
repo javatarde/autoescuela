@@ -90,7 +90,7 @@ public class MenuPrincipal{
                 // Mostrar datos del alumno antes de borrarlo
                 alumno = listaAlumnos.get(0);
                 // Mostrar alumno
-                alumno.mostrarAlumno();
+                alumno.mostrar();
                 String cadena = Utilidades.getCadena("¿Desea eliminar al alumno? (si/no) ");
                 if (cadena.toLowerCase().equals("si")){
                     boolean resultado = daoAlumno.eliminar(id);
