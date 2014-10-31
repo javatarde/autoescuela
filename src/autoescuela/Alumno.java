@@ -44,17 +44,6 @@ public class Alumno extends Persona {
   public void setComentarios(String comentarios) {
     this.comentarios = comentarios;
   }
-  
-  public boolean validarAlumno() {
-    if (this.getNombre()==null || this.getNombre().isEmpty()
-        || this.getApellidos()==null || this.getApellidos().isEmpty()
-        || this.getDni()==null || this.getDni().isEmpty()
-        || this.getTelefono()==null || this.getTelefono().isEmpty()
-       ) {
-      return false;
-    }
-    return true;
-  }
 
   @Override
   public int hashCode() {
@@ -93,5 +82,21 @@ public class Alumno extends Persona {
     }
     */
     return true;
+  }
+  
+  @Override
+  public boolean validar() {
+    return super.validar();
+  }
+  
+  public void mostrar() {
+    System.out.printf("%-5s%-12s%-20s%-10s%-12s%-10s\n",
+      getId(),
+      getNombre(),
+      getApellidos(),
+      getDni(),
+      getTelefono(),
+      getEstado()
+    );
   }
 }

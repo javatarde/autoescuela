@@ -168,15 +168,7 @@ public class DAOAlumno implements GestionCrud<Alumno> {
         alumno.setEstado(rs.getString("estado"));
         alumno.setComentarios(rs.getString("comentarios"));
         
-        //System.out.println(alumno.toString());        
-        System.out.printf("%-5s%-12s%-20s%-10s%-12s%-10s\n",
-                        alumno.getId(),
-                        alumno.getNombre(),
-                        alumno.getApellidos(),
-                        alumno.getDni(),
-                        alumno.getTelefono(),
-                        alumno.getEstado()
-        );
+        alumno.mostrar();
       } //while      
       
       rs.close();

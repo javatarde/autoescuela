@@ -102,4 +102,15 @@ public abstract class Persona {
     */
     return true;
   }
+  
+  public boolean validar() {
+    if (this.getNombre()==null || this.getNombre().isEmpty()
+        || this.getApellidos()==null || this.getApellidos().isEmpty()
+        || this.getDni()==null || this.getDni().isEmpty()
+        || this.getTelefono()==null || this.getTelefono().isEmpty()
+       ) {
+      return false;
+    }
+    return true;
+  }
 }
