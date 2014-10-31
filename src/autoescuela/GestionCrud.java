@@ -16,14 +16,14 @@ import java.util.List;
 public interface GestionCrud<T>{ 
 
   //CREAR
-  boolean crear(T a);  
+  boolean crear(T elemento);  
 
   //ACTUALIZAR
-  boolean actualizar(T a);
+  boolean actualizar(T elemento);
   
   //LEER  
   List<T> leer(int id);
-  List<T> leer(T target);  
+  List<T> leer(T elemento);
   void mostrarTodos();
   
   //ELIMINAR
