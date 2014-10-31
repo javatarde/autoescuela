@@ -9,19 +9,21 @@ import conexion.ConnectDB;
 import gestion_fechas.GestorFechas;
 import java.sql.Connection;
 import java.sql.Date;
+import java.util.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.util.List;
+
 import java.util.Scanner;
 
 /**
  *
  * @author Formacion
  */
-public class DAOMatricula {
+public class DAOMatricula implements GestionCrud<Matricula>{
     private final String tabla = "AU_MATRICULA";
     Connection conn;
     Statement stmt = null;
@@ -30,32 +32,36 @@ public class DAOMatricula {
     Statement st_default = null;
 
 
-public void crear (Matricula m){
-    try{
+    @Override
+    public boolean crear (Matricula m){
+        boolean ok;
+        try{
         conn=ConnectDB.getInstance().getConnect();
         
         SQL="INSERT INTO "+tabla+" (id_alumno,id_permiso,id_tipomatricula) VALUES (?,?,?)";
         
-        //st_default=conn.createStatement(ResultSet.CONCUR_UPDATABLE, ResultSet.TYPE_SCROLL_SENSITIVE);
         //hacer insercion
         PreparedStatement pst=conn.prepareStatement(SQL);
         
         pst.setInt(1, m.getIdAlumno());
         pst.setInt(2, m.getIdPermiso());
         pst.setInt(3, m.getIdTipoMatricula());
-     
-        // pst.setString(7, m.getMotivoBaja());
+    
         
         int filas_afectadas=pst.executeUpdate();
         System.out.println(filas_afectadas+" fila(s) afectada(s)");
         conn=ConnectDB.closeInstance().getConnect();
         
+        ok=true;
     }catch(SQLException e){
         System.out.println("Error al crear la matrícula"+e);
+        ok=false;
     }
+        return ok;
 }
 
-    public void leer (){
+    @Override
+    public void mostrarTodos (){
     try{
         conn=ConnectDB.getInstance().getConnect();
         SQL="SELECT id,id_alumno,id_permiso,id_tipomatricula,fecha_alta,fecha_baja,motivo_baja FROM "+tabla+" ORDER BY id_alumno";
@@ -79,6 +85,89 @@ public void crear (Matricula m){
         System.out.println("Error al "+e);
     }
 }
+        
+    @Override
+    public List<Matricula> leer(int id) {
+        List<Matricula> lista =null;
+        
+    //cuando la ID es 0, se muestran todos los alumnos.
+        if (id!=0) {
+          SQL = "SELECT id, id_alumno, id_permiso, id_tipomatricula, fecha_alta, fecha_baja, motivo_baja"
+              + " FROM "+tabla
+              + " WHERE id = "+id;
+        } else {
+          SQL = "SELECT id, id_alumno, id_permiso, id_tipomatricula, fecha_alta, fecha_baja, motivo_baja"
+              + " FROM "+tabla;
+        }
+        
+        try {
+        conn = ConnectDB.getInstance().getConnect();
+
+        stmt = conn.createStatement();
+        rs = stmt.executeQuery(SQL);
+
+        lista = new ArrayList<>();
+        Matricula matricula = null;
+
+        while (rs.next()) {
+            matricula = new Matricula();
+            matricula.setId(rs.getInt("ID"));
+            matricula.setIdAlumno(rs.getInt("ID_Alumno"));
+            matricula.setIdPermiso(rs.getInt("ID_Permiso"));
+            matricula.setIdTipoMatricula(rs.getInt("ID_TipoMatricula"));
+            matricula.setFechaAlta(rs.getDate("Fecha_Alta"));
+            matricula.setFechaBaja(rs.getDate("Fecha_Baja"));
+            matricula.setMotivoBaja(rs.getString("Motivo_Baja"));
+            lista.add(matricula);
+        }
+        rs.close();
+        stmt.close();
+        conn=ConnectDB.closeInstance().getConnect();
+          }catch(SQLException e){
+          System.out.println("Error al hacer la búsqueda "+e);
+        }
+
+        return lista;
+    }
+
+    @Override
+    public List<Matricula> leer(Matricula m) {
+       List <Matricula> lista=null;
+       
+       SQL = "select id, id_alumno, id_permiso, id_tipomatricula, fecha_alta, fecha_baja, motivo_baja"
+           + " FROM "+tabla
+           + " WHERE id_alumno = "+ m.getIdAlumno()+"id_tipomatricula="+m.getIdTipoMatricula()+"id_permiso="+m.getIdPermiso();
+       
+       try {
+      conn = ConnectDB.getInstance().getConnect();
+      
+      stmt = conn.createStatement();
+      rs = stmt.executeQuery(SQL);
+      
+      lista = new ArrayList<>();
+      Matricula matricula = null;
+      
+      while (rs.next()) {
+          matricula=new Matricula();
+          matricula.setId(rs.getInt("ID"));
+          matricula.setIdAlumno(rs.getInt("ID_Alumno"));
+          matricula.setIdPermiso(rs.getInt("ID_Permiso"));
+          matricula.setIdTipoMatricula(rs.getInt("ID_TipoMatricula"));
+          matricula.setFechaAlta(rs.getDate("Fecha_Alta"));
+          matricula.setFechaBaja(rs.getDate("Fecha_Baja"));
+          matricula.setMotivoBaja(rs.getString("Motivo_Baja"));
+          lista.add(matricula);
+      }
+      rs.close();
+      stmt.close();
+      conn=ConnectDB.closeInstance().getConnect();
+        }catch(SQLException e){
+        System.out.println("Error al hacer la búsqueda "+e);
+        }
+       return lista;
+    }
+        
+    @Override
     public boolean eliminar (int IDMatricula){
         boolean ok;
         try{
@@ -100,7 +189,9 @@ public void crear (Matricula m){
         return ok;
 }
 
-public void actualizar (Matricula m){
+    @Override
+    public boolean actualizar (Matricula m){
+    boolean ok;
     try{
         conn=ConnectDB.getInstance().getConnect();
         SQL="UPDATE "+tabla+" SET "
@@ -133,10 +224,12 @@ public void actualizar (Matricula m){
         pst.close();
         st_default.close();
         conn=ConnectDB.closeInstance().getConnect();
-        
+        ok=true;
     }catch(SQLException e){
         System.out.println("Error al "+e);
+        ok=false;
     }
+    return ok;
 }
 /*******************************    
  *  Pruebas de funcionamiento. *
@@ -178,7 +271,7 @@ public void actualizar (Matricula m){
         //FIN PRUEBA INSERT
         
         //*****PRUEBA LEER****
-        DAOMatricula.leer();
+        DAOMatricula.mostrarTodos();
         //FIN PRUEBA LEER
         
         //*****PRUEBA ELIMINAR****
@@ -217,5 +310,7 @@ public void actualizar (Matricula m){
         
       //FIN prueba actualizar
     }
+
+
 
 }
