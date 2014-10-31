@@ -61,48 +61,6 @@ public abstract class DAOAlumno implements GestionCrud<Alumno> {
     }        
   }
   
-  
-  //LEER
-  @Override
-  public List<Alumno> leer(String nombre, String apellidos) {
-    List<Alumno> lista = null;
-    
-    SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
-        + " FROM "+tabla
-        + " WHERE nombre = '"+nombre+"' AND apellidos='"+apellidos+"'";
-    
-    try {
-      conn = ConnectDB.getInstance().getConnect();
-      
-      stmt = conn.createStatement();
-      rs = stmt.executeQuery(SQL);
-      
-      lista = new ArrayList<>();
-      
-      Alumno alumno = null;
-      
-      while (rs.next()) {
-        alumno = new Alumno();
-        alumno.setId(rs.getInt("id"));
-        alumno.setNombre(rs.getString("nombre"));
-        alumno.setApellidos(rs.getString("apellidos"));
-        alumno.setDni(rs.getString("dni"));
-        alumno.setTelefono(rs.getString("telefono"));
-        alumno.setEstado(rs.getString("estado"));
-        alumno.setComentarios(rs.getString("comentarios"));
-        lista.add(alumno);
-      } //while      
-      
-      rs.close();
-      stmt.close();
-      ConnectDB.getInstance().closeInstance(); //cerrar
-    } catch (SQLException sqle) {
-      Utilidades.showCadena("ERROR al mostrar alumno por nombre: "+sqle.getMessage());
-    }
-    return lista;  
-  }
-  
-  
   @Override
   public List<Alumno> leer(int id) {
     List<Alumno> lista = null;
@@ -145,6 +103,46 @@ public abstract class DAOAlumno implements GestionCrud<Alumno> {
       Utilidades.showCadena("ERROR al mostrar alumnos: "+sqle.getMessage());
     }
     return lista;   
+  }
+  
+  //LEER
+  @Override
+  public List<Alumno> leer(String nombre, String apellidos) {
+    List<Alumno> lista = null;
+    
+    SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
+        + " FROM "+tabla
+        + " WHERE nombre = '"+nombre+"' AND apellidos='"+apellidos+"'";
+    
+    try {
+      conn = ConnectDB.getInstance().getConnect();
+      
+      stmt = conn.createStatement();
+      rs = stmt.executeQuery(SQL);
+      
+      lista = new ArrayList<>();
+      
+      Alumno alumno = null;
+      
+      while (rs.next()) {
+        alumno = new Alumno();
+        alumno.setId(rs.getInt("id"));
+        alumno.setNombre(rs.getString("nombre"));
+        alumno.setApellidos(rs.getString("apellidos"));
+        alumno.setDni(rs.getString("dni"));
+        alumno.setTelefono(rs.getString("telefono"));
+        alumno.setEstado(rs.getString("estado"));
+        alumno.setComentarios(rs.getString("comentarios"));
+        lista.add(alumno);
+      } //while      
+      
+      rs.close();
+      stmt.close();
+      ConnectDB.getInstance().closeInstance(); //cerrar
+    } catch (SQLException sqle) {
+      Utilidades.showCadena("ERROR al mostrar alumno por nombre: "+sqle.getMessage());
+    }
+    return lista;  
   }
   
   @Override
