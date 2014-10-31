@@ -135,7 +135,7 @@ public class DAOPermiso implements GestionCrud<Permiso>{
     
     
     @Override
-    public void mostrar (){
+    public void mostrarTodos (){
         String cadena = "****--Consulta de Permisos de Conducir disponibles--****";
         try{
             conn = ConnectDB.getInstance().getConnect();
@@ -159,6 +159,11 @@ public class DAOPermiso implements GestionCrud<Permiso>{
         }catch(SQLException e){
             System.out.println("Error al consultar los permisos de conducir en la BD: "+e);
         }
+    }
+
+    @Override
+    public List<Permiso> leer(String nombre, String apellidos) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 

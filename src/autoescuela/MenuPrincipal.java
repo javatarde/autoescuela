@@ -3,6 +3,7 @@ package autoescuela;
 import autoescuela.Menu.Opcion;
 import static java.lang.System.exit;
 import java.util.List;
+import javax.rmi.CORBA.Util;
 //import java.util.Scanner;
 
 /*
@@ -89,7 +90,8 @@ public class MenuPrincipal{
             if (!listaAlumnos.isEmpty()){
                 // Mostrar datos del alumno antes de borrarlo
                 alumno = listaAlumnos.get(0);
-                mostrarAlumno(alumno);
+                // Mostrar alumno
+                Utilidades.showCadena(alumno.toString());
                 String cadena = Utilidades.getCadena("¿Desea eliminar al alumno? (si/no) ");
                 if (cadena.toLowerCase().equals("si")){
                     boolean resultado = daoAlumno.eliminar(id);
@@ -153,10 +155,7 @@ public class MenuPrincipal{
                 // Mostrar datos del todos los alumnos
                 // Si hay varios alumnos que se ajustan a esa busqueda, mostrarlos todos
                 Utilidades.showCadena(cadenaDatosAlumno);
-                for (Alumno alumnoI : listaAlumnos) {
-                    // Mostrar los datos de cada alumno en una sola linea                
-                    mostrarAlumnoLinea(alumnoI);
-                }
+                daoAlumno.mostrarTodos();
             }else{
                 Utilidades.showCadena("No existen ningun alumno en la base de datos");
             }
@@ -171,42 +170,48 @@ public class MenuPrincipal{
       
         // Opciones del Menu Modificar alumno
         final Opcion opcionM1 = m.new Opcion("Nombre", (Accion) () -> {
-            mostrarAlumno(alumno);
+            // Mostrar alumno
+            Utilidades.showCadena(alumno.toString());
             Utilidades.showCadena(" ");
             alumno.setNombre(Utilidades.getCadena("Nombre"));
             return menuM;
         });      
 
         final Opcion opcionM2 = m.new Opcion("Apellidos", (Accion) () -> {
-          mostrarAlumno(alumno);
+          // Mostrar alumno
+          Utilidades.showCadena(alumno.toString());
           Utilidades.showCadena(" ");
           alumno.setApellidos(Utilidades.getCadena("Apellidos"));
           return menuM;
         });
 
         final Opcion opcionM3 = m.new Opcion("DNI", (Accion) () -> {
-          mostrarAlumno(alumno);
+          // Mostrar alumno
+          Utilidades.showCadena(alumno.toString());
           Utilidades.showCadena(" ");
           alumno.setDni(Utilidades.getCadena("DNI"));
           return menuM;
         });
 
         final Opcion opcionM4 = m.new Opcion("Telefono", (Accion) () -> {
-          mostrarAlumno(alumno);
+          // Mostrar alumno
+          Utilidades.showCadena(alumno.toString());
           Utilidades.showCadena(" ");
           alumno.setTelefono(Utilidades.getCadena("Telefono"));
           return menuM;
         });
 
         final Opcion opcionM5 = m.new Opcion("Comentarios", (Accion) () -> {
-          mostrarAlumno(alumno);
+          // Mostrar alumno
+          Utilidades.showCadena(alumno.toString());
           Utilidades.showCadena(" ");
           alumno.setComentarios(Utilidades.getCadena("Comentarios"));
           return menuM;
         });
 
         final Opcion opcionM6 = m.new Opcion("Estado", (Accion) () -> {
-          mostrarAlumno(alumno);
+          // Mostrar alumno
+          Utilidades.showCadena(alumno.toString());
           Utilidades.showCadena(" ");
           alumno.setEstado(Utilidades.getCadena("Estado"));
           return menuM;
@@ -214,7 +219,8 @@ public class MenuPrincipal{
 
         final Opcion opcionM7 = m.new Opcion("Mostrar todos los campos", (Accion) () -> {
           Utilidades.showCadena(" ");
-          mostrarAlumno(alumno);
+          // Mostrar alumno
+          Utilidades.showCadena(alumno.toString());
           return menuM;
         });
 
@@ -224,7 +230,7 @@ public class MenuPrincipal{
                                     "Las modificaciones realizadas no se guardaran");
           }else{
               Utilidades.showCadena(" ");
-              mostrarAlumno(alumno);
+        Utilidades.showCadena(" ");
               boolean resultado = daoAlumno.actualizar(alumno);
           }
           return menuM.getAnterior();
@@ -243,15 +249,15 @@ public class MenuPrincipal{
             permiso.setDescripcion(Utilidades.getCadena("Descripcion"));
             daoPermiso.crear(permiso);
             Utilidades.showCadena("El nuevo permiso creado tiene los siguientes datos: ");
-            mostrarPermiso(permiso);
+            Utilidades.showCadena(permiso.toString());
             return menuP;
         });
         
         final Opcion opcionP2 = m.new Opcion("Borrar permiso", (Accion) () -> {
             Utilidades.showCadena("Introduzca los siguientes datos del permiso a borrar: ");
             int id = Utilidades.getEntero("id");
-            permiso = daoPermiso.leer(id);
-            if (permiso == null){ // El permiso no existe
+            List <Permiso> lista = daoPermiso.leer(id);
+            if (lista.isEmpty()){ // El permiso no existe
                   Utilidades.showCadena("ERROR: El permiso no existe en la base de datos");
             }else{
                 daoPermiso.eliminar(id);
@@ -262,14 +268,15 @@ public class MenuPrincipal{
         final Opcion opcionP3 = m.new Opcion("Actualizar tipo de permiso", (Accion) () -> {
             Utilidades.showCadena("Introduzca los siguientes datos del permiso a modificar: ");
             int id = Utilidades.getEntero("id");
-            permiso = daoPermiso.leer(id);
-            if (permiso == null){ // El permiso no existe
+            List <Permiso> lista = daoPermiso.leer(id);
+            if (lista.isEmpty()){ // El permiso no existe
                 Utilidades.showCadena("ERROR: El permiso no existe en la base de datos");
             }else{
+                permiso = lista.get(0);
                 permiso.setValor(Utilidades.getCadena("Nuevo tipo de permiso"));
                 daoPermiso.actualizar(permiso);
                 Utilidades.showCadena("Los nuevos datos del permiso son: ");
-                mostrarPermiso(permiso);
+                Utilidades.showCadena(permiso.toString());
             }
             return menuP;
         });
@@ -277,20 +284,21 @@ public class MenuPrincipal{
         final Opcion opcionP4 = m.new Opcion("Actualizar descripcion de permiso", (Accion) () -> {
             Utilidades.showCadena("Introduzca los siguientes datos del permiso a modificar: ");
             int id = Utilidades.getEntero("id");
-            permiso = daoPermiso.leer(id);
-            if (permiso == null){ // El permiso no existe
+            List <Permiso> lista = daoPermiso.leer(id);
+            if (lista.isEmpty()){ // El permiso no existe
                   Utilidades.showCadena("ERROR: El permiso no existe en la base de datos");
             }else{
+                permiso = lista.get(0);
                 permiso.setDescripcion(Utilidades.getCadena("Nueva descripcion del permiso"));
                 daoPermiso.actualizar(permiso);
                 Utilidades.showCadena("Los nuevos datos del permiso son: ");
-                mostrarPermiso(permiso);
+                Utilidades.showCadena(permiso.toString());
             }
             return menuP;
         });
         
         final Opcion opcionP5 = m.new Opcion("Mostrar todos los permisos", (Accion) () -> {
-            daoPermiso.mostrarPermisos();
+            daoPermiso.mostrarTodos();
             return menuP;
         });
         
@@ -365,17 +373,6 @@ public class MenuPrincipal{
     }
     
     
-    // Mostrar todos los campos del alumno, uno en cada linea
-    private static void mostrarAlumno(Alumno alumno){
-        Utilidades.showCadena("id: ", new Integer(alumno.getId()).toString());
-        Utilidades.showCadena("Nombre: ",alumno.getNombre());
-        Utilidades.showCadena("Apellidos: ",alumno.getApellidos());
-        Utilidades.showCadena("DNI: ",alumno.getDni());
-        Utilidades.showCadena("Telefono: : ",alumno.getTelefono());
-        Utilidades.showCadena("Comentarios: ",alumno.getComentarios());
-        Utilidades.showCadena("Estado: ",alumno.getEstado());
-    }
-    
     // Mostrar todos los campos del alumno en una linea
     private static void mostrarAlumnoLinea(Alumno alumno){
         System.out.printf("%-5s%-12s%-20s%-10s%-12s%-10s\n",
@@ -390,12 +387,4 @@ public class MenuPrincipal{
         );
     }
     
-    // Mostrar todos los campos del permiso en una linea
-    private static void mostrarPermiso(Permiso permiso){
-        Utilidades.showCadena("ID: "+new Integer(permiso.getId()).toString()+
-                              " | Permiso: "+permiso.getValor()+
-                              " | Descripcion: "+permiso.getDescripcion());
-    }
-        
-
 }
