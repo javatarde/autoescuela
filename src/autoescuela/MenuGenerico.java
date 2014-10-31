@@ -18,20 +18,17 @@ import java.util.List;
 public class MenuGenerico<T,DAO>{
     private Menu menu  = null;
     private T elemento = null;
-    private DAO dao = new <DAO>();
+    private String nombreClase = null;
+    private DAO dao = new GestionCrud<Alumno>();
     private final String cadena = "\nid   Nombre      Apellidos           DNI       Telefono    Estado"
                                 + "\n--   ------      ---------           ---       --------    ------";
 
-    public ClaseGenerica(<T> o) {
-        <T> obj = o;
-    }
-    
     public MenuGenerico() {
     
       Menu m = new Menu();
 /*      
       // Opciones del Menu principal
-      final Opcion opcion1 = m.new Opcion("Gestion de "+elemento.getClass(), (Accion) () -> {
+      final Opcion opcion1 = m.new Opcion("Gestion de permisos", (Accion) () -> {
           return menuA;
       });
       
@@ -45,9 +42,10 @@ public class MenuGenerico<T,DAO>{
           return null;
       });
 */      
+      nombreClase = elemento.getClass().getName();
       
       // Opciones del Menu de alumnos
-      final Opcion opcionA1 = m.new Opcion("Crear nuevo "+elemento.getClass(), new Accion(){
+      final Opcion opcionA1 = m.new Opcion("Crear nuevo "+nombreClase, new Accion(){
         @Override
         public Menu ejecutar() {
             Utilidades.showCadena("Introduzca los siguientes datos del nuevo "+elemento.getClass()+": ");
@@ -130,7 +128,7 @@ public class MenuGenerico<T,DAO>{
             if (!listaAlumnos.isEmpty()){
                 // Mostrar datos del alumno
                 // Si hay varios alumnos que se ajustan a esa busqueda, mostrarlos todos
-                Utilidades.showCadena(cadenaDatosAlumno);
+                Utilidades.showCadena(cadenaDatos);
                 for (Alumno alumnoI : listaAlumnos) {
                     // Mostrar los datos de cada alumno en una sola linea                
                     mostrarAlumnoLinea(alumnoI);

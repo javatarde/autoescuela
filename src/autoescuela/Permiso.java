@@ -12,9 +12,9 @@ import java.util.Objects;
  * @author Formacion
  */
 public class Permiso {
-    private int id;
-    private String valor;
-    private String descripcion;
+    private int id = -1;
+    private String valor = null;
+    private String descripcion = null;
 
     public Permiso() {
     }
@@ -77,6 +77,16 @@ public class Permiso {
             return false;
         }
         return true;
+    }
+    
+    public boolean validar() {
+      if (getId()<0 
+          || getValor()==null || getValor().isEmpty()
+          || getDescripcion()==null || getDescripcion().isEmpty()) {
+          return false;
+      }else{
+          return true;
+      }
     }
     
     // Devolver todos los campos del permiso en una linea
