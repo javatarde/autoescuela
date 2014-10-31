@@ -9,7 +9,7 @@ import java.util.Scanner;
 
 /**
  *
- * @author Administracion
+ * @author Formacion
  */
 public class Utilidades {
     

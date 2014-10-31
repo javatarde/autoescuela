@@ -63,10 +63,10 @@ public class MenuPrincipal{
             alumno.setComentarios(Utilidades.getCadena("Comentarios"));
             alumno.setEstado(Utilidades.getCadena("Estado"));
             // Comprobar si se han introducido todos los campos obligatorios
-            if (alumno.validarAlumno()){            
+            if (alumno.validarAlumno()){
               List <Alumno> listaAlumnos = daoAlumno.leer(alumno.getNombre(), alumno.getApellidos());
               // Comprobar si el alumno ya existe
-              if (listaAlumnos.size()>0){
+              if (!listaAlumnos.isEmpty()){
                   Utilidades.showCadena("ERROR: Ya existe un alumno con esos valores en la base de datos");
               }else{
                   boolean resultado = daoAlumno.crear(alumno);
@@ -87,10 +87,10 @@ public class MenuPrincipal{
             int id = Utilidades.getEntero("id");
             // Comprobar si el alumno existe
             List <Alumno> listaAlumnos = daoAlumno.leer(id);
-            if (listaAlumnos.size()==1){
+            if (!listaAlumnos.isEmpty()){
                 // Mostrar datos del alumno antes de borrarlo
                 alumno = listaAlumnos.get(0);
-                mostrarAlumo(alumno);
+                mostrarAlumno(alumno);
                 String cadena = Utilidades.getCadena("¿Desea eliminar al alumno? (si/no) ");
                 if (cadena.toLowerCase().equals("si")){
                     boolean resultado = daoAlumno.eliminar(id);
@@ -130,7 +130,7 @@ public class MenuPrincipal{
 // nota: se podria ampliar la busqueda con otros campos
             // Comprobar si el alumno existe
             List <Alumno> listaAlumnos = daoAlumno.leer(id);
-            if (listaAlumnos.size()>0){
+            if (!listaAlumnos.isEmpty()){
                 // Mostrar datos del alumno
                 // Si hay varios alumnos que se ajustan a esa busqueda, mostrarlos todos
                 Utilidades.showCadena(cadenaDatosAlumno);
@@ -150,7 +150,7 @@ public class MenuPrincipal{
         public Menu ejecutar() {
             // Al buscar con id=0, se devuelven todos los alumnos
             List <Alumno> listaAlumnos = daoAlumno.leer(0);
-            if (listaAlumnos.size()>0){
+            if (!listaAlumnos.isEmpty()){
                 // Mostrar datos del todos los alumnos
                 // Si hay varios alumnos que se ajustan a esa busqueda, mostrarlos todos
                 Utilidades.showCadena(cadenaDatosAlumno);
@@ -172,42 +172,42 @@ public class MenuPrincipal{
       
         // Opciones del Menu Modificar alumno
         final Opcion opcionM1 = m.new Opcion("Nombre", (Accion) () -> {
-            mostrarAlumo(alumno);
+            mostrarAlumno(alumno);
             Utilidades.showCadena(" ");
             alumno.setNombre(Utilidades.getCadena("Nombre"));
             return menuM;
         });      
 
         final Opcion opcionM2 = m.new Opcion("Apellidos", (Accion) () -> {
-          mostrarAlumo(alumno);
+          mostrarAlumno(alumno);
           Utilidades.showCadena(" ");
           alumno.setApellidos(Utilidades.getCadena("Apellidos"));
           return menuM;
         });
 
         final Opcion opcionM3 = m.new Opcion("DNI", (Accion) () -> {
-          mostrarAlumo(alumno);
+          mostrarAlumno(alumno);
           Utilidades.showCadena(" ");
           alumno.setDni(Utilidades.getCadena("DNI"));
           return menuM;
         });
 
         final Opcion opcionM4 = m.new Opcion("Telefono", (Accion) () -> {
-          mostrarAlumo(alumno);
+          mostrarAlumno(alumno);
           Utilidades.showCadena(" ");
           alumno.setTelefono(Utilidades.getCadena("Telefono"));
           return menuM;
         });
 
         final Opcion opcionM5 = m.new Opcion("Comentarios", (Accion) () -> {
-          mostrarAlumo(alumno);
+          mostrarAlumno(alumno);
           Utilidades.showCadena(" ");
           alumno.setComentarios(Utilidades.getCadena("Comentarios"));
           return menuM;
         });
 
         final Opcion opcionM6 = m.new Opcion("Estado", (Accion) () -> {
-          mostrarAlumo(alumno);
+          mostrarAlumno(alumno);
           Utilidades.showCadena(" ");
           alumno.setEstado(Utilidades.getCadena("Estado"));
           return menuM;
@@ -215,7 +215,7 @@ public class MenuPrincipal{
 
         final Opcion opcionM7 = m.new Opcion("Mostrar todos los campos", (Accion) () -> {
           Utilidades.showCadena(" ");
-          mostrarAlumo(alumno);
+          mostrarAlumno(alumno);
           return menuM;
         });
 
@@ -225,7 +225,7 @@ public class MenuPrincipal{
                                     "Las modificaciones realizadas no se guardaran");
           }else{
               Utilidades.showCadena(" ");
-              mostrarAlumo(alumno);
+              mostrarAlumno(alumno);
               boolean resultado = daoAlumno.actualizar(alumno);
           }
           return menuM.getAnterior();
@@ -301,49 +301,45 @@ public class MenuPrincipal{
         
         
         // Incluir las opciones en el menu pricipal
-        List <Opcion> listaOpcionesMenu = new ArrayList<>();
-        listaOpcionesMenu.add(opcion1);
-        listaOpcionesMenu.add(opcion2);
-        listaOpcionesMenu.add(opcion3);
-        menu = new Menu(listaOpcionesMenu);
+        menu = new Menu();
+        menu.addOpcion(opcion1);
+        menu.addOpcion(opcion2);
+        menu.addOpcion(opcion3);
         menu.setRotuloMenu("Menu principal");
 
         // Incluir las opciones en el menu de Alumnos
-        List <Opcion> listaOpcionesMenuA = new ArrayList<>();
-        listaOpcionesMenuA.add(opcionA1);
-        listaOpcionesMenuA.add(opcionA2);
-        listaOpcionesMenuA.add(opcionA3);
-        listaOpcionesMenuA.add(opcionA4);
-        listaOpcionesMenuA.add(opcionA5);
-        listaOpcionesMenuA.add(opcionA6);
-        menuA = new Menu(listaOpcionesMenuA);
+        menuA = new Menu();
+        menuA.addOpcion(opcionA1);
+        menuA.addOpcion(opcionA2);
+        menuA.addOpcion(opcionA3);
+        menuA.addOpcion(opcionA4);
+        menuA.addOpcion(opcionA5);
+        menuA.addOpcion(opcionA6);
         menuA.setRotuloMenu("Menu de alumnos");
         menuA.setAnterior(menu);
 
         // Incluir las opciones en el menu de Modificar Alumno
-        List <Opcion> listaOpcionesMenuM = new ArrayList<>();
-        listaOpcionesMenuM.add(opcionM1);
-        listaOpcionesMenuM.add(opcionM2);
-        listaOpcionesMenuM.add(opcionM3);
-        listaOpcionesMenuM.add(opcionM4);
-        listaOpcionesMenuM.add(opcionM5);
-        listaOpcionesMenuM.add(opcionM6);
-        listaOpcionesMenuM.add(opcionM7);
-        listaOpcionesMenuM.add(opcionM8);
-        listaOpcionesMenuM.add(opcionM9);
-        menuM = new Menu(listaOpcionesMenuM);
+        menuM = new Menu();
+        menuM.addOpcion(opcionM1);
+        menuM.addOpcion(opcionM2);
+        menuM.addOpcion(opcionM3);
+        menuM.addOpcion(opcionM4);
+        menuM.addOpcion(opcionM5);
+        menuM.addOpcion(opcionM6);
+        menuM.addOpcion(opcionM7);
+        menuM.addOpcion(opcionM8);
+        menuM.addOpcion(opcionM9);
         menuM.setRotuloMenu("Elija un campo del alumno a modificar");
         menuM.setAnterior(menuA);
 
         // Incluir las opciones en el menu de Permisos
-        List <Opcion> listaOpcionesMenuP = new ArrayList<>();
-        listaOpcionesMenuP.add(opcionP1);
-        listaOpcionesMenuP.add(opcionP2);
-        listaOpcionesMenuP.add(opcionP3);
-        listaOpcionesMenuP.add(opcionP4);
-        listaOpcionesMenuP.add(opcionP5);
-        listaOpcionesMenuP.add(opcionP6);
-        menuP = new Menu(listaOpcionesMenuP);
+        menuP = new Menu();
+        menuP.addOpcion(opcionP1);
+        menuP.addOpcion(opcionP2);
+        menuP.addOpcion(opcionP3);
+        menuP.addOpcion(opcionP4);
+        menuP.addOpcion(opcionP5);
+        menuP.addOpcion(opcionP6);
         menuP.setRotuloMenu("Menu de permisos de conducir");
         menuP.setAnterior(menu);
 
@@ -361,7 +357,7 @@ public class MenuPrincipal{
             int opcion = Utilidades.getEntero("\n Elija una opcion del menu");
             if ((opcion>0) && (opcion <=menuActual.getNumAcciones())){
                 Utilidades.showCadena(" ");
-                menuActual = menuActual.getAccion(opcion-1).ejecutar();
+                menuActual = menuActual.ejecutar(opcion-1);
             }else{
                 System.out.println("\n Opcion incorrecta, introduzca un numero "+
                                    "entre 1 y "+menuActual.getNumAcciones());
@@ -371,7 +367,7 @@ public class MenuPrincipal{
     
     
     // Mostrar todos los campos del alumno, uno en cada linea
-    private static void mostrarAlumo(Alumno alumno){
+    private static void mostrarAlumno(Alumno alumno){
         Utilidades.showCadena("id: ", new Integer(alumno.getId()).toString());
         Utilidades.showCadena("Nombre: ",alumno.getNombre());
         Utilidades.showCadena("Apellidos: ",alumno.getApellidos());

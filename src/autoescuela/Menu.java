@@ -5,11 +5,13 @@
  */
 package autoescuela;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  *
- * @author Administracion
+ * @author Formacion
  */
 public class Menu {
     
@@ -19,29 +21,41 @@ public class Menu {
     private String rotuloMenu = null;
 
     public Menu() {
-        // constructor vacio
-    }
-    
-    public Menu(List <Opcion> listaOpciones) {
-        this.listaOpciones = listaOpciones;
-        siguiente = null;
-        anterior = null;
+        listaOpciones = new ArrayList<Opcion>();
     }
     
     public void mostrarOpciones(){
         Opcion opcion;
         for (int i=1; i<=getNumAcciones(); i++) {
-            opcion = getAccion(i-1);
+            opcion = listaOpciones.get(i-1);
             System.out.println(i+") "+opcion.getRotulo());
         }
+/*
+        Iterator iter = listaOpciones.iterator();
+        int i = 0;
+        while (iter.hasNext()){
+            i++;
+            opcion = (Opcion) iter.next();
+            System.out.println(i+") "+opcion.getRotulo());
+        }
+*/        
     }
     
-    public Opcion getAccion(int index){
+    public Menu ejecutar(int index){
         if ((index>=0) && (index<getNumAcciones())){
-            return listaOpciones.get(index);
+            Opcion opcion=listaOpciones.get(index);
+            return opcion.ejecutar();
         }else{
             return null;
         }
+    }
+    
+    public boolean addOpcion(Opcion opcion){
+        return listaOpciones.add(opcion);
+    }
+    
+    public Opcion getOpcion(int index){
+        return listaOpciones.get(index);
     }
     
     public int getNumAcciones(){
@@ -68,19 +82,19 @@ public class Menu {
         this.anterior = anterior;
     }
 
-    public void setRotuloMenu(String rotuloMenu) {
-        this.rotuloMenu = rotuloMenu;
-    }
-
     public String getRotuloMenu() {
         return rotuloMenu;
+    }
+    
+    public void setRotuloMenu(String rotuloMenu) {
+        this.rotuloMenu = rotuloMenu;
     }
     
     
     
     public class Opcion implements Accion<Menu>{
-        private String rotulo;
-        private Accion<Menu> accion;
+        private final String rotulo;
+        private final Accion<Menu> accion;
 
         public Opcion(String rotulo, Accion accion) {
             this.rotulo = rotulo;
@@ -95,7 +109,30 @@ public class Menu {
         public String getRotulo() {
             return rotulo;
         }
-        
+
+        @Override
+        public int hashCode() {
+            int hash = 7;
+            hash = 97 * hash + Objects.hashCode(this.rotulo);
+            hash = 97 * hash + Objects.hashCode(this.accion);
+            return hash;
+        }
+/*
+        @Override
+        public boolean equals(Object obj) {
+            if (obj == null) {
+                return false;
+            }
+            if (getClass() != obj.getClass()) {
+                return false;
+            }
+            final Opcion other = (Opcion) obj;
+            if (!rotulo.equals(other.rotulo) && !Objects.equals(this.accion, other.accion)) {
+                return false;
+            }
+            return true;
+        }
+*/        
     }
     
 }
