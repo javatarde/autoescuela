@@ -19,7 +19,7 @@ public class MenuGenerico<T,DAO>{
     private Menu menu  = null;
     private T elemento = null;
     private String nombreClase = null;
-    private DAO dao = new GestionCrud<Alumno>();
+    private GestionCrud<T>() dao = new GestionCrud<T>();
     private final String cadena = "\nid   Nombre      Apellidos           DNI       Telefono    Estado"
                                 + "\n--   ------      ---------           ---       --------    ------";
 
