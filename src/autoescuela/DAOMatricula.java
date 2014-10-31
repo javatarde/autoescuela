@@ -189,31 +189,31 @@ public void actualizar (Matricula m){
         //FIN PRUEBA ELIMINAR
         
         //*****PRUEBA ACTUALIZAR******
-        String fechaCadena;
-        System.out.println("Modificación de matrícula");
-        System.out.println("ID a modificar:");
-        GestorFechas fechaGestor = new GestorFechas();
-        matricula.setId(sc.nextInt());
-//        EL ID DE ALUMNO NO SE PODRÁ CAMBIAR
-        //System.out.println("Nuevo ID alumno");
-//        matricula.setIdAlumno(sc.nextInt());
-        System.out.println("Nuevo ID permiso");
-        matricula.setIdPermiso(sc.nextInt());
-        
-        System.out.println("Nuevo ID tipomatricula");
-        matricula.setIdTipoMatricula(sc.nextInt());
-        
-        System.out.println("Fecha de alta: ");
-        fechaCadena = sc.nextLine();
-        fechaCadena = sc.nextLine();
-        matricula.setFechaAlta(fechaGestor.deStringToDateSQL(fechaCadena));
-        System.out.println("¿Fecha de baja? ");
-        fechaCadena = sc.nextLine(); //fecha en String
-        matricula.setFechaBaja(fechaGestor.deStringToDateSQL(fechaCadena));
-        
-        System.out.println("Motivo Baja");
-        matricula.setMotivoBaja(sc.nextLine());
-        DAOMatricula.actualizar(matricula);
+//        String fechaCadena;
+//        System.out.println("Modificación de matrícula");
+//        System.out.println("ID a modificar:");
+//        GestorFechas fechaGestor = new GestorFechas();
+//        matricula.setId(sc.nextInt());
+////        EL ID DE ALUMNO NO SE PODRÁ CAMBIAR
+//        //System.out.println("Nuevo ID alumno");
+////        matricula.setIdAlumno(sc.nextInt());
+//        System.out.println("Nuevo ID permiso");
+//        matricula.setIdPermiso(sc.nextInt());
+//        
+//        System.out.println("Nuevo ID tipomatricula");
+//        matricula.setIdTipoMatricula(sc.nextInt());
+//        
+//        System.out.println("Fecha de alta: ");
+//        fechaCadena = sc.nextLine();
+//        fechaCadena = sc.nextLine();
+//        matricula.setFechaAlta(fechaGestor.deStringToDateSQL(fechaCadena));
+//        System.out.println("¿Fecha de baja? ");
+//        fechaCadena = sc.nextLine(); //fecha en String
+//        matricula.setFechaBaja(fechaGestor.deStringToDateSQL(fechaCadena));
+//        
+//        System.out.println("Motivo Baja");
+//        matricula.setMotivoBaja(sc.nextLine());
+//        DAOMatricula.actualizar(matricula);
         
       //FIN prueba actualizar
     }
