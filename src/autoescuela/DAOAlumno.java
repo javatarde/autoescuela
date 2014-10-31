@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Formacion
  */
-public abstract class DAOAlumno implements GestionCrud<Alumno> {
+public class DAOAlumno implements GestionCrud<Alumno> {
   private final String tabla = "AU_ALUMNO";
   Connection conn = null;
   Statement stmt = null;
