@@ -5,7 +5,7 @@
  */
 package autoescuela;
 
-import java.util.Calendar;
+import java.sql.Date;
 import java.util.Objects;
 
 /**
@@ -17,14 +17,14 @@ public class Matricula {
     private int idAlumno;
     private int idPermiso;
     private int idTipoMatricula;
-    private Calendar fechaAlta;
-    private Calendar fechaBaja;
+    private Date fechaAlta;
+    private Date fechaBaja;
     private String motivoBaja;
 
     public Matricula() {
     }
 
-    public Matricula(int id, int idAlumno, int idPermiso, int idTipoMatricula, Calendar fechaAlta, Calendar fechaBaja, String motivoBaja) {
+    public Matricula(int id, int idAlumno, int idPermiso, int idTipoMatricula, Date fechaAlta, Date fechaBaja, String motivoBaja) {
         this.id = id;
         this.idAlumno = idAlumno;
         this.idPermiso = idPermiso;
@@ -66,19 +66,19 @@ public class Matricula {
         this.idTipoMatricula = idTipoMatricula;
     }
 
-    public Calendar getFechaAlta() {
+    public Date getFechaAlta() {
         return fechaAlta;
     }
 
-    public void setFechaAlta(Calendar fechaAlta) {
+    public void setFechaAlta(Date fechaAlta) {
         this.fechaAlta = fechaAlta;
     }
 
-    public Calendar getFechaBaja() {
+    public Date getFechaBaja() {
         return fechaBaja;
     }
 
-    public void setFechaBaja(Calendar fechaBaja) {
+    public void setFechaBaja(Date fechaBaja) {
         this.fechaBaja = fechaBaja;
     }
 

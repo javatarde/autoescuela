@@ -96,4 +96,20 @@ public class GestorFechas {
             return null;
         }
     }
+    
+    //lo mismo que la anterior, pero devolviendo un java.sql.date
+    public static synchronized java.sql.Date deStringToDateSQL(String fecha) {
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("dd-MM-yyyy");
+        java.sql.Date fechaEnviar = null;
+        java.util.Date fechaDate = null;
+        try {
+            fechaDate = formatoDelTexto.parse(fecha);
+            fechaEnviar = new java.sql.Date(fechaDate.getTime());
+            return fechaEnviar;
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    
 }
