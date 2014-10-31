@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Formacion
  */
-public abstract class DAOAlumno implements GestionCrud {
+public abstract class DAOAlumno implements GestionCrud<Alumno> {
   private final String tabla = "AU_ALUMNO";
   Connection conn = null;
   Statement stmt = null;
@@ -27,7 +27,7 @@ public abstract class DAOAlumno implements GestionCrud {
   String SQL;
   
   //CREAR
-  //@Override
+  @Override
   public boolean crear(Alumno a) {
     String SQL;
     
@@ -63,44 +63,6 @@ public abstract class DAOAlumno implements GestionCrud {
   
   
   //LEER
-  @Override
-  public List<Alumno> leer() {
-    List<Alumno> lista = null;
-    
-    SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios FROM "+tabla;
-    
-    try {
-      conn = ConnectDB.getInstance().getConnect();
-      
-      stmt = conn.createStatement();
-      rs = stmt.executeQuery(SQL);
-      
-      lista = new ArrayList<>();
-      
-      Alumno alumno = null;
-      
-      while (rs.next()) {
-        alumno = new Alumno();
-        alumno.setId(rs.getInt("id"));
-        alumno.setNombre(rs.getString("nombre"));
-        alumno.setApellidos(rs.getString("apellidos"));
-        alumno.setDni(rs.getString("dni"));
-        alumno.setTelefono(rs.getString("telefono"));
-        alumno.setEstado(rs.getString("estado"));
-        alumno.setComentarios(rs.getString("comentarios"));
-        lista.add(alumno);
-      } //while      
-      
-      rs.close();
-      stmt.close();
-      ConnectDB.getInstance().closeInstance(); //cerrar
-    } catch (SQLException sqle) {
-      Utilidades.showCadena("ERROR al mostrar los alumnos: "+sqle.getMessage());
-    }
-    return lista;
-  }
-  
-  
   @Override
   public List<Alumno> leer(String nombre, String apellidos) {
     List<Alumno> lista = null;
@@ -185,8 +147,50 @@ public abstract class DAOAlumno implements GestionCrud {
     return lista;   
   }
   
+  @Override
+  public void mostrarTodos() {
+    
+    SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios FROM "+tabla;
+    
+    try {
+      conn = ConnectDB.getInstance().getConnect();
+      
+      stmt = conn.createStatement();
+      rs = stmt.executeQuery(SQL);
+      
+      Alumno alumno = null;
+      
+      while (rs.next()) {
+        alumno = new Alumno();
+        alumno.setId(rs.getInt("id"));
+        alumno.setNombre(rs.getString("nombre"));
+        alumno.setApellidos(rs.getString("apellidos"));
+        alumno.setDni(rs.getString("dni"));
+        alumno.setTelefono(rs.getString("telefono"));
+        alumno.setEstado(rs.getString("estado"));
+        alumno.setComentarios(rs.getString("comentarios"));
+        
+        //System.out.println(alumno.toString());        
+        System.out.printf("%-5s%-12s%-20s%-10s%-12s%-10s\n",
+                        alumno.getId(),
+                        alumno.getNombre(),
+                        alumno.getApellidos(),
+                        alumno.getDni(),
+                        alumno.getTelefono(),
+                        alumno.getEstado()
+        );
+      } //while      
+      
+      rs.close();
+      stmt.close();
+      ConnectDB.getInstance().closeInstance(); //cerrar
+    } catch (SQLException sqle) {
+      Utilidades.showCadena("ERROR al mostrar los alumnos: "+sqle.getMessage());
+    }
+  }
+  
   //ACTUALIZAR
-  //@Override
+  @Override
   public boolean actualizar(Alumno a) {
     
     SQL = "UPDATE "+tabla

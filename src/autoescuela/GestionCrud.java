@@ -15,15 +15,15 @@ import java.util.List;
 public interface GestionCrud<T>{ 
 
   //CREAR
-  boolean crear(List<T> a);  
+  boolean crear(T a);  
 
   //ACTUALIZAR
-  boolean actualizar(List<T> a);
+  boolean actualizar(T a);
   
-  //LEER
-  List<T> leer();  
+  //LEER  
   List<T> leer(int id);
-  List<T> leer(String nombre, String apellidos);
+  List<T> leer(String nombre, String apellidos);  
+  void mostrarTodos();
   
   //ELIMINAR
   boolean eliminar(int id);
