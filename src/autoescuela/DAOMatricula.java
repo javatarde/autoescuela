@@ -6,16 +6,14 @@
 package autoescuela;
 
 import conexion.ConnectDB;
+import gestion_fechas.GestorFechas;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Scanner;
 
@@ -57,7 +55,7 @@ public void crear (Matricula m){
     }
 }
 
-public void leer (){
+    public void leer (){
     try{
         conn=ConnectDB.getInstance().getConnect();
         SQL="SELECT id,id_alumno,id_permiso,id_tipomatricula,fecha_alta,fecha_baja,motivo_baja FROM "+tabla+" ORDER BY id_alumno";
@@ -81,8 +79,9 @@ public void leer (){
         System.out.println("Error al "+e);
     }
 }
-public void eliminar (int IDMatricula){
-    try{
+    public boolean eliminar (int IDMatricula){
+        boolean ok;
+        try{
         conn=ConnectDB.getInstance().getConnect();
         SQL="DELETE FROM "+tabla+" WHERE ID="+IDMatricula;
         st_default=conn.createStatement();
@@ -93,9 +92,12 @@ public void eliminar (int IDMatricula){
         rs.close();
         st_default.close();
         conn=ConnectDB.getInstance().getConnect();
+        ok=true;
     }catch(SQLException e){
         System.out.println("Error al "+e);
+        ok=false;
     }
+        return ok;
 }
 
 public void actualizar (Matricula m){
@@ -108,15 +110,18 @@ public void actualizar (Matricula m){
                 +",FECHA_BAJA=?"
                 +",MOTIVO_BAJA=?"
                 +" WHERE ID=?";
-   
-        
         
         PreparedStatement pst = conn.prepareStatement(SQL);
+        
+        GestorFechas gestorFechas = new GestorFechas();
+        String fechaCadenaA;
+        String fechaCadenaB;
+        java.sql.Date fechaDate;
 
         pst.setInt(1, m.getIdPermiso());
         pst.setInt(2, m.getIdTipoMatricula());
-        pst.setDate(3, new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
-        pst.setDate(4, new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+        pst.setDate(3, m.getFechaAlta());
+        pst.setDate(4, m.getFechaBaja());
         pst.setString (5, m.getMotivoBaja());
         pst.setInt(6, m.getId());
         
@@ -138,10 +143,10 @@ public void actualizar (Matricula m){
  *******************************/    
     public static void main(String[] args) throws ParseException {
         Matricula matricula = new Matricula();
-        DAOAlumno DAOalumno = new DAOAlumno();
-        DAOMatricula DAOMatricula=new DAOMatricula();
-        DAOPermiso DAOpermiso = new DAOPermiso();
-        List <Alumno> listaAlumnos;
+//        DAOAlumno DAOalumno = new DAOAlumno() {};
+        DAOMatricula DAOMatricula=new DAOMatricula() {};
+//        DAOPermiso DAOpermiso = new DAOPermiso();
+//        List <Alumno> listaAlumnos;
         
         String dato;
         Scanner sc = new Scanner(System.in);
@@ -184,28 +189,28 @@ public void actualizar (Matricula m){
         //FIN PRUEBA ELIMINAR
         
         //*****PRUEBA ACTUALIZAR******
-         String fechabaja;
+        String fechaCadena;
         System.out.println("Modificación de matrícula");
         System.out.println("ID a modificar:");
-//        matricula.setId(sc.nextInt());
-//        System.out.println("Nuevo ID alumno");
-        matricula.setIdAlumno(sc.nextInt());
+        GestorFechas fechaGestor = new GestorFechas();
+        matricula.setId(sc.nextInt());
+//        EL ID DE ALUMNO NO SE PODRÁ CAMBIAR
+        //System.out.println("Nuevo ID alumno");
+//        matricula.setIdAlumno(sc.nextInt());
         System.out.println("Nuevo ID permiso");
         matricula.setIdPermiso(sc.nextInt());
+        
         System.out.println("Nuevo ID tipomatricula");
         matricula.setIdTipoMatricula(sc.nextInt());
         
-        //NO ME FUNCIONA LA FECHA.
-//        System.out.println("¿Fecha de baja? (AAAA-MM-DD)");
-       
-//        fechabaja = sc.nextLine(); //fecha en String
-//        fechabaja = sc.nextLine();
-        //para pasar el String a Calendar
-//        DateFormat df = new SimpleDateFormat("YYYY-MM-DD"); //indicamos formato
-//        Calendar cal  = Calendar.getInstance();
-//        cal.setTime(df.parse(fechabaja));
-//        matricula.setFechaBaja(cal);//parseamos el resultado
-                
+        System.out.println("Fecha de alta: ");
+        fechaCadena = sc.nextLine();
+        fechaCadena = sc.nextLine();
+        matricula.setFechaAlta(fechaGestor.deStringToDateSQL(fechaCadena));
+        System.out.println("¿Fecha de baja? ");
+        fechaCadena = sc.nextLine(); //fecha en String
+        matricula.setFechaBaja(fechaGestor.deStringToDateSQL(fechaCadena));
+        
         System.out.println("Motivo Baja");
         matricula.setMotivoBaja(sc.nextLine());
         DAOMatricula.actualizar(matricula);
