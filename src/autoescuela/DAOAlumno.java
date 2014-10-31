@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Formacion
  */
-public abstract class DAOAlumno implements GestionCrud<Alumno> {
+public class DAOAlumno implements GestionCrud<Alumno> {
   private final String tabla = "AU_ALUMNO";
   Connection conn = null;
   Statement stmt = null;
@@ -168,15 +168,7 @@ public abstract class DAOAlumno implements GestionCrud<Alumno> {
         alumno.setEstado(rs.getString("estado"));
         alumno.setComentarios(rs.getString("comentarios"));
         
-        //System.out.println(alumno.toString());        
-        System.out.printf("%-5s%-12s%-20s%-10s%-12s%-10s\n",
-                        alumno.getId(),
-                        alumno.getNombre(),
-                        alumno.getApellidos(),
-                        alumno.getDni(),
-                        alumno.getTelefono(),
-                        alumno.getEstado()
-        );
+        alumno.mostrar();
       } //while      
       
       rs.close();

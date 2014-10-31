@@ -72,6 +72,21 @@ public abstract class Persona {
       return false;
     }
     final Persona other = (Persona) obj;
+    
+    if (!nombre.equals(other.nombre)) {
+      return false;
+    }
+    if (!apellidos.equals(other.apellidos)) {
+      return false;
+    }
+    if (!dni.equals(other.dni)) {
+      return false;
+    }
+    if (!telefono.equals(other.telefono)) {
+      return false;
+    }
+    
+    /*
     if (!Objects.equals(this.nombre, other.nombre)) {
       return false;
     }
@@ -82,6 +97,18 @@ public abstract class Persona {
       return false;
     }
     if (!Objects.equals(this.telefono, other.telefono)) {
+      return false;
+    }
+    */
+    return true;
+  }
+  
+  public boolean validar() {
+    if (this.getNombre()==null || this.getNombre().isEmpty()
+        || this.getApellidos()==null || this.getApellidos().isEmpty()
+        || this.getDni()==null || this.getDni().isEmpty()
+        || this.getTelefono()==null || this.getTelefono().isEmpty()
+       ) {
       return false;
     }
     return true;
