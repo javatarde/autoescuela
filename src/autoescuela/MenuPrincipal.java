@@ -3,7 +3,6 @@ package autoescuela;
 import autoescuela.Menu.Opcion;
 import static java.lang.System.exit;
 import java.util.List;
-import javax.rmi.CORBA.Util;
 //import java.util.Scanner;
 
 /*
@@ -63,7 +62,7 @@ public class MenuPrincipal{
             alumno.setComentarios(Utilidades.getCadena("Comentarios"));
             alumno.setEstado(Utilidades.getCadena("Estado"));
             // Comprobar si se han introducido todos los campos obligatorios
-            if (alumno.validarAlumno()){
+            if (alumno.validar()){
               List <Alumno> listaAlumnos = daoAlumno.leer(alumno.getNombre(), alumno.getApellidos());
               // Comprobar si el alumno ya existe
               if (!listaAlumnos.isEmpty()){
@@ -91,7 +90,7 @@ public class MenuPrincipal{
                 // Mostrar datos del alumno antes de borrarlo
                 alumno = listaAlumnos.get(0);
                 // Mostrar alumno
-                Utilidades.showCadena(alumno.toString());
+                alumno.mostrarAlumno();
                 String cadena = Utilidades.getCadena("¿Desea eliminar al alumno? (si/no) ");
                 if (cadena.toLowerCase().equals("si")){
                     boolean resultado = daoAlumno.eliminar(id);
@@ -171,7 +170,7 @@ public class MenuPrincipal{
         // Opciones del Menu Modificar alumno
         final Opcion opcionM1 = m.new Opcion("Nombre", (Accion) () -> {
             // Mostrar alumno
-            Utilidades.showCadena(alumno.toString());
+            alumno.mostrar();
             Utilidades.showCadena(" ");
             alumno.setNombre(Utilidades.getCadena("Nombre"));
             return menuM;
@@ -179,7 +178,7 @@ public class MenuPrincipal{
 
         final Opcion opcionM2 = m.new Opcion("Apellidos", (Accion) () -> {
           // Mostrar alumno
-          Utilidades.showCadena(alumno.toString());
+          alumno.mostrar();
           Utilidades.showCadena(" ");
           alumno.setApellidos(Utilidades.getCadena("Apellidos"));
           return menuM;
@@ -187,7 +186,7 @@ public class MenuPrincipal{
 
         final Opcion opcionM3 = m.new Opcion("DNI", (Accion) () -> {
           // Mostrar alumno
-          Utilidades.showCadena(alumno.toString());
+          alumno.mostrar();
           Utilidades.showCadena(" ");
           alumno.setDni(Utilidades.getCadena("DNI"));
           return menuM;
@@ -195,7 +194,7 @@ public class MenuPrincipal{
 
         final Opcion opcionM4 = m.new Opcion("Telefono", (Accion) () -> {
           // Mostrar alumno
-          Utilidades.showCadena(alumno.toString());
+          alumno.mostrar();
           Utilidades.showCadena(" ");
           alumno.setTelefono(Utilidades.getCadena("Telefono"));
           return menuM;
@@ -203,7 +202,7 @@ public class MenuPrincipal{
 
         final Opcion opcionM5 = m.new Opcion("Comentarios", (Accion) () -> {
           // Mostrar alumno
-          Utilidades.showCadena(alumno.toString());
+          alumno.mostrar();
           Utilidades.showCadena(" ");
           alumno.setComentarios(Utilidades.getCadena("Comentarios"));
           return menuM;
@@ -211,7 +210,7 @@ public class MenuPrincipal{
 
         final Opcion opcionM6 = m.new Opcion("Estado", (Accion) () -> {
           // Mostrar alumno
-          Utilidades.showCadena(alumno.toString());
+          alumno.mostrar();
           Utilidades.showCadena(" ");
           alumno.setEstado(Utilidades.getCadena("Estado"));
           return menuM;
@@ -220,12 +219,12 @@ public class MenuPrincipal{
         final Opcion opcionM7 = m.new Opcion("Mostrar todos los campos", (Accion) () -> {
           Utilidades.showCadena(" ");
           // Mostrar alumno
-          Utilidades.showCadena(alumno.toString());
+          alumno.mostrar();
           return menuM;
         });
 
         final Opcion opcionM8 = m.new Opcion("Guardar cambios", (Accion) () -> {
-          if (!alumno.validarAlumno()){
+          if (!alumno.validar()){
               Utilidades.showCadena("ERROR: No se han introducido todos los campos obligatorios. "+
                                     "Las modificaciones realizadas no se guardaran");
           }else{
