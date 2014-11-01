@@ -163,7 +163,33 @@ public class DAOPermiso implements GestionCrud<Permiso>{
 
     @Override
     public List<Permiso> leer(Permiso p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Permiso> lista = null;
+                
+        try{
+            conn=ConnectDB.getInstance().getConnect();
+            SQL="select id,valor,descripcion from "+tabla+" WHERE valor="+p.getValor()+" order by valor";
+            st_default=conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
+            
+            rs=st_default.executeQuery(SQL);
+            
+            Permiso permiso=null;
+            while(rs.next()){
+                permiso = new  Permiso();
+                permiso.setId(rs.getInt("id"));
+                permiso.setValor(rs.getString("valor"));
+                permiso.setDescripcion(rs.getString("Descripcion"));
+                
+                lista.add(permiso);
+                
+                rs.close();
+                st_default.close();
+                conn=ConnectDB.closeInstance().getConnect();
+            }
+        }catch(SQLException e){
+            System.out.println("Error al leer los permisos de conducir en la BD: "+e);
+        }
+        
+        return lista;
     }
     
 
