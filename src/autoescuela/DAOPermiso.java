@@ -172,7 +172,8 @@ public class DAOPermiso implements GestionCrud<Permiso>{
             
             rs=st_default.executeQuery(SQL);
             
-            Permiso permiso=null;
+            Permiso permiso;
+            
             while(rs.next()){
                 permiso = new  Permiso();
                 permiso.setId(rs.getInt("id"));

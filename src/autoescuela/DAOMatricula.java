@@ -101,29 +101,29 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         }
         
         try {
-        conn = ConnectDB.getInstance().getConnect();
+            conn = ConnectDB.getInstance().getConnect();
 
-        stmt = conn.createStatement();
-        rs = stmt.executeQuery(SQL);
+            stmt = conn.createStatement();
+            rs = stmt.executeQuery(SQL);
 
-        lista = new ArrayList<>();
-        Matricula matricula = null;
+            lista = new ArrayList<>();
+            Matricula matricula = null;
 
-        while (rs.next()) {
-            matricula = new Matricula();
-            matricula.setId(rs.getInt("ID"));
-            matricula.setIdAlumno(rs.getInt("ID_Alumno"));
-            matricula.setIdPermiso(rs.getInt("ID_Permiso"));
-            matricula.setIdTipoMatricula(rs.getInt("ID_TipoMatricula"));
-            matricula.setFechaAlta(rs.getDate("Fecha_Alta"));
-            matricula.setFechaBaja(rs.getDate("Fecha_Baja"));
-            matricula.setMotivoBaja(rs.getString("Motivo_Baja"));
-            lista.add(matricula);
-        }
-        rs.close();
-        stmt.close();
-        conn=ConnectDB.closeInstance().getConnect();
-          }catch(SQLException e){
+            while (rs.next()) {
+                matricula = new Matricula();
+                matricula.setId(rs.getInt("ID"));
+                matricula.setIdAlumno(rs.getInt("ID_Alumno"));
+                matricula.setIdPermiso(rs.getInt("ID_Permiso"));
+                matricula.setIdTipoMatricula(rs.getInt("ID_TipoMatricula"));
+                matricula.setFechaAlta(rs.getDate("Fecha_Alta"));
+                matricula.setFechaBaja(rs.getDate("Fecha_Baja"));
+                matricula.setMotivoBaja(rs.getString("Motivo_Baja"));
+                lista.add(matricula);
+            }
+            rs.close();
+            stmt.close();
+            conn=ConnectDB.closeInstance().getConnect();
+        }catch(SQLException e){
           System.out.println("Error al hacer la búsqueda "+e);
         }
 
