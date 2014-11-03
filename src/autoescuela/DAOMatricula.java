@@ -204,10 +204,10 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         
         PreparedStatement pst = conn.prepareStatement(SQL);
         
-        GestorFechas gestorFechas = new GestorFechas();
-        String fechaCadenaA;
-        String fechaCadenaB;
-        java.sql.Date fechaDate;
+//        GestorFechas gestorFechas = new GestorFechas();
+//        String fechaCadenaA;
+//        String fechaCadenaB;
+//        java.sql.Date fechaDate;
 
         pst.setInt(1, m.getIdPermiso());
         pst.setInt(2, m.getIdTipoMatricula());
