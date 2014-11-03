@@ -12,7 +12,7 @@ import java.util.Objects;
  *
  * @author Formacion
  */
-public class Alumno extends Persona {
+public class Alumno extends Persona implements Cloneable {
   private int id;
   private String estado;
   private String comentarios;
@@ -99,4 +99,11 @@ public class Alumno extends Persona {
       getEstado()
     );
   }
+
+  @Override
+  public Persona clone() throws CloneNotSupportedException {
+    return super.clone(); //To change body of generated methods, choose Tools | Templates.
+  }
+  
+  
 }

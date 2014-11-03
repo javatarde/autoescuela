@@ -6,13 +6,20 @@
 
 package autoescuela;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author Formacion
  */
-public abstract class Persona {
+public abstract class Persona implements Serializable, Cloneable {
+  private static final long serialVersionUID = 6676418576425200624L;
   private String nombre;
   private String apellidos;
   private String dni;
@@ -113,4 +120,45 @@ public abstract class Persona {
     }
     return true;
   }
+
+  @Override
+  public Persona clone() throws CloneNotSupportedException {
+    //escribimos en la matriz de bytes
+
+    try {
+      ByteArrayOutputStream bout = new ByteArrayOutputStream();
+      ObjectOutputStream out;
+      out = new ObjectOutputStream(bout);
+      out.writeObject(this);
+      out.close();
+      //leemos en la matriz de bytes
+      ByteArrayInputStream bin = new ByteArrayInputStream(bout.toByteArray());
+      ObjectInputStream in = new ObjectInputStream(bin);
+      Persona ret;
+
+      ret = (Persona) in.readObject();
+
+      in.close();
+      return ret;
+    } catch (ClassNotFoundException | IOException ex) {
+        return null;
+    }   //To change body of generated methods, choose Tools | Templates.
+  }
+  
+  // MODIFICACION DEL MECANISMO DE SERIALIZACION PREDETERMINADO
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        this.nombre=in.readUTF();
+        this.apellidos=in.readUTF();
+        this.dni=in.readUTF();
+        this.telefono=in.readUTF();
+    }
+
+    private void writeObject(ObjectOutputStream out) throws IOException, ClassNotFoundException {
+        out.defaultWriteObject();
+        out.writeUTF(nombre);
+        out.writeUTF(apellidos);
+        out.writeUTF(dni);
+        out.writeUTF(telefono);
+    }
 }

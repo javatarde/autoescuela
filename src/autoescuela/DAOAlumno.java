@@ -138,7 +138,7 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       
       rs.close();
       stmt.close();
-      ConnectDB.getInstance().closeInstance(); //cerrar
+      conn = ConnectDB.closeInstance().getConnect(); //cerrar
     } catch (SQLException sqle) {
       Utilidades.showCadena("ERROR al mostrar alumno por nombre: "+sqle.getMessage());
     }
@@ -173,7 +173,7 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       
       rs.close();
       stmt.close();
-      ConnectDB.getInstance().closeInstance(); //cerrar
+      conn = ConnectDB.closeInstance().getConnect(); //cerrar
     } catch (SQLException sqle) {
       Utilidades.showCadena("ERROR al mostrar los alumnos: "+sqle.getMessage());
     }
@@ -199,7 +199,7 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       stmt.executeUpdate(SQL);
       
       stmt.close();
-      conn = ConnectDB.closeInstance().getConnect();
+      conn = ConnectDB.closeInstance().getConnect(); //cerrar
       
       Utilidades.showCadena("Alumno actualizado correctamente");
       return true;
@@ -223,7 +223,7 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       stmt.executeUpdate(SQL);
       
       stmt.close();
-      conn = ConnectDB.closeInstance().getConnect();
+      conn = ConnectDB.closeInstance().getConnect(); //cerrar
       Utilidades.showCadena("Alumno borrado correctamente");
       return true;
     } catch (SQLException sqle) {
