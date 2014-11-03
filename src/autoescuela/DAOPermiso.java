@@ -105,8 +105,11 @@ public class DAOPermiso implements GestionCrud<Permiso>{
             conn = ConnectDB.getInstance().getConnect();
             SQL = "DELETE FROM "+tabla+" WHERE ID = "+IDPermiso;
             st_default=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE);
+            
             rs=st_default.executeQuery(SQL);
+          
             System.out.println("El permiso con ID "+IDPermiso+ " ha sido eliminado");
+            
             rs.close();
             st_default.close();
             conn=ConnectDB.closeInstance().getConnect();
@@ -172,11 +175,11 @@ public class DAOPermiso implements GestionCrud<Permiso>{
         try{
             conn=ConnectDB.getInstance().getConnect();
             SQL="select id,valor,descripcion from "+tabla+" WHERE valor="+p.getValor()+" order by valor";
-            st_default=conn.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
-            
+            st_default=conn.createStatement();
             rs=st_default.executeQuery(SQL);
             
             Permiso permiso;
+            lista = new ArrayList<>();
             
             while(rs.next()){
                 permiso = new  Permiso();
@@ -185,11 +188,12 @@ public class DAOPermiso implements GestionCrud<Permiso>{
                 permiso.setDescripcion(rs.getString("Descripcion"));
                 
                 lista.add(permiso);
-                
+                }
+            
                 rs.close();
                 st_default.close();
                 conn=ConnectDB.closeInstance().getConnect();
-            }
+            
         }catch(SQLException e){
             System.out.println("Error al leer los permisos de conducir en la BD: "+e);
         }
