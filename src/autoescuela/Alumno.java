@@ -104,6 +104,4 @@ public class Alumno extends Persona implements Cloneable {
   public Persona clone() throws CloneNotSupportedException {
     return super.clone(); //To change body of generated methods, choose Tools | Templates.
   }
-  
-  
 }
