@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -73,10 +74,13 @@ public class DAOPermiso implements GestionCrud<Permiso>{
             SQL="select id,valor,descripcion from "+tabla+" WHERE ID ="+IDPermiso+" order by valor";
             st_default=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); 
             //ejecutamos el statement (consulta)
-            rs=st_default.executeQuery(SQL);       
+            rs=st_default.executeQuery(SQL);   
+            
+            lista = new ArrayList<>();
+            Permiso permiso = null;
             
             if (rs.next()){
-              Permiso permiso = new Permiso();
+              permiso = new Permiso();
               permiso.setId(rs.getInt("id"));
               permiso.setValor(rs.getString("valor"));
               permiso.setDescripcion(rs.getString("Descripcion"));
