@@ -24,8 +24,10 @@ public interface GestionCrud<T>{
   //LEER  
   List<T> leer(int id);
   List<T> leer(T elemento);
-  void mostrarTodos();
   
   //ELIMINAR
   boolean eliminar(int id);
+  
+  //VALIDAR
+  boolean validar(T elemento);
 }

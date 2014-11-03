@@ -15,17 +15,25 @@ import java.util.List;
  *
  * @author Formacion
  */
-public class MenuGenerico<T,DAO>{
+public class MenuGenerico<T>{
     private Menu menu  = null;
     private Menu menuAnterior = null;
     private Menu menuSiguiente = null;
-    private T elemento = null;
-    private GestionCrud<T> dao = new GestionCrud<T>();
-    private String nombreClase = null;
-    private final String cadena = "\nid   Nombre      Apellidos           DNI       Telefono    Estado"
-                                + "\n--   ------      ---------           ---       --------    ------";
+//    private T elemento = null;
+    private final GestionCrud<T> dao;
+    private final Vista<T> vista;
+//    private String nombreClase = null;
 
+
+    public MenuGenerico(Vista<T> vista, GestionCrud<T> dao, String nombreClase) {
+      this.vista = vista;
+      this.dao = dao;
+/*        
     public MenuGenerico() {
+      this.vista = new VistaAlumno();
+      this.dao = new DAOAlumno();
+*/      
+//      nombreClase = elemento.getClass().getName();
     
       Menu m = new Menu();
 /*      
@@ -44,7 +52,6 @@ public class MenuGenerico<T,DAO>{
           return null;
       });
 */      
-      nombreClase = elemento.getClass().getName();
       
       // Opciones del Menu de alumnos
       final Opcion opcionA1 = m.new Opcion("Crear nuevo "+nombreClase, new Accion(){
@@ -52,21 +59,15 @@ public class MenuGenerico<T,DAO>{
         public Menu ejecutar() {
             Utilidades.showCadena("Introduzca los siguientes datos del nuevo "+nombreClase+": ");
             // Nota: el id se genera automaticamente en la bbdd al insertar el nuevo alumno
-            elemento = new T();
-            alumno.setNombre(Utilidades.getCadena("Nombre"));
-            alumno.setApellidos(Utilidades.getCadena("Apellidos"));
-            alumno.setDni(Utilidades.getCadena("DNI"));
-            alumno.setTelefono(Utilidades.getCadena("Telefono"));
-            alumno.setComentarios(Utilidades.getCadena("Comentarios"));
-            alumno.setEstado(Utilidades.getCadena("Estado"));
+            T elemento = MenuGenerico.this.vista.get();
             // Comprobar si se han introducido todos los campos obligatorios
-            if (elemento.validar()){
-              List <T> lista = dao.leer(elemento.getNombre(), elemento.getApellidos());
+            if (MenuGenerico.this.dao.validar(elemento)){
+              List <T> lista = MenuGenerico.this.dao.leer(elemento);
               // Comprobar si el alumno ya existe
               if (!lista.isEmpty()){
-                  Utilidades.showCadena("ERROR: Ya existe un alumno con esos valores en la base de datos");
+                  Utilidades.showCadena("ERROR: Ya existe un "+nombreClase+" con esos valores en la base de datos");
               }else{
-                  boolean resultado = dao.crear(elemento);
+                  boolean resultado = MenuGenerico.this.dao.crear(elemento);
               }
             }else{
                 Utilidades.showCadena("ERROR: No se han introducido todos los campos obligatorios. "+
@@ -83,14 +84,14 @@ public class MenuGenerico<T,DAO>{
             Utilidades.showCadena("Introduzca los siguientes datos del "+nombreClase+" a borrar: ");
             int id = Utilidades.getEntero("id");
             // Comprobar si el alumno existe
-            List <T> lista = dao.leer(id);
+            List <T> lista = MenuGenerico.this.dao.leer(id);
             if (!lista.isEmpty()){
                 // Mostrar datos del alumno antes de borrarlo
-                elemento = lista.get(0);
-                elemento.mostrar();
+                T elemento = lista.get(0);
+                MenuGenerico.this.vista.show(elemento);
                 String cadena = Utilidades.getCadena("¿Desea eliminar al "+nombreClase+"? (si/no) ");
                 if (cadena.toLowerCase().equals("si")){
-                    boolean resultado = dao.eliminar(id);
+                    boolean resultado = MenuGenerico.this.dao.eliminar(id);
                 }
             }else{
                 Utilidades.showCadena("ERROR: El "+nombreClase+" no existe en la base de datos");
@@ -106,11 +107,11 @@ public class MenuGenerico<T,DAO>{
             Utilidades.showCadena("Introduzca los siguientes datos del "+nombreClase+" a modificar: ");
             int id = Utilidades.getEntero("id");
             // Comprobar si el alumno existe
-            List <T> lista = dao.leer(id);
+            List <T> lista = MenuGenerico.this.dao.leer(id);
             if (lista.size()==1){
                 // Ir al menu Modificar datos del alumno
-                elemento = lista.get(0);
-                return menu;
+                T elemento = lista.get(0);
+                MenuGenerico.this.vista.update(elemento);
             }else{
                 Utilidades.showCadena("ERROR: El "+nombreClase+" no existe en la base de datos");
             }
@@ -126,15 +127,11 @@ public class MenuGenerico<T,DAO>{
             int id = Utilidades.getEntero("id");
 // nota: se podria ampliar la busqueda con otros campos
             // Comprobar si el alumno existe
-            List <T> lista = dao.leer(id);
+            List <T> lista = MenuGenerico.this.dao.leer(id);
             if (!lista.isEmpty()){
-                // Mostrar datos del alumno
-                // Si hay varios alumnos que se ajustan a esa busqueda, mostrarlos todos
-                Utilidades.showCadena(cadenaDatos);
-                for (T elemento : lista) {
-                    // Mostrar los datos de cada alumno en una sola linea                
-                    elemento.mostrar();
-                }
+                // Mostrar datos
+                // Si hay varios elementos que se ajustan a esa busqueda, mostrarlos todos
+                MenuGenerico.this.vista.show(lista);
             }else{
                 Utilidades.showCadena("ERROR: No existen resultados para esa busqueda");
             }
@@ -146,15 +143,11 @@ public class MenuGenerico<T,DAO>{
         @Override
         public Menu ejecutar() {
             // Al buscar con id=0, se devuelven todos los alumnos
-            List <T> lista = dao.leer(0);
+            List <T> lista = MenuGenerico.this.dao.leer(0);
             if (!lista.isEmpty()){
                 // Mostrar datos del todos los elementos
-                // Si hay varios alumnos que se ajustan a esa busqueda, mostrarlos todos
-                Utilidades.showCadena(cadenaDatos);
-                for (T elemento : lista) {
-                    // Mostrar los datos de cada alumno en una sola linea                
-                    elemento.mostrar();
-                }
+                // Si hay varios elementos que se ajustan a esa busqueda, mostrarlos todos
+                MenuGenerico.this.vista.show(lista);
             }else{
                 Utilidades.showCadena("No existen ningun "+nombreClase+" en la base de datos");
             }
@@ -179,6 +172,14 @@ public class MenuGenerico<T,DAO>{
         menu.setSiguiente(menuSiguiente);
 
     }
+
+    MenuGenerico() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    public Menu getMenu() {
+        return menu;
+    }
     
     
     // Mostrar todas las opciones del menuActual y ejecutar la elegida por el usuario
@@ -198,18 +199,6 @@ public class MenuGenerico<T,DAO>{
                                    "entre 1 y "+menuActual.getNumAcciones());
             }
         }while (true);
-    }
-    
-    
-    // Mostrar todos los campos del alumno, uno en cada linea
-    private static void mostrarAlumno(Alumno alumno){
-        Utilidades.showCadena("id: ", new Integer(alumno.getId()).toString());
-        Utilidades.showCadena("Nombre: ",alumno.getNombre());
-        Utilidades.showCadena("Apellidos: ",alumno.getApellidos());
-        Utilidades.showCadena("DNI: ",alumno.getDni());
-        Utilidades.showCadena("Telefono: : ",alumno.getTelefono());
-        Utilidades.showCadena("Comentarios: ",alumno.getComentarios());
-        Utilidades.showCadena("Estado: ",alumno.getEstado());
     }
     
 }

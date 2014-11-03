@@ -19,7 +19,7 @@ import java.util.List;
  *
  * @author Formacion
  */
-public class DAOAlumno implements GestionCrud<Alumno> {
+public class DAOAlumno_antiguo implements GestionCrud<Alumno> {
   private final String tabla = "AU_ALUMNO";
   Connection conn = null;
   Statement stmt = null;
@@ -138,11 +138,45 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       
       rs.close();
       stmt.close();
-      ConnectDB.getInstance().closeInstance(); //cerrar
+      conn = ConnectDB.closeInstance().getConnect(); //cerrar
     } catch (SQLException sqle) {
       Utilidades.showCadena("ERROR al mostrar alumno por nombre: "+sqle.getMessage());
     }
     return lista;  
+  }
+  
+  @Override
+  public void mostrarTodos() {
+    
+    SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios FROM "+tabla;
+    
+    try {
+      conn = ConnectDB.getInstance().getConnect();
+      
+      stmt = conn.createStatement();
+      rs = stmt.executeQuery(SQL);
+      
+      Alumno alumno = null;
+      
+      while (rs.next()) {
+        alumno = new Alumno();
+        alumno.setId(rs.getInt("id"));
+        alumno.setNombre(rs.getString("nombre"));
+        alumno.setApellidos(rs.getString("apellidos"));
+        alumno.setDni(rs.getString("dni"));
+        alumno.setTelefono(rs.getString("telefono"));
+        alumno.setEstado(rs.getString("estado"));
+        alumno.setComentarios(rs.getString("comentarios"));
+        
+        alumno.mostrar();
+      } //while      
+      
+      rs.close();
+      stmt.close();
+      conn = ConnectDB.closeInstance().getConnect(); //cerrar
+    } catch (SQLException sqle) {
+      Utilidades.showCadena("ERROR al mostrar los alumnos: "+sqle.getMessage());
+    }
   }
   
   //ACTUALIZAR
@@ -189,19 +223,12 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       stmt.executeUpdate(SQL);
       
       stmt.close();
-      conn = ConnectDB.closeInstance().getConnect();
+      conn = ConnectDB.closeInstance().getConnect(); //cerrar
       Utilidades.showCadena("Alumno borrado correctamente");
       return true;
     } catch (SQLException sqle) {
       Utilidades.showCadena("ERROR al eliminar el alumno: "+sqle.getMessage());
       return false;
     }    
-  }
-  
-  //VALIDAR
-  @Override
-  public boolean validar(Alumno a) {
-    return a.validar();
-  }
-  
+  }  
 }
