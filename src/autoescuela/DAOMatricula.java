@@ -20,8 +20,10 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- *
+ * 
  * @author Formacion
+ * 
+ * Clase para gestionar CRUD en del tipo Matricula
  */
 public class DAOMatricula implements GestionCrud<Matricula>{
     private final String tabla = "AU_MATRICULA";
@@ -31,10 +33,19 @@ public class DAOMatricula implements GestionCrud<Matricula>{
     String SQL;
     Statement st_default = null;
 
-
+   /**
+    * Crea <b>(INSERT INTO)</b> un nuevo elemento Matrícula en la base de datos 
+    * devuelve <tt>true</tt> si se ha podido realizar la operacion en la <b>tabla AU_MATRICULA</b>
+    * @param m del <i>tipo Matricula</i> para insertar en la <b>tabla AU_MATRICULA</b>
+    * @return booleano que indica si se ha podido efectuar la inserción (<b>true</b>) o no se ha podido (<b>false</b>)
+    * 
+    * Devuelve excepción si no se ha podido realizar la inserción.
+    */
+   
     @Override
     public boolean crear (Matricula m){
-        boolean ok;
+        boolean ok; Collection<Object> b ;
+        
         try{
         conn=ConnectDB.getInstance().getConnect();
         
@@ -59,7 +70,11 @@ public class DAOMatricula implements GestionCrud<Matricula>{
     }
         return ok;
 }
-
+    
+    
+    /**
+     * Muestra todos los elementos de la <b>tabla AU_MATRICULA</b> ordenados por el campo <tt>id_alumno</tt>
+     */
     @Override
     public void mostrarTodos (){
     try{
@@ -85,7 +100,14 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         System.out.println("Error al "+e);
     }
 }
-        
+     /**
+      * <p>Lee <b>(SELECT)</b> la fila a la que hace referencia el parámetro recibido, 
+      * en caso de que el parámetro sea <tt>0</tt> se muestran todas las filas y devuelve
+      * una lista de elementos del tipo Matricula.
+      * 
+      * @param id entero que hace referencia al campo <tt>id</tt> de la <b>tabla AU_MATRICULA</b>, si vale 0 se devolverán todas las lineas.
+      * @return Lista de elementos del tipo Matricula.
+      */   
     @Override
     public List<Matricula> leer(int id) {
         List<Matricula> lista =null;
@@ -130,6 +152,13 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         return lista;
     }
 
+    /**
+     * <p>Lee <b>(SELECT)</b> la fila a la que hace referencia los campos <tt>id_alumno, id_tipomatricula, id_permiso</tt> del parámetro recibido, 
+     * del tipo Matricula y devuelve una lista de elementos del tipo Matricula; devuelve excepción en caso de que no se pueda realizar la consulta.
+     * 
+     * @param m
+     * @return 
+     */
     @Override
     public List<Matricula> leer(Matricula m) {
        List <Matricula> lista=null;
@@ -233,15 +262,15 @@ public class DAOMatricula implements GestionCrud<Matricula>{
  *  Pruebas de funcionamiento. *
  *******************************/    
     public static void main(String[] args) throws ParseException {
-        Matricula matricula = new Matricula();
+//        Matricula matricula = new Matricula();
 //        DAOAlumno DAOalumno = new DAOAlumno() {};
-        DAOMatricula DAOMatricula=new DAOMatricula() {};
+//        DAOMatricula DAOMatricula=new DAOMatricula() {};
 //        DAOPermiso DAOpermiso = new DAOPermiso();
 //        List <Alumno> listaAlumnos;
         
-        String dato;
-        Scanner sc = new Scanner(System.in);
-        int datonum;    
+//        String dato;
+//        Scanner sc = new Scanner(System.in);
+//        int datonum;    
         
         //**** PRUEBAS DE CREACION (INSERT)****
 //        System.out.println("***ALTA DE MATRÍCULA****");
@@ -269,7 +298,7 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         //FIN PRUEBA INSERT
         
         //*****PRUEBA LEER****
-        DAOMatricula.mostrarTodos();
+//        DAOMatricula.mostrarTodos();
         //FIN PRUEBA LEER
         
         //*****PRUEBA ELIMINAR****
