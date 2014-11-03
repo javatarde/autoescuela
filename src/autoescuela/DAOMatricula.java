@@ -174,11 +174,10 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         conn=ConnectDB.getInstance().getConnect();
         SQL="DELETE FROM "+tabla+" WHERE ID="+IDMatricula;
         st_default=conn.createStatement();
-        rs=st_default.executeQuery(SQL);
+        st_default.executeUpdate(SQL);
         
         System.out.println("La matrícula con el ID "+IDMatricula+" ha sido eliminada");
         
-        rs.close();
         st_default.close();
         conn=ConnectDB.getInstance().getConnect();
         ok=true;
@@ -204,10 +203,10 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         
         PreparedStatement pst = conn.prepareStatement(SQL);
         
-        GestorFechas gestorFechas = new GestorFechas();
-        String fechaCadenaA;
-        String fechaCadenaB;
-        java.sql.Date fechaDate;
+//        GestorFechas gestorFechas = new GestorFechas();
+//        String fechaCadenaA;
+//        String fechaCadenaB;
+//        java.sql.Date fechaDate;
 
         pst.setInt(1, m.getIdPermiso());
         pst.setInt(2, m.getIdTipoMatricula());
@@ -219,10 +218,9 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         int filas=pst.executeUpdate();
         
         System.out.println("Datos solicitados actualizados");
-        System.out.println("Filas: "+filas);
-        rs.close();
+        System.out.println("Filas afectadas: "+filas);
+        
         pst.close();
-        st_default.close();
         conn=ConnectDB.closeInstance().getConnect();
         ok=true;
     }catch(SQLException e){

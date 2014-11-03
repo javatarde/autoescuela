@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,12 +38,15 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
             PreparedStatement pst=conn.prepareStatement(SQL);
             
             pst.setString(1, tipoMatricula.getValor());
-            stmt=conn.createStatement();
-            rs=stmt.executeQuery(SQL);
+           
+            int filas_afectadas = pst.executeUpdate();
+
+            System.out.println("Nuevo tipo de matrícula creado, "+filas_afectadas+ " filas afectadas.");
             
             rs.close();
             pst.close();
             conn=ConnectDB.closeInstance().getConnect();
+           
             ok=true;
         }catch(SQLException e){
             System.out.println("Error al crear Tipo de Matricula: "+ e);
@@ -56,18 +60,17 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
     public boolean actualizar(TipoMatricula tipoMatricula) {
         boolean ok;
         
+        SQL="UPDATE FROM "+tabla+" SET VALOR="+tipoMatricula.getValor()+ " WHERE ID="+tipoMatricula.getId();
+        
         try{
             conn=ConnectDB.getInstance().getConnect();
-                        
-            SQL="UPDATE FROM "+tabla+" SET (?)";
-            PreparedStatement pst=conn.prepareStatement(SQL);
+            stmt=conn.createStatement();
             
-            pst.setString(1, tipoMatricula.getValor());
+            stmt.executeUpdate(SQL);
             
-            rs=stmt.executeQuery(SQL);
-
-            rs.close();
-            pst.close();
+            System.out.println("Tipo de matrícula actualizado");
+           
+            stmt.close();
             conn=ConnectDB.closeInstance().getConnect();            
             
             ok=true;
@@ -81,7 +84,7 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
 
     @Override
     public List<TipoMatricula> leer(int id) {
-       List <TipoMatricula> lista=null;
+       List <TipoMatricula> lista=new ArrayList<>();
        TipoMatricula tipoMatricula=null;
 
        if (id==0){
@@ -95,8 +98,9 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
             conn=ConnectDB.getInstance().getConnect();
             stmt=conn.createStatement();
             rs=stmt.executeQuery(SQL);
-
+           
             while(rs.next()){
+                tipoMatricula=new TipoMatricula();
                 tipoMatricula.setId(rs.getInt("ID"));
                 tipoMatricula.setValor(rs.getString("Valor"));
                 
@@ -116,18 +120,19 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
 
     @Override
     public List<TipoMatricula> leer(TipoMatricula tipoMatricula) {
-        List<TipoMatricula> lista=null;
-        TipoMatricula tipoMat=null;
+        List<TipoMatricula> lista=new ArrayList<>();
+        TipoMatricula tipoMat;
         
         SQL="SELECT id,valor FROM "+tabla+" WHERE valor="+tipoMatricula.getValor();
         
         try{
             conn=ConnectDB.getInstance().getConnect();
-            
             stmt=conn.createStatement();
             rs=stmt.executeQuery(SQL);
             
+            
             while (rs.next()){
+                tipoMat=new TipoMatricula();
                 tipoMat.setId(rs.getInt("ID"));
                 tipoMat.setValor(rs.getString("Valor"));
                 
@@ -168,11 +173,12 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
     @Override
     public boolean eliminar(int id) {
         boolean ok;
-        SQL="DELETE FROM "+tabla+" WHERE id="+id;
+        
         try{
             conn=ConnectDB.getInstance().getConnect();
+            SQL="DELETE FROM "+tabla+" WHERE id="+id;
             stmt=conn.createStatement();
-            rs=stmt.executeQuery(SQL);
+            stmt.executeUpdate(SQL);
             
             System.out.println("Tipo de matrícula eliminado correctamente");
             
