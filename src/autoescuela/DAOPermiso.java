@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  *
@@ -129,8 +130,9 @@ public class DAOPermiso implements GestionCrud<Permiso>{
             SQL = "UPDATE "+tabla+" SET VALOR='"+p.getValor()+
                   "',DESCRIPCION='"+p.getDescripcion()+"'where ID="+p.getId();
             st_default=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
-            rs=st_default.executeQuery(SQL);
-            rs.close();
+            
+            st_default.executeUpdate(SQL);
+            
             st_default.close();
             conn=ConnectDB.closeInstance().getConnect();
         }catch(SQLException e){
@@ -148,10 +150,13 @@ public class DAOPermiso implements GestionCrud<Permiso>{
             conn = ConnectDB.getInstance().getConnect();
             SQL="select id,valor,descripcion from "+tabla+" order by valor";
             st_default=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); 
+           
             //ejecutamos el statement (consulta)
             rs=st_default.executeQuery(SQL);
+            
             Permiso permiso = null;
             System.out.println(cadena);
+            
             while (rs.next()){
               permiso = new Permiso();
               permiso.setId(rs.getInt("id"));
@@ -159,6 +164,7 @@ public class DAOPermiso implements GestionCrud<Permiso>{
               permiso.setDescripcion(rs.getString("Descripcion"));
               System.out.println(permiso.toString());
             }
+            
             rs.close();
             st_default.close();
             conn=ConnectDB.closeInstance().getConnect();
@@ -205,14 +211,19 @@ public class DAOPermiso implements GestionCrud<Permiso>{
 /*******************************    
  *  Pruebas de funcionamiento. *
  *******************************/    
-/*    
+    
     public static void main(String[] args) {
         Permiso permiso = new Permiso();
         DAOPermiso DAOPermiso=new DAOPermiso();
         String valor, descripcionPermiso;
         Scanner sc = new Scanner(System.in);
         int valornum;
-        //**TEST INSERCION (Crear)
+    
+        //***TEST CONSULTA***/
+        DAOPermiso.mostrarTodos();
+        //***fin test consulta***/
+        
+    //**TEST INSERCION (Crear)
 //        System.out.println("Tipo Permiso:");
 //        valor= sc.nextLine();
 //        System.out.println("Descripcion Permiso:");
@@ -224,9 +235,6 @@ public class DAOPermiso implements GestionCrud<Permiso>{
 //        DAOPermiso.crear(permiso);
         //fin test insercion
         
-        //***TEST CONSULTA***
-        DAOPermiso.leer();
-        //***fin test consulta***
         
         //***TEST ELIMINACION***
 //        System.out.println("ID de permiso a eliminar: ");
@@ -249,9 +257,8 @@ public class DAOPermiso implements GestionCrud<Permiso>{
 //        valor=sc.nextLine();
 //        permiso.setDescripcion(valor);
 //        
-//     //   System.out.println("Valor actual--ID: "+permiso.getId()+" --Tipo: "+permiso.getValor()+" --Comentario: "+permiso.getDescripcion());
 //        DAOPermiso.actualizar(permiso);
         //***fin test actualizacion***
     }
-*/
+
 }
