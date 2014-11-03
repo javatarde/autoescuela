@@ -174,7 +174,7 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
             stmt=conn.createStatement();
             rs=stmt.executeQuery(SQL);
             
-            System.out.println("Tipo de matrícula eliminado");
+            System.out.println("Tipo de matrícula eliminado correctamente");
             
             rs.close();
             stmt.close();
