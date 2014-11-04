@@ -1,6 +1,9 @@
-package autoescuela;
+package autoescuela.controlador;
 
-import autoescuela.Menu.Opcion;
+import autoescuela.vista.Componente;
+import autoescuela.modelo.GestionCrud;
+import autoescuela.vista.Utilidades;
+import autoescuela.controlador.Menu.Opcion;
 import static java.lang.System.exit;
 import java.util.List;
 //import java.util.Scanner;
@@ -19,7 +22,6 @@ public class MenuGenerico<T>{
     private Menu menu = null;
     private Menu menuAnterior = null;
     private Menu menuSiguiente = null;
-//    private T elemento = null;
     private final GestionCrud<T> dao;
     private final Componente<T> componente;
     private final String nombreClase;
@@ -119,7 +121,6 @@ public class MenuGenerico<T>{
             String nombreClase = MenuGenerico.this.nombreClase;
             Utilidades.showCadena("Introduzca los siguientes datos del "+nombreClase+" a buscar: ");
             int id = Utilidades.getEntero("id");
-// nota: se podria ampliar la busqueda con otros campos
             // Comprobar si el elemento existe
             List <T> lista = MenuGenerico.this.dao.leer(id);
             if (!lista.isEmpty()){

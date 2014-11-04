@@ -3,10 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package autoescuela;
+package autoescuela.modelo;
 
-import conexion.ConnectDB;
-import gestion_fechas.GestorFechas;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -253,91 +251,5 @@ public class DAOMatricula implements GestionCrud<Matricula>{
       // Comprobar si la matricula tiene relleno todos los campos obligatorios
       return m.validar();
     }
-    
-// mostrar    
-//    System.out.println("***Listado de matrículas***");
-//    System.out.println("ID  |   ID Alumno   |   ID_PERMISO  | ID Tipo matrícula |  Fecha Alta  |  Fecha Baja  |  Motivo Baja");
-    
-/*******************************    
- *  Pruebas de funcionamiento. *
- *******************************/    
-    public static void main(String[] args) throws ParseException {
-//        Matricula matricula = new Matricula();
-//        DAOAlumno DAOalumno = new DAOAlumno() {};
-//        DAOMatricula DAOMatricula=new DAOMatricula() {};
-//        DAOPermiso DAOpermiso = new DAOPermiso();
-//        List <Alumno> listaAlumnos;
-        
-//        String dato;
-//        Scanner sc = new Scanner(System.in);
-//        int datonum;    
-        
-        //**** PRUEBAS DE CREACION (INSERT)****
-//        System.out.println("***ALTA DE MATRÍCULA****");
-//       
-//        listaAlumnos=DAOalumno.leer(); //listamos alumnos
-//       
-//        for (Alumno alumno : listaAlumnos) {
-//            System.out.println(alumno.getId());
-//        }
-//            
-//        System.out.println("ID de Alumno:");
-//        datonum= sc.nextInt();
-//        matricula.setIdAlumno(datonum);
-//        
-//        DAOpermiso.leer(); //listamos los permisos
-//        System.out.println("ID del Tipo de Permiso:");
-//        datonum=sc.nextInt();
-//        matricula.setIdPermiso(datonum);
-//        
-//        System.out.println("ID del Tipo de Matricula (1 a 3)");
-//        datonum=sc.nextInt();
-//        matricula.setIdTipoMatricula(datonum);
-//        
-//        DAOMatricula.crear(matricula);
-        //FIN PRUEBA INSERT
-        
-        //*****PRUEBA LEER****
-//        DAOMatricula.mostrarTodos();
-        //FIN PRUEBA LEER
-        
-        //*****PRUEBA ELIMINAR****
-//        System.out.println("ID de matrícula a eliminar:");
-//        datonum=sc.nextInt();
-//        
-//        DAOMatricula.eliminar(datonum);
-        //FIN PRUEBA ELIMINAR
-        
-        //*****PRUEBA ACTUALIZAR******
-//        String fechaCadena;
-//        System.out.println("Modificación de matrícula");
-//        System.out.println("ID a modificar:");
-//        GestorFechas fechaGestor = new GestorFechas();
-//        matricula.setId(sc.nextInt());
-////        EL ID DE ALUMNO NO SE PODRÁ CAMBIAR
-//        //System.out.println("Nuevo ID alumno");
-////        matricula.setIdAlumno(sc.nextInt());
-//        System.out.println("Nuevo ID permiso");
-//        matricula.setIdPermiso(sc.nextInt());
-//        
-//        System.out.println("Nuevo ID tipomatricula");
-//        matricula.setIdTipoMatricula(sc.nextInt());
-//        
-//        System.out.println("Fecha de alta: ");
-//        fechaCadena = sc.nextLine();
-//        fechaCadena = sc.nextLine();
-//        matricula.setFechaAlta(fechaGestor.deStringToDateSQL(fechaCadena));
-//        System.out.println("¿Fecha de baja? ");
-//        fechaCadena = sc.nextLine(); //fecha en String
-//        matricula.setFechaBaja(fechaGestor.deStringToDateSQL(fechaCadena));
-//        
-//        System.out.println("Motivo Baja");
-//        matricula.setMotivoBaja(sc.nextLine());
-//        DAOMatricula.actualizar(matricula);
-        
-      //FIN prueba actualizar
-    }
-
-
 
 }

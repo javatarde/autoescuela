@@ -4,8 +4,10 @@
  * and open the template in the editor.
  */
 
-package autoescuela;
+package autoescuela.vista;
 
+import autoescuela.modelo.Permiso;
+import autoescuela.vista.Utilidades;
 import java.util.List;
 
 /**

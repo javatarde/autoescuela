@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package autoescuela;
+package autoescuela.modelo;
 
-import conexion.ConnectDB;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -198,59 +197,6 @@ public class DAOPermiso implements GestionCrud<Permiso>{
     @Override
     public boolean validar(Permiso p) {
         return p.validar();
-    }
-
-/*******************************    
- *  Pruebas de funcionamiento. *
- *******************************/    
-    
-    public static void main(String[] args) {
-        Permiso permiso = new Permiso();
-        DAOPermiso DAOPermiso=new DAOPermiso();
-        String valor, descripcionPermiso;
-        Scanner sc = new Scanner(System.in);
-        int valornum;
-    
-        //***TEST CONSULTA***/
-        DAOPermiso.leer(null);
-        //***fin test consulta***/
-        
-    //**TEST INSERCION (Crear)
-//        System.out.println("Tipo Permiso:");
-//        valor= sc.nextLine();
-//        System.out.println("Descripcion Permiso:");
-//        descripcionPermiso=sc.nextLine();
-//                
-//        permiso.setValor(valor);
-//        permiso.setDescripcion(descripcionPermiso);
-//        
-//        DAOPermiso.crear(permiso);
-        //fin test insercion
-        
-        
-        //***TEST ELIMINACION***
-//        System.out.println("ID de permiso a eliminar: ");
-//        valornum=sc.nextInt();
-//        DAOPermiso.eliminar(valornum);
-        //***fin test eliminacion***
-        
-        //***TEST ACTUALIZACION***
-//        System.out.println("Introducir datos de actualización");
-//        //introduce id
-//        System.out.println("ID del elemento a actualizar: ");
-//        permiso.setId(valornum=sc.nextInt());
-//        //introduce nuevo tipo
-//        System.out.println("Nuevo tipo permiso:");
-//        valor=sc.nextLine();
-//                valor=sc.nextLine();
-//        permiso.setValor(valor);
-//        //introudce nueva descripcion
-//        System.out.println("Nueva descripcion:");
-//        valor=sc.nextLine();
-//        permiso.setDescripcion(valor);
-//        
-//        DAOPermiso.actualizar(permiso);
-        //***fin test actualizacion***
     }
 
 }

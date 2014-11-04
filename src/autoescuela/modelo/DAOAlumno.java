@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 
-package autoescuela;
+package autoescuela.modelo;
 
-import conexion.ConnectDB;
+import autoescuela.vista.Utilidades;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

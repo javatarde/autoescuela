@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package conexion;
+package autoescuela.modelo;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -23,7 +23,7 @@ public class ConnectDB {
     private ConnectDB(){
         try{
             conexion=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "EJEMPLO_JAVA_TARDE", "ejemplo_java_tarde");
-            System.out.println("BBDD ONLINE");
+//            System.out.println("BBDD ONLINE");
         }
         catch(SQLException e){
             System.out.println("Error al conectar: "+ e.getMessage());
@@ -60,7 +60,7 @@ public class ConnectDB {
             conexion.close();
             instancia=null;
             conexion = null;
-            System.out.println("BBDD OFFLINE");
+//            System.out.println("BBDD OFFLINE");
         }
         catch(SQLException e){
             System.out.println("Error al cerrar conexion: "+e.getMessage());

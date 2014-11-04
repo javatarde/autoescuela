@@ -3,9 +3,18 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package autoescuela;
+package autoescuela.controlador;
 
-import autoescuela.Menu.Opcion;
+import autoescuela.vista.Componente;
+import autoescuela.vista.ComponenteAlumno;
+import autoescuela.vista.ComponentePermiso;
+import autoescuela.modelo.GestionCrud;
+import autoescuela.modelo.Permiso;
+import autoescuela.modelo.DAOPermiso;
+import autoescuela.modelo.DAOAlumno;
+import autoescuela.modelo.Alumno;
+import autoescuela.vista.Utilidades;
+import autoescuela.controlador.Menu.Opcion;
 import static java.lang.System.exit;
 
 /**
@@ -69,7 +78,7 @@ public class Main {
         // Incluir las opciones en el menu pricipal
         menu.addOpcion(opcion1);
         menu.addOpcion(opcion2);
-        menu.addOpcion(opcion3);
+//        menu.addOpcion(opcion3);
         menu.addOpcion(opcion4);
         menu.setRotuloMenu("Menu principal");
         

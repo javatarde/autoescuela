@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package autoescuela;
+package autoescuela.modelo;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
