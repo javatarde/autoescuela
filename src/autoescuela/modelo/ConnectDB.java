@@ -18,11 +18,13 @@ import java.sql.SQLException;
 public class ConnectDB {
     private static Connection conexion;
     private static ConnectDB instancia;
-    
+//    private static final String ip = "localhost";
+    private static final String ip = "192.168.1.50";
    //Constructor
     private ConnectDB(){
         try{
-            conexion=DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "EJEMPLO_JAVA_TARDE", "ejemplo_java_tarde");
+            conexion=DriverManager.getConnection("jdbc:oracle:thin:@"+ip+":1521:XE", 
+                                                 "EJEMPLO_JAVA_TARDE", "ejemplo_java_tarde");
 //            System.out.println("BBDD ONLINE");
         }
         catch(SQLException e){

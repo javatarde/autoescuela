@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Formacion
  */
-public class MenuGenerico<T>{
+public abstract class MenuGenerico<T>{
     private Menu menu = null;
     private Menu menuAnterior = null;
     private Menu menuSiguiente = null;

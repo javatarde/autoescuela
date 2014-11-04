@@ -47,17 +47,16 @@ public class Main {
         // Crear menus del programa
         menu = new Menu();
         
-        MenuGenerico<Alumno> constructorMenuAlumno = new MenuGenerico<>(compAlumno,
-                                                        daoAlumno,"alumno",menu,null);
+//        MenuGenerico<Alumno> constructorMenuAlumno = new MenuGenerico<>(compAlumno,
+//                                                        daoAlumno,"alumno",menu,null);
+        MenuAlumno constructorMenuAlumno = new MenuAlumno(compAlumno,daoAlumno,"alumno",menu,null);
         menuAlumno = constructorMenuAlumno.getMenu();
-        MenuGenerico<Permiso> constructorMenuPermiso = new MenuGenerico<>(compPermiso,
-                                                        daoPermiso,"permiso",menu,null);
+        MenuPermiso constructorMenuPermiso = new MenuPermiso(compPermiso,daoPermiso,"permiso",menu,null);
         menuPermiso = constructorMenuPermiso.getMenu();
-        MenuGenerico<Alumno> constructorMenuMatricula = new MenuGenerico<>(compAlumno,
-                                                        daoAlumno,"matricula",menu,null);
 //        MenuGenerico<Matricula> constructorMenuMatricula = new MenuGenerico<>(compMatricula,
 //                                                        daoMatricula,"matricula",menu,null);
-        menuMatricula = constructorMenuMatricula.getMenu();
+//        menuMatricula = constructorMenuMatricula.getMenu();
+        menuMatricula = null;
 
         // Opciones del Menu principal
         final Opcion opcion1 = menu.new Opcion("Gestion de alumnos", (Accion) () -> {

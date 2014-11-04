@@ -138,10 +138,16 @@ public class Matricula {
 
     public boolean validar() {
       if (false) {
+// temporalmente
           return false;
       }else{
           return true;
       }
+    }
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+      return super.clone(); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

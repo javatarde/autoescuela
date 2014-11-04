@@ -69,10 +69,10 @@ public class DAOAlumno implements GestionCrud<Alumno> {
     if (id!=0) {
       SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
           + " FROM "+tabla
-          + " WHERE id = "+id;
+          + " WHERE id = "+id+" ORDER BY id";
     } else {
       SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
-          + " FROM "+tabla;
+          + " FROM "+tabla+" ORDER BY id";
     }
     
     try {
@@ -112,7 +112,7 @@ public class DAOAlumno implements GestionCrud<Alumno> {
     
     if (a == null){ //cuando a es null, se buscan todos los alumnos.
         SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
-            + " FROM "+tabla;
+            + " FROM "+tabla+" ORDER BY id";
     }else{ //buscar por nombre y apellidos
         SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
             + " FROM "+tabla
