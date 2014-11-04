@@ -12,18 +12,18 @@ import java.util.List;
  *
  * @author Formacion
  */
-public class VistaAlumno implements Vista<Alumno>{
+public class ComponenteAlumno implements Componente<Alumno>{
     private Alumno alumno;
     private final String cadenaDatosAlumno = "\nid   Nombre      Apellidos           DNI       Telefono    Estado"
                                            + "\n--   ------      ---------           ---       --------    ------";
     
-    public VistaAlumno (){
+    public ComponenteAlumno (){
         alumno = new Alumno();
     }
 
     @Override
     public Alumno get() {
-        // Obtener los datos del alumno
+        // Obtener los datos del alumno pidiendoselos al usuario por consola
         alumno.setNombre(Utilidades.getCadena("Nombre"));
         alumno.setApellidos(Utilidades.getCadena("Apellidos"));
         alumno.setDni(Utilidades.getCadena("DNI"));
@@ -36,53 +36,46 @@ public class VistaAlumno implements Vista<Alumno>{
     @Override
     public Alumno update(Alumno alumnoOriginal) {
         String sino = " si/no ";
+        // Devolver un clon del original
         try{
             alumno = (Alumno) alumnoOriginal.clone();
         }catch (CloneNotSupportedException e){
-            System.out.println("Hay un errror");
+            System.out.println("Se ha producido un errror al clonar");
             e.getStackTrace();
         }
-//Alumno alumno = alumnoOriginal;
         // Mostrar los datos actuales
-        show(alumno);
+        set(alumno);
         // Mostrar y actualizar los datos del alumno
         if (Utilidades.getCadena("¿Desea cambiar el nombre?"+sino).equals("si")){
             alumno.setNombre(Utilidades.getCadena("Nombre"));
         }
-        if (Utilidades.getCadena("¿Desea cambiar los Apellidos?"+sino).equals("si")){
+        if (Utilidades.getCadena("¿Desea cambiar los apellidos?"+sino).equals("si")){
             alumno.setApellidos(Utilidades.getCadena("Apellidos"));
         }
         if (Utilidades.getCadena("¿Desea cambiar el DNI?"+sino).equals("si")){
             alumno.setDni(Utilidades.getCadena("DNI"));
         }
-        if (Utilidades.getCadena("¿Desea cambiar el Telefono?"+sino).equals("si")){
+        if (Utilidades.getCadena("¿Desea cambiar el telefono?"+sino).equals("si")){
             alumno.setTelefono(Utilidades.getCadena("Telefono"));
         }
-        if (Utilidades.getCadena("¿Desea cambiar el Comentarios?"+sino).equals("si")){
+        if (Utilidades.getCadena("¿Desea cambiar los comentarios?"+sino).equals("si")){
             alumno.setComentarios(Utilidades.getCadena("Comentarios"));
         }
-        if (Utilidades.getCadena("¿Desea cambiar el Estado?"+sino).equals("si")){
+        if (Utilidades.getCadena("¿Desea cambiar el estado?"+sino).equals("si")){
             alumno.setEstado(Utilidades.getCadena("Estado"));
         }
-        // Validar los nuevos datos introducidos
-        if (!alumno.validar()){
-            Utilidades.showCadena("ERROR: No se han introducido todos los campos obligatorios. "+
-                                  "Las modificaciones realizadas no se guardaran");
-            return alumnoOriginal;
-        }else{
-            return alumno;
-        }
+        return alumno;
     }
     
     @Override
-    public void show(Alumno alumno) {
+    public void set(Alumno alumno) {
         // Mostrar todos los campos del alumno en una linea
         Utilidades.showCadena(cadenaDatosAlumno);
         mostrarAlumno(alumno);
     }
     
     @Override
-    public void show(List <Alumno> lista) {
+    public void set(List <Alumno> lista) {
     // Mostrar todos los campos del alumno en una linea
         Utilidades.showCadena(cadenaDatosAlumno);
         for (Alumno alumnoI : lista) {

@@ -11,7 +11,7 @@ import java.util.Objects;
  *
  * @author Formacion
  */
-public class Permiso {
+public class Permiso implements Cloneable{
     private int id = -1;
     private String valor = null;
     private String descripcion = null;
@@ -70,18 +70,17 @@ public class Permiso {
         if (this.id != other.id) {
             return false;
         }
-        if (!Objects.equals(this.valor, other.valor)) {
+        if (!this.valor.equals(other.valor)) {
             return false;
         }
-        if (!Objects.equals(this.descripcion, other.descripcion)) {
+        if (!this.descripcion.equals(other.descripcion)) {
             return false;
         }
         return true;
     }
     
     public boolean validar() {
-      if (getId()<0 
-          || getValor()==null || getValor().isEmpty()
+      if (getValor()==null || getValor().isEmpty()
           || getDescripcion()==null || getDescripcion().isEmpty()) {
           return false;
       }else{
@@ -89,13 +88,9 @@ public class Permiso {
       }
     }
     
-    // Devolver todos los campos del permiso en una linea
-    @Override
-    public String toString(){
-        return ("ID: "+new Integer(getId()).toString()+
-                " | Permiso: "+getValor()+
-                " | Descripcion: "+getDescripcion());
-    }
-    
+  @Override
+  public Object clone() throws CloneNotSupportedException {
+    return super.clone(); //To change body of generated methods, choose Tools | Templates.
+  }
     
 }

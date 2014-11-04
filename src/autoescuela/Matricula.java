@@ -136,8 +136,12 @@ public class Matricula {
         return true;
     }
 
-    
-
-    
+    public boolean validar() {
+      if (false) {
+          return false;
+      }else{
+          return true;
+      }
+    }
 
 }

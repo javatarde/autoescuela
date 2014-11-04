@@ -11,12 +11,11 @@ import java.util.List;
 /**
  *
  * @author Formacion
- * @param <T>
  */
-public interface Vista<T> {
+public interface Componente<T> {
     public T get();
     public T update(T elemento);
-    public void show(T elemento);
-    public void show(List <T> lista);
+    public void set(T elemento);
+    public void set(List <T> lista);
     
 }

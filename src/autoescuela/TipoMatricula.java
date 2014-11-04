@@ -11,9 +11,9 @@ import java.util.Objects;
  *
  * @author Formacion
  */
-public class TipoMatricula {
-    private int id;
-    private String valor;
+public class TipoMatricula implements Cloneable{
+    private int id = -1;
+    private String valor = null;
 
     public TipoMatricula() {
     }
@@ -59,11 +59,23 @@ public class TipoMatricula {
         if (this.id != other.id) {
             return false;
         }
-        if (!Objects.equals(this.valor, other.valor)) {
+        if (this.valor.equals(other.valor)) {
             return false;
         }
         return true;
     }
     
+    public boolean validar() {
+      if (getValor()==null || getValor().isEmpty()) {
+          return false;
+      }else{
+          return true;
+      }
+    }
     
+  @Override
+  public Object clone() throws CloneNotSupportedException {
+    return super.clone(); //To change body of generated methods, choose Tools | Templates.
+  }
+  
 }

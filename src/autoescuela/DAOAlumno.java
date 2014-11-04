@@ -21,15 +21,14 @@ import java.util.List;
  */
 public class DAOAlumno implements GestionCrud<Alumno> {
   private final String tabla = "AU_ALUMNO";
-  Connection conn = null;
-  Statement stmt = null;
-  ResultSet rs = null;
-  String SQL;
+  private Connection conn = null;
+  private Statement stmt = null;
+  private ResultSet rs = null;
+  private String SQL;
   
   //CREAR
   @Override
   public boolean crear(Alumno a) {
-    String SQL;
     
     //conexion
     try {
@@ -61,6 +60,7 @@ public class DAOAlumno implements GestionCrud<Alumno> {
     }        
   }
   
+  // LEER
   @Override
   public List<Alumno> leer(int id) {
     List<Alumno> lista = null;
@@ -99,20 +99,25 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       rs.close();
       stmt.close();
       conn = ConnectDB.closeInstance().getConnect();
+      return lista;   
     } catch (SQLException sqle) {
-      Utilidades.showCadena("ERROR al mostrar alumnos: "+sqle.getMessage());
+      Utilidades.showCadena("ERROR al leer alumnos: "+sqle.getMessage());
+      return null;   
     }
-    return lista;   
   }
   
-  //LEER
   @Override
   public List<Alumno> leer(Alumno a) {
     List<Alumno> lista = null;
     
-    SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
-        + " FROM "+tabla
-        + " WHERE nombre = '"+a.getNombre()+"' AND apellidos='"+a.getApellidos()+"'";
+    if (a == null){ //cuando a es null, se buscan todos los alumnos.
+        SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
+            + " FROM "+tabla;
+    }else{ //buscar por nombre y apellidos
+        SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
+            + " FROM "+tabla
+            + " WHERE nombre = '"+a.getNombre()+"' AND apellidos='"+a.getApellidos()+"'";
+    }
     
     try {
       conn = ConnectDB.getInstance().getConnect();
@@ -139,10 +144,11 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       rs.close();
       stmt.close();
       ConnectDB.getInstance().closeInstance(); //cerrar
+      return lista;  
     } catch (SQLException sqle) {
-      Utilidades.showCadena("ERROR al mostrar alumno por nombre: "+sqle.getMessage());
+        Utilidades.showCadena("ERROR al mostrar alumno por nombre: "+sqle.getMessage());
+        return null;
     }
-    return lista;  
   }
   
   //ACTUALIZAR
@@ -170,8 +176,8 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       Utilidades.showCadena("Alumno actualizado correctamente");
       return true;
     } catch (SQLException sqle) {
-      Utilidades.showCadena("ERROR al eliminar alumno: "+sqle.getMessage());
-      return false;
+        Utilidades.showCadena("ERROR al eliminar alumno: "+sqle.getMessage());
+        return false;
     }
   }
   
@@ -193,14 +199,25 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       Utilidades.showCadena("Alumno borrado correctamente");
       return true;
     } catch (SQLException sqle) {
-      Utilidades.showCadena("ERROR al eliminar el alumno: "+sqle.getMessage());
-      return false;
+        Utilidades.showCadena("ERROR al eliminar el alumno: "+sqle.getMessage());
+        return false;
     }    
+  }
+  
+  @Override
+  public boolean eliminar(Alumno a){
+      if (a != null){
+        int id = a.getId();
+        return eliminar(id);
+      }else{
+          return false;
+      }
   }
   
   //VALIDAR
   @Override
   public boolean validar(Alumno a) {
+    // Comprobar si el alumno tiene relleno todos los campos obligatorios
     return a.validar();
   }
   

@@ -15,14 +15,14 @@ import java.util.List;
  *
  * @author Formacion
  */
-public class MenuPrincipal{
+public class MenuPrincipal_antiguo{
     private Menu menu  = null;
     private Menu menuP = null;
     private Menu menuA = null;
 //    private Menu menuM = null;
     private Alumno alumno = null;
     private Permiso permiso = null;
-    private VistaAlumno vistaAlumno = new VistaAlumno();
+    private ComponenteAlumno vistaAlumno = new ComponenteAlumno();
 
     private DAOAlumno daoAlumno = new DAOAlumno();
     private DAOPermiso daoPermiso = new DAOPermiso();
@@ -31,7 +31,7 @@ public class MenuPrincipal{
                                            + "\n--   ------      ---------           ---       --------    ------";
 */
 
-    public MenuPrincipal() {
+    public MenuPrincipal_antiguo() {
     
       Menu m = new Menu();
       

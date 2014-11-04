@@ -16,7 +16,7 @@ import java.util.List;
 
 /**
  *
- * @author Administrador
+ * @author Formacion
  */
 public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
     private final String tabla="AU_TIPOMATRICULA";
@@ -24,7 +24,6 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
     private String SQL;
     private Statement stmt;
     private ResultSet rs;    
-    
     
     
     @Override
@@ -55,7 +54,8 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
 
         return ok;
     }
-
+    
+    
     @Override
     public boolean actualizar(TipoMatricula tipoMatricula) {
         boolean ok;
@@ -81,7 +81,8 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
         
         return ok;
     }
-
+    
+    
     @Override
     public List<TipoMatricula> leer(int id) {
        List <TipoMatricula> lista=new ArrayList<>();
@@ -123,7 +124,11 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
         List<TipoMatricula> lista=new ArrayList<>();
         TipoMatricula tipoMat;
         
-        SQL="SELECT id,valor FROM "+tabla+" WHERE valor="+tipoMatricula.getValor();
+        if (tipoMatricula == null){ // si es igual a null, buscar todos
+            SQL ="SELECT id,valor FROM "+tabla;
+        }else{ // buscar por valor
+            SQL="SELECT id,valor FROM "+tabla+" WHERE valor="+tipoMatricula.getValor();
+        }        
         
         try{
             conn=ConnectDB.getInstance().getConnect();
@@ -148,28 +153,8 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
 
         return lista;
     }
-
-    @Override
-    public void mostrarTodos() {
-        SQL ="SELECT id,valor FROM "+tabla;
-  
-        try{
-            conn=ConnectDB.getInstance().getConnect();
-            stmt=conn.createStatement();
-            rs=stmt.executeQuery(SQL);
-            
-            while (rs.next()){
-                System.out.println("ID: "+rs.getInt("ID")+" TipoMatricula: "+rs.getString("VALOR"));
-            }
-            
-            rs.close();
-            stmt.close();
-            conn=ConnectDB.closeInstance().getConnect();
-        }catch(SQLException e){
-            System.out.println("Error al mostrar los tipos de matrícula: "+e);
-        }
-    }
-
+    
+    
     @Override
     public boolean eliminar(int id) {
         boolean ok;
@@ -193,4 +178,24 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
         
         return ok;
     }
+
+    @Override
+    public boolean eliminar(TipoMatricula m) {
+      if (m != null){
+        int id = m.getId();
+        return eliminar(id);
+      }else{
+          return false;
+      }
+    }
+
+    
+    @Override
+    public boolean validar(TipoMatricula m) {
+        return m.validar();
+    }
+    
+    // Mostrar:
+//    System.out.println("ID: "+rs.getInt("ID")+" TipoMatricula: "+rs.getString("VALOR"));
+
 }

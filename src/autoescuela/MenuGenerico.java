@@ -16,56 +16,41 @@ import java.util.List;
  * @author Formacion
  */
 public class MenuGenerico<T>{
-    private Menu menu  = null;
+    private Menu menu = null;
     private Menu menuAnterior = null;
     private Menu menuSiguiente = null;
 //    private T elemento = null;
     private final GestionCrud<T> dao;
-    private final Vista<T> vista;
-//    private String nombreClase = null;
-
-
-    public MenuGenerico(Vista<T> vista, GestionCrud<T> dao, String nombreClase) {
-      this.vista = vista;
+    private final Componente<T> componente;
+    private final String nombreClase;
+    
+    
+    public MenuGenerico(Componente<T> componente, GestionCrud<T> dao, 
+                        String nombreClase, Menu menuAnt, Menu menuSig) {
+      this.componente = componente;
       this.dao = dao;
-/*        
-    public MenuGenerico() {
-      this.vista = new VistaAlumno();
-      this.dao = new DAOAlumno();
-*/      
+      this.nombreClase = nombreClase;
+      menuAnterior = menuAnt;
+      menuSiguiente = menuSig;
 //      nombreClase = elemento.getClass().getName();
     
       Menu m = new Menu();
-/*      
-      // Opciones del Menu principal
-      final Opcion opcion1 = m.new Opcion("Gestion de permisos", (Accion) () -> {
-          return menuA;
-      });
-      
-      final Opcion opcion2 = m.new Opcion("Gestion de permisos", (Accion) () -> {
-          return menuP;
-      });
-      
-      final Opcion opcion3 = m.new Opcion("Salir", (Accion) () -> {
-          Utilidades.showCadena("\n Fin del programa");
-          exit(0);
-          return null;
-      });
-*/      
-      
-      // Opciones del Menu de alumnos
-      final Opcion opcionA1 = m.new Opcion("Crear nuevo "+nombreClase, new Accion(){
+
+      // Opciones del Menu de elementos
+      final Opcion opcion1 = m.new Opcion("Crear nuevo "+nombreClase, new Accion(){
         @Override
         public Menu ejecutar() {
+            String nombreClase = MenuGenerico.this.nombreClase;
             Utilidades.showCadena("Introduzca los siguientes datos del nuevo "+nombreClase+": ");
-            // Nota: el id se genera automaticamente en la bbdd al insertar el nuevo alumno
-            T elemento = MenuGenerico.this.vista.get();
+            // Nota: el id se genera automaticamente en la bbdd al insertar el nuevo elemento
+            T elemento = MenuGenerico.this.componente.get();
             // Comprobar si se han introducido todos los campos obligatorios
             if (MenuGenerico.this.dao.validar(elemento)){
               List <T> lista = MenuGenerico.this.dao.leer(elemento);
-              // Comprobar si el alumno ya existe
+              // Comprobar si el elemento ya existe
               if (!lista.isEmpty()){
-                  Utilidades.showCadena("ERROR: Ya existe un "+nombreClase+" con esos valores en la base de datos");
+                  Utilidades.showCadena("ERROR: Ya existe un "+nombreClase+
+                                        " con esos valores en la base de datos");
               }else{
                   boolean resultado = MenuGenerico.this.dao.crear(elemento);
               }
@@ -78,17 +63,18 @@ public class MenuGenerico<T>{
       });
     
     
-      final Opcion opcionA2 = m.new Opcion("Borrar "+nombreClase, new Accion(){
+      final Opcion opcion2 = m.new Opcion("Borrar "+nombreClase, new Accion(){
         @Override
         public Menu ejecutar() {
+            String nombreClase = MenuGenerico.this.nombreClase;
             Utilidades.showCadena("Introduzca los siguientes datos del "+nombreClase+" a borrar: ");
             int id = Utilidades.getEntero("id");
-            // Comprobar si el alumno existe
+            // Comprobar si el elemento existe
             List <T> lista = MenuGenerico.this.dao.leer(id);
             if (!lista.isEmpty()){
-                // Mostrar datos del alumno antes de borrarlo
+                // Mostrar datos antes de borrarlo
                 T elemento = lista.get(0);
-                MenuGenerico.this.vista.show(elemento);
+                MenuGenerico.this.componente.set(elemento);
                 String cadena = Utilidades.getCadena("¿Desea eliminar al "+nombreClase+"? (si/no) ");
                 if (cadena.toLowerCase().equals("si")){
                     boolean resultado = MenuGenerico.this.dao.eliminar(id);
@@ -101,17 +87,24 @@ public class MenuGenerico<T>{
       });
     
     
-      final Opcion opcionA3 = m.new Opcion("Modificar "+nombreClase, new Accion(){
+      final Opcion opcion3 = m.new Opcion("Modificar "+nombreClase, new Accion(){
         @Override
         public Menu ejecutar() {
+            String nombreClase = MenuGenerico.this.nombreClase;
             Utilidades.showCadena("Introduzca los siguientes datos del "+nombreClase+" a modificar: ");
             int id = Utilidades.getEntero("id");
-            // Comprobar si el alumno existe
+            // Comprobar si el elemento existe
             List <T> lista = MenuGenerico.this.dao.leer(id);
             if (lista.size()==1){
-                // Ir al menu Modificar datos del alumno
+                // Ir al menu Modificar datos del elemento
                 T elemento = lista.get(0);
-                MenuGenerico.this.vista.update(elemento);
+                elemento = MenuGenerico.this.componente.update(elemento);
+                if (!MenuGenerico.this.dao.validar(elemento)){
+                    Utilidades.showCadena("ERROR: No se han introducido todos los campos obligatorios. "+
+                                          "Las modificaciones en "+elemento.getClass()+" no se guardaran");
+                }else{ // Guardar modificaciones
+                    boolean resultado = MenuGenerico.this.dao.actualizar(elemento);
+                }
             }else{
                 Utilidades.showCadena("ERROR: El "+nombreClase+" no existe en la base de datos");
             }
@@ -120,18 +113,19 @@ public class MenuGenerico<T>{
       });
     
     
-      final Opcion opcionA4 = m.new Opcion("Buscar "+nombreClase, new Accion(){
+      final Opcion opcion4 = m.new Opcion("Buscar "+nombreClase, new Accion(){
         @Override
         public Menu ejecutar() {
+            String nombreClase = MenuGenerico.this.nombreClase;
             Utilidades.showCadena("Introduzca los siguientes datos del "+nombreClase+" a buscar: ");
             int id = Utilidades.getEntero("id");
 // nota: se podria ampliar la busqueda con otros campos
-            // Comprobar si el alumno existe
+            // Comprobar si el elemento existe
             List <T> lista = MenuGenerico.this.dao.leer(id);
             if (!lista.isEmpty()){
                 // Mostrar datos
                 // Si hay varios elementos que se ajustan a esa busqueda, mostrarlos todos
-                MenuGenerico.this.vista.show(lista);
+                MenuGenerico.this.componente.set(lista);
             }else{
                 Utilidades.showCadena("ERROR: No existen resultados para esa busqueda");
             }
@@ -139,66 +133,43 @@ public class MenuGenerico<T>{
         }
       });
       
-      final Opcion opcionA5 = m.new Opcion("Mostrar todos los "+nombreClase, new Accion(){
+      final Opcion opcion5 = m.new Opcion("Mostrar todos", new Accion(){
         @Override
         public Menu ejecutar() {
-            // Al buscar con id=0, se devuelven todos los alumnos
-            List <T> lista = MenuGenerico.this.dao.leer(0);
+            String nombreClase = MenuGenerico.this.nombreClase;
+            // Al buscar con null, se devuelven todos los elementos
+            List <T> lista = MenuGenerico.this.dao.leer(null);
             if (!lista.isEmpty()){
-                // Mostrar datos del todos los elementos
+                // Mostrar datos de todos los elementos
                 // Si hay varios elementos que se ajustan a esa busqueda, mostrarlos todos
-                MenuGenerico.this.vista.show(lista);
+                MenuGenerico.this.componente.set(lista);
             }else{
-                Utilidades.showCadena("No existen ningun "+nombreClase+" en la base de datos");
+                Utilidades.showCadena("No existe ningun "+nombreClase+" en la base de datos");
             }
             return menu;
         }
       });
       
-      final Opcion opcionA6 = m.new Opcion("Volver al menu principal", (Accion) () -> {
+      final Opcion opcion6 = m.new Opcion("Volver al menu principal", (Accion) () -> {
           return menu.getAnterior();
       });
         
-        // Incluir las opciones en el menu
-        menu = new Menu();
-        menu.addOpcion(opcionA1);
-        menu.addOpcion(opcionA2);
-        menu.addOpcion(opcionA3);
-        menu.addOpcion(opcionA4);
-        menu.addOpcion(opcionA5);
-        menu.addOpcion(opcionA6);
-        menu.setRotuloMenu("Menu de "+nombreClase);
-        menu.setAnterior(menuAnterior);
-        menu.setSiguiente(menuSiguiente);
+      // Incluir todas las opciones en el menu
+      menu = new Menu();
+      menu.addOpcion(opcion1);
+      menu.addOpcion(opcion2);
+      menu.addOpcion(opcion3);
+      menu.addOpcion(opcion4);
+      menu.addOpcion(opcion5);
+      menu.addOpcion(opcion6);
+      menu.setRotuloMenu("Menu de "+nombreClase);
+      menu.setAnterior(menuAnterior);
+      menu.setSiguiente(menuSiguiente);
 
-    }
-
-    MenuGenerico() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Menu getMenu() {
         return menu;
     }
-    
-    
-    // Mostrar todas las opciones del menuActual y ejecutar la elegida por el usuario
-    public void mostrarMenu() {
-        Menu menuActual = menu;
-        do{
-            Utilidades.showCadena("\n------------------------------------------------------");
-            Utilidades.showCadena("Autoescuela FORINEMAS. Software de gestion de alumnos:  ");
-            Utilidades.showCadena(menuActual.getRotuloMenu());
-            menuActual.mostrarOpciones();
-            int opcion = Utilidades.getEntero("\n Elija una opcion del menu");
-            if ((opcion>0) && (opcion <=menuActual.getNumAcciones())){
-                Utilidades.showCadena(" ");
-                menuActual = menuActual.ejecutar(opcion-1);
-            }else{
-                System.out.println("\n Opcion incorrecta, introduzca un numero "+
-                                   "entre 1 y "+menuActual.getNumAcciones());
-            }
-        }while (true);
-    }
-    
+
 }

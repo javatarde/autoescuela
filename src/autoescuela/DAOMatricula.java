@@ -28,11 +28,11 @@ import java.util.Scanner;
  */
 public class DAOMatricula implements GestionCrud<Matricula>{
     private final String tabla = "AU_MATRICULA";
-    Connection conn;
-    Statement stmt = null;
-    ResultSet rs = null;
-    String SQL;
-    Statement st_default = null;
+    private Connection conn;
+    private Statement stmt = null;
+    private ResultSet rs = null;
+    private String SQL;
+    private Statement st_default = null;
 
    /**
     * Crea <b>(INSERT INTO)</b> un nuevo elemento Matrícula en la base de datos 
@@ -42,7 +42,6 @@ public class DAOMatricula implements GestionCrud<Matricula>{
     * 
     * Devuelve excepción si no se ha podido realizar la inserción.
     */
-   
     @Override
     public boolean crear (Matricula m){
         boolean ok; Collection<Object> b ;
@@ -69,38 +68,10 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         System.out.println("Error al crear la matrícula"+e);
         ok=false;
     }
-        return ok;
+    return ok;
 }
     
-    
-    /**
-     * Muestra todos los elementos de la <b>tabla AU_MATRICULA</b> ordenados por el campo <tt>id_alumno</tt>
-     */
-    @Override
-    public void mostrarTodos (){
-    try{
-        conn=ConnectDB.getInstance().getConnect();
-        SQL="SELECT id,id_alumno,id_permiso,id_tipomatricula,fecha_alta,fecha_baja,motivo_baja FROM "+tabla+" ORDER BY id_alumno";
-       
-        st_default=conn.createStatement();
-                
-        rs=st_default.executeQuery(SQL);
-        
-        System.out.println("***Listado de matrículas***");
-        System.out.println("ID  |   ID Alumno   |   ID_PERMISO  | ID Tipo matrícula |  Fecha Alta  |  Fecha Baja  |  Motivo Baja");
-        
-        while (rs.next()) {
-            System.out.println(rs.getInt("ID")+" | "+rs.getInt("ID_ALUMNO")+" | "+ rs.getInt("ID_PERMISO")+" | "+rs.getInt("ID_TIPOMATRICULA")+" | "+rs.getDate("FECHA_ALTA")+" | "+rs.getDate("FECHA_BAJA")+ " | "+rs.getString("MOTIVO_BAJA"));
-        }
-        
-        rs.close();
-        st_default.close();
-        conn=ConnectDB.closeInstance().getConnect();
-        
-    }catch(SQLException e){
-        System.out.println("Error al "+e);
-    }
-}
+
      /**
       * <p>Lee <b>(SELECT)</b> la fila a la que hace referencia el parámetro recibido, 
       * en caso de que el parámetro sea <tt>0</tt> se muestran todas las filas y devuelve
@@ -164,9 +135,13 @@ public class DAOMatricula implements GestionCrud<Matricula>{
     public List<Matricula> leer(Matricula m) {
        List <Matricula> lista=null;
        
-       SQL = "select id, id_alumno, id_permiso, id_tipomatricula, fecha_alta, fecha_baja, motivo_baja"
-           + " FROM "+tabla
-           + " WHERE id_alumno = "+ m.getIdAlumno()+"id_tipomatricula="+m.getIdTipoMatricula()+"id_permiso="+m.getIdPermiso();
+       if (m == null){ //cuando la ID es 0, se muestran todas las matricullas.
+            SQL="SELECT id,id_alumno,id_permiso,id_tipomatricula,fecha_alta,fecha_baja,motivo_baja FROM "+tabla+" ORDER BY id_alumno";
+       }else{
+            SQL = "select id, id_alumno, id_permiso, id_tipomatricula, fecha_alta, fecha_baja, motivo_baja"
+                + " FROM "+tabla
+                + " WHERE id_alumno = "+ m.getIdAlumno()+"id_tipomatricula="+m.getIdTipoMatricula()+"id_permiso="+m.getIdPermiso();
+       }
        
        try {
       conn = ConnectDB.getInstance().getConnect();
@@ -215,9 +190,21 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         System.out.println("Error al "+e);
         ok=false;
     }
-        return ok;
-}
+    return ok;
+    }
 
+    
+    @Override
+    public boolean eliminar(Matricula m){
+        if (m != null){
+          int id = m.getId();
+          return eliminar(id);
+        }else{
+            return false;
+        }
+    }
+    
+    
     @Override
     public boolean actualizar (Matricula m){
     boolean ok;
@@ -258,7 +245,19 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         ok=false;
     }
     return ok;
-}
+    }
+    
+    
+    @Override
+    public boolean validar(Matricula m) {
+      // Comprobar si la matricula tiene relleno todos los campos obligatorios
+      return m.validar();
+    }
+    
+// mostrar    
+//    System.out.println("***Listado de matrículas***");
+//    System.out.println("ID  |   ID Alumno   |   ID_PERMISO  | ID Tipo matrícula |  Fecha Alta  |  Fecha Baja  |  Motivo Baja");
+    
 /*******************************    
  *  Pruebas de funcionamiento. *
  *******************************/    

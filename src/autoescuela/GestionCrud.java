@@ -27,6 +27,7 @@ public interface GestionCrud<T>{
   
   //ELIMINAR
   boolean eliminar(int id);
+  boolean eliminar(T elemento);
   
   //VALIDAR
   boolean validar(T elemento);

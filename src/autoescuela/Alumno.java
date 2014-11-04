@@ -13,6 +13,7 @@ import java.util.Objects;
  * @author Formacion
  */
 public class Alumno extends Persona implements Cloneable {
+  private static final long serialVersionUID = -847759666675389221L;
   private int id;
   private String estado;
   private String comentarios;
@@ -72,36 +73,22 @@ public class Alumno extends Persona implements Cloneable {
     if (!comentarios.equals(other.estado)) {
       return false;
     }
-    
-    /*
-    if (!Objects.equals(this.estado, other.estado)) {
-      return false;
-    }
-    if (!Objects.equals(this.comentarios, other.comentarios)) {
-      return false;
-    }
-    */
     return true;
   }
   
   @Override
   public boolean validar() {
-    return super.validar();
+    if (!super.validar() || this.getEstado()==null || this.getEstado().isEmpty()
+        || this.getComentarios()==null || this.getComentarios().isEmpty()
+       ) {
+      return false;
+    }
+    return true;
   }
   
-  public void mostrar() {
-    System.out.printf("%-5s%-12s%-20s%-10s%-12s%-10s\n",
-      getId(),
-      getNombre(),
-      getApellidos(),
-      getDni(),
-      getTelefono(),
-      getEstado()
-    );
-  }
-
   @Override
   public Persona clone() throws CloneNotSupportedException {
     return super.clone(); //To change body of generated methods, choose Tools | Templates.
   }
+  
 }
