@@ -29,7 +29,6 @@ public class DAOPermiso implements GestionCrud<Permiso>{
     //CREAR
     @Override
     public boolean crear (Permiso p){
-        boolean ok = true;
         try{
             //conexion a la BD, con getInstance hacemos la conexión y 
             //con getConnect() ganamos acceso a los métodos de Connection al devolver un objeto Connection
@@ -56,27 +55,25 @@ public class DAOPermiso implements GestionCrud<Permiso>{
             rs.close();
             st_default.close();
             conn=ConnectDB.closeInstance().getConnect();
+            return true;
         
         }catch (SQLException e){
 //            System.out.println("Error al crear permiso de conducir en la BD: "+e);
-            ok = false;
+            return false;
         }
-        return ok;
     }
     
     
     // LEER
     @Override
     public List<Permiso> leer (int IDPermiso){
-        List<Permiso> lista = null;
+        List<Permiso> lista = new ArrayList<>();
         try{
             conn = ConnectDB.getInstance().getConnect();
             SQL="select id,valor,descripcion from "+tabla+" WHERE ID ="+IDPermiso+" order by valor";
             st_default=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); 
             //ejecutamos el statement (consulta)
             rs=st_default.executeQuery(SQL);   
-            
-            lista = new ArrayList<>();
             Permiso permiso = null;
             
             if (rs.next()){
@@ -90,17 +87,17 @@ public class DAOPermiso implements GestionCrud<Permiso>{
             rs.close();
             st_default.close();
             conn=ConnectDB.closeInstance().getConnect();
-            
+            return lista;
         }catch(SQLException e){
 //            System.out.println("Error al consultar los permisos de conducir en la BD: "+e);
+            return lista;
         }
-        return lista;
     }
     
     
     @Override
     public List<Permiso> leer(Permiso p) {
-        List<Permiso> lista = null;
+        List<Permiso> lista = new ArrayList<>();
         
         try{
             if (p == null){ // Buscar todos los permisos
@@ -112,9 +109,7 @@ public class DAOPermiso implements GestionCrud<Permiso>{
 //            st_default=conn.createStatement();
             st_default=conn.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_UPDATABLE); 
             rs=st_default.executeQuery(SQL);
-            
             Permiso permiso;
-            lista = new ArrayList<>();
             
             while(rs.next()){
                 permiso = new Permiso();
@@ -127,19 +122,18 @@ public class DAOPermiso implements GestionCrud<Permiso>{
             rs.close();
             st_default.close();
             conn=ConnectDB.closeInstance().getConnect();
+            return lista;
             
         }catch(SQLException e){
 //            System.out.println("Error al leer los permisos de conducir en la BD: "+e);
+            return lista;
         }
-        
-        return lista;
     }
     
     
     //ACTUALIZAR
     @Override
     public boolean actualizar (Permiso p){
-        boolean ok = true;
         try{
             conn = ConnectDB.getInstance().getConnect();
             SQL = "UPDATE "+tabla+" SET VALOR='"+p.getValor()+
@@ -150,18 +144,17 @@ public class DAOPermiso implements GestionCrud<Permiso>{
             
             st_default.close();
             conn=ConnectDB.closeInstance().getConnect();
+            return true;
         }catch(SQLException e){
 //            System.out.println("Error al actualizar permiso de conducir en la BD: "+e);
-            ok=false;
+            return false;
         }
-        return ok;
     }    
     
     
     //ELIMINAR
     @Override
     public boolean eliminar (int IDPermiso){
-        boolean ok = true;
         try{
             conn = ConnectDB.getInstance().getConnect();
             SQL = "DELETE FROM "+tabla+" WHERE ID = "+IDPermiso;
@@ -174,11 +167,11 @@ public class DAOPermiso implements GestionCrud<Permiso>{
             rs.close();
             st_default.close();
             conn=ConnectDB.closeInstance().getConnect();
+            return true;
         }catch(SQLException e){
 //            System.out.println("Error al eliminar permiso de conducir en la BD: "+e);
-            ok=false;
+            return false;
         }
-        return ok;
     }
     
     @Override

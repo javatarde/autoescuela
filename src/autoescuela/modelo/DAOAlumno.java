@@ -63,7 +63,7 @@ public class DAOAlumno implements GestionCrud<Alumno> {
   // LEER
   @Override
   public List<Alumno> leer(int id) {
-    List<Alumno> lista = null;
+    List<Alumno> lista = new ArrayList<>();
     
     //cuando la ID es 0, se muestran todos los alumnos.
     if (id!=0) {
@@ -81,7 +81,6 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       stmt = conn.createStatement();
       rs = stmt.executeQuery(SQL);
       
-      lista = new ArrayList<>();
       Alumno alumno = null;
       
       while (rs.next()) {
@@ -102,13 +101,13 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       return lista;   
     } catch (SQLException sqle) {
 //      Utilidades.showCadena("ERROR al leer alumnos: "+sqle.getMessage());
-      return null;   
+      return lista;
     }
   }
   
   @Override
   public List<Alumno> leer(Alumno a) {
-    List<Alumno> lista = null;
+    List<Alumno> lista = new ArrayList<>();
     
     if (a == null){ //cuando a es null, se buscan todos los alumnos.
         SQL = "SELECT id, nombre, apellidos, dni, telefono, estado, comentarios"
@@ -124,8 +123,6 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       
       stmt = conn.createStatement();
       rs = stmt.executeQuery(SQL);
-      
-      lista = new ArrayList<>();
       
       Alumno alumno = null;
       
@@ -147,7 +144,7 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       return lista;  
     } catch (SQLException sqle) {
 //        Utilidades.showCadena("ERROR al mostrar alumno por nombre: "+sqle.getMessage());
-        return null;
+        return lista;
     }
   }
   

@@ -27,8 +27,6 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
     
     @Override
     public boolean crear(TipoMatricula tipoMatricula) {
-        boolean ok;
-        
         try{
             conn=ConnectDB.getInstance().getConnect();
                         
@@ -45,20 +43,16 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
             pst.close();
             conn=ConnectDB.closeInstance().getConnect();
            
-            ok=true;
+            return true;
         }catch(SQLException e){
 //            System.out.println("Error al crear Tipo de Matricula: "+ e);
-            ok=false;
+            return false;
         }
-
-        return ok;
     }
     
     
     @Override
     public boolean actualizar(TipoMatricula tipoMatricula) {
-        boolean ok;
-        
         SQL="UPDATE FROM "+tabla+" SET VALOR="+tipoMatricula.getValor()+ " WHERE ID="+tipoMatricula.getId();
         
         try{
@@ -72,13 +66,11 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
             stmt.close();
             conn=ConnectDB.closeInstance().getConnect();            
             
-            ok=true;
+            return true;
         }catch (SQLException e){
 //            System.out.println("Error al actualizar Tipo de Matricula: "+ e);
-            ok=false;
+            return false;
         }
-        
-        return ok;
     }
     
     
@@ -110,17 +102,17 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
             rs.close();
             stmt.close();
             conn=ConnectDB.closeInstance().getConnect();            
+            return lista;
             
         }catch (SQLException e){
 //            System.out.println("Error al buscar Tipo de Matricula: "+ e);
+            return lista;
         }   
-        
-        return lista;
     }
 
     @Override
     public List<TipoMatricula> leer(TipoMatricula tipoMatricula) {
-        List<TipoMatricula> lista=new ArrayList<>();
+        List<TipoMatricula> lista = new ArrayList<>();
         TipoMatricula tipoMat;
         
         if (tipoMatricula == null){ // si es igual a null, buscar todos
@@ -144,18 +136,17 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
             rs.close();
             stmt.close();
             conn=ConnectDB.closeInstance().getConnect();
+            return lista;
+            
         }catch (SQLException e){
 //            System.out.println("Error al buscar Tipo de Matricula: "+ e);
+            return lista;
         }  
-
-        return lista;
-    }
+   }
     
     
     @Override
     public boolean eliminar(int id) {
-        boolean ok;
-        
         try{
             conn=ConnectDB.getInstance().getConnect();
             SQL="DELETE FROM "+tabla+" WHERE id="+id;
@@ -167,12 +158,11 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
             rs.close();
             stmt.close();
             conn=ConnectDB.closeInstance().getConnect();
-            ok=true;
+            return true;
         }catch(SQLException e){
 //            System.out.println("Error al eliminar tipo de matrícula: "+e);
-            ok=false;
+            return false;
         }
-        return ok;
     }
 
     @Override

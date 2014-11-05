@@ -43,8 +43,6 @@ public class DAOMatricula implements GestionCrud<Matricula>{
     */
     @Override
     public boolean crear (Matricula m){
-        boolean ok; Collection<Object> b ;
-        
         try{
         conn=ConnectDB.getInstance().getConnect();
         
@@ -62,12 +60,11 @@ public class DAOMatricula implements GestionCrud<Matricula>{
 //        System.out.println(filas_afectadas+" fila(s) afectada(s)");
         conn=ConnectDB.closeInstance().getConnect();
         
-        ok=true;
+        return true;
     }catch(SQLException e){
 //        System.out.println("Error al crear la matrícula"+e);
-        ok=false;
+        return false;
     }
-    return ok;
 }
     
 
@@ -81,7 +78,7 @@ public class DAOMatricula implements GestionCrud<Matricula>{
       */   
     @Override
     public List<Matricula> leer(int id) {
-        List<Matricula> lista =null;
+        List<Matricula> lista =new ArrayList<>();
         
         //cuando la ID es 0, se muestran todos los alumnos.
         if (id!=0) {
@@ -100,7 +97,6 @@ public class DAOMatricula implements GestionCrud<Matricula>{
             stmt = conn.createStatement();
             rs = stmt.executeQuery(SQL);
 
-            lista = new ArrayList<>();
             Matricula matricula = null;
 
             while (rs.next()) {
@@ -117,10 +113,11 @@ public class DAOMatricula implements GestionCrud<Matricula>{
             rs.close();
             stmt.close();
             conn=ConnectDB.closeInstance().getConnect();
+            return lista;
         }catch(SQLException e){
 //          System.out.println("Error al hacer la búsqueda "+e);
+            return lista;
         }
-        return lista;
     }
 
     /**
@@ -132,7 +129,7 @@ public class DAOMatricula implements GestionCrud<Matricula>{
      */
     @Override
     public List<Matricula> leer(Matricula m) {
-       List <Matricula> lista=null;
+       List <Matricula> lista=new ArrayList<>();
        
        if (m == null){ //cuando la ID es 0, se muestran todas las matricullas.
             SQL= "SELECT id,id_alumno,id_permiso,id_tipomatricula,fecha_alta,fecha_baja,motivo_baja"
@@ -151,7 +148,6 @@ public class DAOMatricula implements GestionCrud<Matricula>{
       stmt = conn.createStatement();
       rs = stmt.executeQuery(SQL);
       
-      lista = new ArrayList<>();
       Matricula matricula = null;
       
       while (rs.next()) {
@@ -168,10 +164,11 @@ public class DAOMatricula implements GestionCrud<Matricula>{
       rs.close();
       stmt.close();
       conn=ConnectDB.closeInstance().getConnect();
+      return lista;
         }catch(SQLException e){
 //           System.out.println("Error al hacer la búsqueda "+e);
+           return lista;
         }
-       return lista;
     }
         
     @Override
@@ -187,12 +184,11 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         
         st_default.close();
         conn=ConnectDB.getInstance().getConnect();
-        ok=true;
+        return true;
     }catch(SQLException e){
 //        System.out.println("Error al eliminar"+e);
-        ok=false;
+        return false;
     }
-    return ok;
     }
 
     
@@ -209,7 +205,6 @@ public class DAOMatricula implements GestionCrud<Matricula>{
     
     @Override
     public boolean actualizar (Matricula m){
-    boolean ok;
     try{
         conn=ConnectDB.getInstance().getConnect();
         SQL="UPDATE "+tabla+" SET "
@@ -235,12 +230,11 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         
         pst.close();
         conn=ConnectDB.closeInstance().getConnect();
-        ok=true;
+        return true;
     }catch(SQLException e){
 //        System.out.println("Error al actualizar"+e);
-        ok=false;
+        return false;
     }
-    return ok;
     }
     
     
