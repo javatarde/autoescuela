@@ -53,8 +53,11 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
     
     @Override
     public boolean actualizar(TipoMatricula tipoMatricula) {
-        SQL="UPDATE FROM "+tabla+" SET VALOR="+tipoMatricula.getValor()+ " WHERE ID="+tipoMatricula.getId();
+
+        boolean ok;
         
+        SQL="UPDATE "+tabla+" SET VALOR='"+tipoMatricula.getValor()+ "' WHERE ID="+tipoMatricula.getId();
+
         try{
             conn=ConnectDB.getInstance().getConnect();
             stmt=conn.createStatement();
@@ -80,10 +83,10 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
        TipoMatricula tipoMatricula=null;
 
        if (id==0){ // Buscar todos
-            SQL="SELECT id, valor FROM "+tabla+" ORDER BY valor";
+            SQL="SELECT id, valor FROM "+tabla+" ORDER BY id";
         }
         else{
-            SQL="SELECT id, valor FROM "+tabla+"WHERE id="+id+" ORDER BY valor";        
+            SQL="SELECT id, valor FROM "+tabla+" WHERE id="+id+" ORDER BY id";        
             }    
         
         try{
@@ -118,7 +121,7 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
         if (tipoMatricula == null){ // si es igual a null, buscar todos
             SQL ="SELECT id,valor FROM "+tabla;
         }else{ // buscar por valor
-            SQL="SELECT id,valor FROM "+tabla+" WHERE valor="+tipoMatricula.getValor();
+            SQL="SELECT id,valor FROM "+tabla+" WHERE valor="+tipoMatricula.getValor() +" ORDER BY id";
         }        
         
         try{
