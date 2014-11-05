@@ -31,8 +31,8 @@ public class ComponenteMatricula implements Componente<Matricula>{
         matricula.setIdAlumno(Utilidades.getEntero("Id. del alumno"));
         matricula.setIdPermiso(Utilidades.getEntero("Id. del permiso"));
         matricula.setIdTipoMatricula(Utilidades.getEntero("id. tipo de matricula"));
-        matricula.setFechaAlta(Utilidades.getFecha("Fecha de alta (dd-mmm-aaaa)"));
 // Nota: la fecha de baja y el motivo no se inicializan, ya que suponemos que no se saben
+// la fecha de alta se coge la del sistema
         return matricula;
     }
     

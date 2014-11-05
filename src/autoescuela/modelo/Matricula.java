@@ -26,7 +26,8 @@ public class Matricula {
     public Matricula() {
     }
 
-    public Matricula(int id, int idAlumno, int idPermiso, int idTipoMatricula, Date fechaAlta, Date fechaBaja, String motivoBaja) {
+    public Matricula(int id, int idAlumno, int idPermiso, int idTipoMatricula, 
+                     Date fechaAlta, Date fechaBaja, String motivoBaja) {
         this.id = id;
         this.idAlumno = idAlumno;
         this.idPermiso = idPermiso;
@@ -138,11 +139,10 @@ public class Matricula {
         return true;
     }
 
-    // Comprobar campos no vacios y que fecha de alta no sea anterior a la de baja
+    // Comprobar campos no vacios y si hay fechas, que fecha de alta no sea anterior a la de baja
     public boolean validar() {
-      if (getIdAlumno()<0 || getIdPermiso()<0 
-          || getIdTipoMatricula()<0 || getFechaAlta()==null 
-          || (getFechaBaja()!=null && diferenciasDeFechas(getFechaAlta(),getFechaBaja())<0) ) {
+      if (getIdAlumno()<0 || getIdPermiso()<0 || getIdTipoMatricula()<0 || 
+          (getFechaBaja()!=null && getFechaAlta()!=null && diferenciasDeFechas(getFechaAlta(),getFechaBaja())<0) ) {
           return false;
       }else{
           return true;
