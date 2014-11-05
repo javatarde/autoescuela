@@ -51,15 +51,16 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         //hacer insercion
         PreparedStatement pst=conn.prepareStatement(SQL);
         
+        
         pst.setInt(1, m.getIdAlumno());
         pst.setInt(2, m.getIdPermiso());
         pst.setInt(3, m.getIdTipoMatricula());
     
         
-//        int filas_afectadas=pst.executeUpdate();
-//        System.out.println(filas_afectadas+" fila(s) afectada(s)");
+        int filas_afectadas=pst.executeUpdate();
+        rs.close();
         conn=ConnectDB.closeInstance().getConnect();
-        
+        pst.close();
         return true;
     }catch(SQLException e){
 //        System.out.println("Error al crear la matrícula"+e);
@@ -131,7 +132,7 @@ public class DAOMatricula implements GestionCrud<Matricula>{
     public List<Matricula> leer(Matricula m) {
        List <Matricula> lista=new ArrayList<>();
        
-       if (m == null){ //cuando la ID es 0, se muestran todas las matricullas.
+       if (m == null){ //cuando la ID es null, se muestran todas las matricullas.
             SQL= "SELECT id,id_alumno,id_permiso,id_tipomatricula,fecha_alta,fecha_baja,motivo_baja"
                + " FROM "+tabla
                + " ORDER BY id_alumno";
@@ -139,12 +140,12 @@ public class DAOMatricula implements GestionCrud<Matricula>{
             SQL= "select id, id_alumno, id_permiso, id_tipomatricula, fecha_alta, fecha_baja, motivo_baja"
                + " FROM "+tabla
                + " WHERE id_alumno="+ m.getIdAlumno()
-               + " id_tipomatricula="+m.getIdTipoMatricula()+" id_permiso="+m.getIdPermiso();
+               + " AND id_tipomatricula="+m.getIdTipoMatricula()+" AND id_permiso="+m.getIdPermiso();
        }
        
        try {
-      conn = ConnectDB.getInstance().getConnect();
       
+      conn = ConnectDB.getInstance().getConnect();
       stmt = conn.createStatement();
       rs = stmt.executeQuery(SQL);
       
