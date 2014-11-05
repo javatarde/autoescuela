@@ -69,7 +69,7 @@ public abstract class MenuGenerico<T>{
           List <T> lista = MenuGenerico.this.dao.leer(id);
           if (!lista.isEmpty()) {
               T elemento = lista.get(0);
-              MenuGenerico.this.componente.set(elemento);
+              MenuGenerico.this.componente.set(elemento); //<== AQUÍ FALLA CON "null pointer..."
               String cadena = Utilidades.getCadena("¿Desea eliminar al "+nombreClase+"? (si/no) ");
               if (cadena.toLowerCase().equals("si")){
                   boolean resultado = MenuGenerico.this.dao.eliminar(id);
