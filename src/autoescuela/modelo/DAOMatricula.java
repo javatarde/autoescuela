@@ -35,7 +35,7 @@ public class DAOMatricula implements GestionCrud<Matricula>{
    /**
     * Crea <b>(INSERT INTO)</b> un nuevo elemento Matrícula en la base de datos 
     * devuelve <tt>true</tt> si se ha podido realizar la operacion en la <b>tabla AU_MATRICULA</b>,
-    * la fecha de alta se genera automáticamente en la tabla con el valor del día de actual.
+    * la <tt>fecha de alta</tt> se genera automáticamente en la tabla con el valor del día de actual.
     * @param m del <i>tipo Matricula</i> para insertar en la <b>tabla AU_MATRICULA</b>
     * @return booleano que indica si se ha podido efectuar la inserción (<b>true</b>) o no se ha podido (<b>false</b>)
     * 
