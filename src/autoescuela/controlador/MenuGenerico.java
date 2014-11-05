@@ -45,12 +45,6 @@ public abstract class MenuGenerico<T>{
           T elemento = MenuGenerico.this.componente.get();
           if (MenuGenerico.this.dao.validar(elemento)) {
               List <T> lista = MenuGenerico.this.dao.leer(elemento);
-if (lista==null){
-    System.out.println("lista vacia");
-}else{
-    System.out.println("hay "+lista.size());
-}
-                      
               if (!lista.isEmpty()) {
                   Utilidades.showCadena("ERROR: Ya existe un "+nombreClase+" con esos valores en "+bd);
               } else {

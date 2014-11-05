@@ -17,8 +17,8 @@ public class ComponentePermiso implements Componente<Permiso>{
     private Permiso permiso;
     private static final String sino = " si/no ";
     private static final String cadenaDatosPermiso = "****--Consulta de Permisos de conducir disponibles--****" + 
-                                                   "\nid   Valor      Descripcion" + 
-                                                   "\n--   -----      -----------";
+                                                   "\nid   Permiso      Descripcion" + 
+                                                   "\n--   -------      -----------";
     
     public ComponentePermiso (){
         permiso = new Permiso();
@@ -28,7 +28,7 @@ public class ComponentePermiso implements Componente<Permiso>{
     public Permiso get() {
         permiso = new Permiso();
         // Obtener los datos del permiso pidiendoselos al usuario por consola
-        permiso.setValor(Utilidades.getCadena("Valor"));
+        permiso.setValor(Utilidades.getCadena("Permiso"));
         permiso.setDescripcion(Utilidades.getCadena("Descripcion"));
         return permiso;
     }
@@ -46,7 +46,7 @@ public class ComponentePermiso implements Componente<Permiso>{
         set(permiso);
         // Mostrar y actualizar los datos del permiso
         if (Utilidades.getCadena("¿Desea cambiar el valor?"+sino).equals("si")){
-            permiso.setValor(Utilidades.getCadena("Valor"));
+            permiso.setValor(Utilidades.getCadena("Permiso"));
         }
         if (Utilidades.getCadena("¿Desea cambiar la descripcion?"+sino).equals("si")){
             permiso.setDescripcion(Utilidades.getCadena("Descripcion"));

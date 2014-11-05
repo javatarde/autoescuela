@@ -17,8 +17,8 @@ public class ComponenteTipoMatricula implements Componente<TipoMatricula>{
     private TipoMatricula tipoMatricula;
     private static final String sino = " si/no ";
     private static final String cadenaDatosTipoMatricula = "****--Consulta de tipo de matriculas disponibles--****" + 
-                                                           "\nid   Valor" + 
-                                                           "\n--   -----";
+                                                           "\nid   Tipo de matricula" + 
+                                                           "\n--   -----------------";
     
     public ComponenteTipoMatricula (){
         tipoMatricula = new TipoMatricula();
@@ -28,7 +28,7 @@ public class ComponenteTipoMatricula implements Componente<TipoMatricula>{
     public TipoMatricula get() {
         tipoMatricula = new TipoMatricula();
         // Obtener los datos del tipoMatricula pidiendoselos al usuario por consola
-        tipoMatricula.setValor(Utilidades.getCadena("Valor"));
+        tipoMatricula.setValor(Utilidades.getCadena("Tipo de matricula"));
         return tipoMatricula;
     }
     
@@ -45,7 +45,7 @@ public class ComponenteTipoMatricula implements Componente<TipoMatricula>{
         set(tipoMatricula);
         // Mostrar y actualizar los datos del tipoMatricula
         if (Utilidades.getCadena("¿Desea cambiar el valor?"+sino).equals("si")){
-            tipoMatricula.setValor(Utilidades.getCadena("Valor"));
+            tipoMatricula.setValor(Utilidades.getCadena("Tipo de matricula"));
         }
         // Validar los nuevos datos introducidos
         if (!tipoMatricula.validar()){
