@@ -57,13 +57,13 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         pst.setInt(3, m.getIdTipoMatricula());
     
         
-        int filas_afectadas=pst.executeUpdate();
-        System.out.println(filas_afectadas+" fila(s) afectada(s)");
+//        int filas_afectadas=pst.executeUpdate();
+//        System.out.println(filas_afectadas+" fila(s) afectada(s)");
         conn=ConnectDB.closeInstance().getConnect();
         
         ok=true;
     }catch(SQLException e){
-        System.out.println("Error al crear la matrícula"+e);
+//        System.out.println("Error al crear la matrícula"+e);
         ok=false;
     }
     return ok;
@@ -82,14 +82,15 @@ public class DAOMatricula implements GestionCrud<Matricula>{
     public List<Matricula> leer(int id) {
         List<Matricula> lista =null;
         
-    //cuando la ID es 0, se muestran todos los alumnos.
+        //cuando la ID es 0, se muestran todos los alumnos.
         if (id!=0) {
           SQL = "SELECT id, id_alumno, id_permiso, id_tipomatricula, fecha_alta, fecha_baja, motivo_baja"
               + " FROM "+tabla
               + " WHERE id = "+id;
         } else {
           SQL = "SELECT id, id_alumno, id_permiso, id_tipomatricula, fecha_alta, fecha_baja, motivo_baja"
-              + " FROM "+tabla;
+              + " FROM "+tabla
+              + " ORDER BY id_alumno";
         }
         
         try {
@@ -116,9 +117,8 @@ public class DAOMatricula implements GestionCrud<Matricula>{
             stmt.close();
             conn=ConnectDB.closeInstance().getConnect();
         }catch(SQLException e){
-          System.out.println("Error al hacer la búsqueda "+e);
+//          System.out.println("Error al hacer la búsqueda "+e);
         }
-
         return lista;
     }
 
@@ -134,11 +134,14 @@ public class DAOMatricula implements GestionCrud<Matricula>{
        List <Matricula> lista=null;
        
        if (m == null){ //cuando la ID es 0, se muestran todas las matricullas.
-            SQL="SELECT id,id_alumno,id_permiso,id_tipomatricula,fecha_alta,fecha_baja,motivo_baja FROM "+tabla+" ORDER BY id_alumno";
-       }else{
-            SQL = "select id, id_alumno, id_permiso, id_tipomatricula, fecha_alta, fecha_baja, motivo_baja"
-                + " FROM "+tabla
-                + " WHERE id_alumno = "+ m.getIdAlumno()+"id_tipomatricula="+m.getIdTipoMatricula()+"id_permiso="+m.getIdPermiso();
+            SQL= "SELECT id,id_alumno,id_permiso,id_tipomatricula,fecha_alta,fecha_baja,motivo_baja"
+               + " FROM "+tabla
+               + " ORDER BY id_alumno";
+       }else{ //buscar por idAlumno, idTipoMatricula y idPermiso
+            SQL= "select id, id_alumno, id_permiso, id_tipomatricula, fecha_alta, fecha_baja, motivo_baja"
+               + " FROM "+tabla
+               + " WHERE id_alumno="+ m.getIdAlumno()
+               + " id_tipomatricula="+m.getIdTipoMatricula()+" id_permiso="+m.getIdPermiso();
        }
        
        try {
@@ -165,7 +168,7 @@ public class DAOMatricula implements GestionCrud<Matricula>{
       stmt.close();
       conn=ConnectDB.closeInstance().getConnect();
         }catch(SQLException e){
-        System.out.println("Error al hacer la búsqueda "+e);
+//           System.out.println("Error al hacer la búsqueda "+e);
         }
        return lista;
     }
@@ -179,13 +182,13 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         st_default=conn.createStatement();
         st_default.executeUpdate(SQL);
         
-        System.out.println("La matrícula con el ID "+IDMatricula+" ha sido eliminada");
+//        System.out.println("La matrícula con el ID "+IDMatricula+" ha sido eliminada");
         
         st_default.close();
         conn=ConnectDB.getInstance().getConnect();
         ok=true;
     }catch(SQLException e){
-        System.out.println("Error al "+e);
+//        System.out.println("Error al eliminar"+e);
         ok=false;
     }
     return ok;
@@ -217,7 +220,6 @@ public class DAOMatricula implements GestionCrud<Matricula>{
                 +" WHERE ID=?";
         
         PreparedStatement pst = conn.prepareStatement(SQL);
-        
 
         pst.setInt(1, m.getIdPermiso());
         pst.setInt(2, m.getIdTipoMatricula());
@@ -226,16 +228,15 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         pst.setString (5, m.getMotivoBaja());
         pst.setInt(6, m.getId());
         
-        int filas=pst.executeUpdate();
-        
-        System.out.println("Datos solicitados actualizados");
-        System.out.println("Filas afectadas: "+filas);
+//        int filas=pst.executeUpdate();
+//        System.out.println("Datos solicitados actualizados");
+//        System.out.println("Filas afectadas: "+filas);
         
         pst.close();
         conn=ConnectDB.closeInstance().getConnect();
         ok=true;
     }catch(SQLException e){
-        System.out.println("Error al "+e);
+//        System.out.println("Error al actualizar"+e);
         ok=false;
     }
     return ok;

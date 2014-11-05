@@ -5,6 +5,8 @@
  */
 package autoescuela.modelo;
 
+import autoescuela.vista.GestorFechas;
+import static autoescuela.vista.GestorFechas.*;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -136,9 +138,11 @@ public class Matricula {
         return true;
     }
 
+    // Comprobar campos no vacios y que fecha de alta no sea anterior a la de baja
     public boolean validar() {
-      if (false) {
-// temporalmente
+      if (getIdAlumno()<0 || getIdPermiso()<0 
+          || getIdTipoMatricula()<0 || getFechaAlta()==null 
+          || (getFechaBaja()!=null && diferenciasDeFechas(getFechaAlta(),getFechaBaja())<0) ) {
           return false;
       }else{
           return true;

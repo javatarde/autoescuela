@@ -52,10 +52,10 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       
       conn = ConnectDB.closeInstance().getConnect();
       
-      Utilidades.showCadena("Se han creado "+fila_afectadas+" alumno(s).");
+//      Utilidades.showCadena("Se han creado "+fila_afectadas+" alumno(s).");
       return true;   
     } catch (SQLException esql) {
-          Utilidades.showCadena("ERROR al crear alumno en la BD: "+esql.getMessage());
+//          Utilidades.showCadena("ERROR al crear alumno en la BD: "+esql.getMessage());
       return false;
     }        
   }
@@ -101,7 +101,7 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       conn = ConnectDB.closeInstance().getConnect();
       return lista;   
     } catch (SQLException sqle) {
-      Utilidades.showCadena("ERROR al leer alumnos: "+sqle.getMessage());
+//      Utilidades.showCadena("ERROR al leer alumnos: "+sqle.getMessage());
       return null;   
     }
   }
@@ -146,7 +146,7 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       ConnectDB.getInstance().closeInstance(); //cerrar
       return lista;  
     } catch (SQLException sqle) {
-        Utilidades.showCadena("ERROR al mostrar alumno por nombre: "+sqle.getMessage());
+//        Utilidades.showCadena("ERROR al mostrar alumno por nombre: "+sqle.getMessage());
         return null;
     }
   }
@@ -173,10 +173,10 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       stmt.close();
       conn = ConnectDB.closeInstance().getConnect(); //cerrar
       
-      Utilidades.showCadena("Alumno actualizado correctamente");
+//      Utilidades.showCadena("Alumno actualizado correctamente");
       return true;
     } catch (SQLException sqle) {
-        Utilidades.showCadena("ERROR al eliminar alumno: "+sqle.getMessage());
+//        Utilidades.showCadena("ERROR al eliminar alumno: "+sqle.getMessage());
         return false;
     }
   }
@@ -196,10 +196,10 @@ public class DAOAlumno implements GestionCrud<Alumno> {
       
       stmt.close();
       conn = ConnectDB.closeInstance().getConnect();
-      Utilidades.showCadena("Alumno borrado correctamente");
+//      Utilidades.showCadena("Alumno borrado correctamente");
       return true;
     } catch (SQLException sqle) {
-        Utilidades.showCadena("ERROR al eliminar el alumno: "+sqle.getMessage());
+//        Utilidades.showCadena("ERROR al eliminar el alumno: "+sqle.getMessage());
         return false;
     }    
   }

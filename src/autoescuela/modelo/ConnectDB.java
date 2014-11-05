@@ -18,8 +18,9 @@ import java.sql.SQLException;
 public class ConnectDB {
     private static Connection conexion;
     private static ConnectDB instancia;
-//    private static final String ip = "localhost";
-    private static final String ip = "192.168.1.50";
+    private static final String ip = "localhost";
+//    private static final String ip = "192.168.1.50";
+    
    //Constructor
     private ConnectDB(){
         try{

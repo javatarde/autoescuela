@@ -39,7 +39,7 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
            
             int filas_afectadas = pst.executeUpdate();
 
-            System.out.println("Nuevo tipo de matrícula creado, "+filas_afectadas+ " filas afectadas.");
+//            System.out.println("Nuevo tipo de matrícula creado, "+filas_afectadas+ " filas afectadas.");
             
             rs.close();
             pst.close();
@@ -47,7 +47,7 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
            
             ok=true;
         }catch(SQLException e){
-            System.out.println("Error al crear Tipo de Matricula: "+ e);
+//            System.out.println("Error al crear Tipo de Matricula: "+ e);
             ok=false;
         }
 
@@ -67,14 +67,14 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
             
             stmt.executeUpdate(SQL);
             
-            System.out.println("Tipo de matrícula actualizado");
+//            System.out.println("Tipo de matrícula actualizado");
            
             stmt.close();
             conn=ConnectDB.closeInstance().getConnect();            
             
             ok=true;
         }catch (SQLException e){
-            System.out.println("Error al actualizar Tipo de Matricula: "+ e);
+//            System.out.println("Error al actualizar Tipo de Matricula: "+ e);
             ok=false;
         }
         
@@ -87,7 +87,7 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
        List <TipoMatricula> lista=new ArrayList<>();
        TipoMatricula tipoMatricula=null;
 
-       if (id==0){
+       if (id==0){ // Buscar todos
             SQL="SELECT id, valor FROM "+tabla+" ORDER BY valor";
         }
         else{
@@ -112,7 +112,7 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
             conn=ConnectDB.closeInstance().getConnect();            
             
         }catch (SQLException e){
-            System.out.println("Error al buscar Tipo de Matricula: "+ e);
+//            System.out.println("Error al buscar Tipo de Matricula: "+ e);
         }   
         
         return lista;
@@ -134,12 +134,10 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
             stmt=conn.createStatement();
             rs=stmt.executeQuery(SQL);
             
-            
             while (rs.next()){
                 tipoMat=new TipoMatricula();
                 tipoMat.setId(rs.getInt("ID"));
                 tipoMat.setValor(rs.getString("Valor"));
-                
                 lista.add(tipoMat);
             }
             
@@ -147,7 +145,7 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
             stmt.close();
             conn=ConnectDB.closeInstance().getConnect();
         }catch (SQLException e){
-            System.out.println("Error al buscar Tipo de Matricula: "+ e);
+//            System.out.println("Error al buscar Tipo de Matricula: "+ e);
         }  
 
         return lista;
@@ -164,17 +162,16 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
             stmt=conn.createStatement();
             stmt.executeUpdate(SQL);
             
-            System.out.println("Tipo de matrícula eliminado correctamente");
+//            System.out.println("Tipo de matrícula eliminado correctamente");
             
             rs.close();
             stmt.close();
             conn=ConnectDB.closeInstance().getConnect();
             ok=true;
         }catch(SQLException e){
-            System.out.println("Error al eliminar tipo de matrícula: "+e);
+//            System.out.println("Error al eliminar tipo de matrícula: "+e);
             ok=false;
         }
-        
         return ok;
     }
 
@@ -194,7 +191,4 @@ public class DAOTipoMatricula implements GestionCrud<TipoMatricula>{
         return m.validar();
     }
     
-    // Mostrar:
-//    System.out.println("ID: "+rs.getInt("ID")+" TipoMatricula: "+rs.getString("VALOR"));
-
 }

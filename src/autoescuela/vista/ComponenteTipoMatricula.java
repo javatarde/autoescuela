@@ -7,7 +7,6 @@
 package autoescuela.vista;
 
 import autoescuela.modelo.TipoMatricula;
-import autoescuela.vista.Utilidades;
 import java.util.List;
 
 /**
@@ -16,9 +15,10 @@ import java.util.List;
  */
 public class ComponenteTipoMatricula implements Componente<TipoMatricula>{
     private TipoMatricula tipoMatricula;
-    private final String cadenaDatosTipoMatricula = "****--Consulta de tipo de matriculas disponibles--****" + 
-                                              "\nid   Valor" + 
-                                              "\n--   -----";
+    private static final String sino = " si/no ";
+    private static final String cadenaDatosTipoMatricula = "****--Consulta de tipo de matriculas disponibles--****" + 
+                                                           "\nid   Valor" + 
+                                                           "\n--   -----";
     
     public ComponenteTipoMatricula (){
         tipoMatricula = new TipoMatricula();
@@ -26,15 +26,14 @@ public class ComponenteTipoMatricula implements Componente<TipoMatricula>{
 
     @Override
     public TipoMatricula get() {
+        tipoMatricula = new TipoMatricula();
         // Obtener los datos del tipoMatricula pidiendoselos al usuario por consola
-//        tipoMatricula.setId(Utilidades.getNumero("id."));
         tipoMatricula.setValor(Utilidades.getCadena("Valor"));
         return tipoMatricula;
     }
     
     @Override
     public TipoMatricula update(TipoMatricula tipoMatriculaOriginal) {
-        String sino = " si/no ";
         // Devolver un clon del original
         try{
             tipoMatricula = (TipoMatricula) tipoMatriculaOriginal.clone();
@@ -78,7 +77,7 @@ public class ComponenteTipoMatricula implements Componente<TipoMatricula>{
     private void mostrarTipoMatricula(TipoMatricula p) {
         // Mostrar todos los campos del tipoMatricula en una linea
         Utilidades.showCadena("ID: "+new Integer(p.getId()).toString()+
-                                " | TipoMatricula: "+p.getValor());
+                              " | TipoMatricula: "+p.getValor());
     }
   
 }

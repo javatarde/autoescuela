@@ -19,6 +19,7 @@ import java.util.Objects;
  * @author Formacion
  */
 public abstract class Persona implements Serializable, Cloneable {
+  private static final long serialVersionUID = 3798673479082438008L;
   private String nombre;
   private String apellidos;
   private String dni;

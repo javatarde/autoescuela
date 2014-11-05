@@ -15,8 +15,10 @@ import java.util.List;
  */
 public class ComponenteMatricula implements Componente<Matricula>{
     private Matricula matricula;
-    private final String cadenaDatosMatricula =  "Id   Id. del alumno   Id. del permiso   Tipo de matricula    Fecha de alta    Fecha de baja   Motivo de baja"
-                                              +"\n--   --------------   ---------------   -----------------    -------------    -------------   --------------";
+    private static final String sino = " si/no ";
+    private static final String cadenaDatosMatricula =  
+        "Id   Id. del alumno   Id. del permiso   Tipo de matricula    Fecha de alta    Fecha de baja   Motivo de baja"
+     +"\n--   --------------   ---------------   -----------------    -------------    -------------   --------------";
     
     public ComponenteMatricula (){
         matricula = new Matricula();
@@ -25,17 +27,17 @@ public class ComponenteMatricula implements Componente<Matricula>{
     @Override
     public Matricula get() {
         // Obtener los datos del matricula pidiendoselos al usuario por consola
+        matricula = new Matricula();
         matricula.setIdAlumno(Utilidades.getEntero("Id. del alumno"));
         matricula.setIdPermiso(Utilidades.getEntero("Id. del permiso"));
         matricula.setIdTipoMatricula(Utilidades.getEntero("id. tipo de matricula"));
-        matricula.setFechaAlta(Utilidades.getFecha("Fecha de baja (dd-mmm-aaaa)"));
-// Nota: la fecha de baja y el motivo no se crean, ya que suponemos que todavia no se saben
+        matricula.setFechaAlta(Utilidades.getFecha("Fecha de alta (dd-mmm-aaaa)"));
+// Nota: la fecha de baja y el motivo no se inicializan, ya que suponemos que no se saben
         return matricula;
     }
     
     @Override
     public Matricula update(Matricula matriculaOriginal) {
-        String sino = " si/no ";
         // Devolver un clon del original
         try{
             matricula = (Matricula) matriculaOriginal.clone();

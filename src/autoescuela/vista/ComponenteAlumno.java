@@ -7,7 +7,6 @@
 package autoescuela.vista;
 
 import autoescuela.modelo.Alumno;
-import autoescuela.vista.Utilidades;
 import java.util.List;
 
 /**
@@ -16,8 +15,9 @@ import java.util.List;
  */
 public class ComponenteAlumno implements Componente<Alumno>{
     private Alumno alumno;
-    private final String cadenaDatosAlumno = "\nid   Nombre      Apellidos           DNI       Telefono    Estado"
-                                           + "\n--   ------      ---------           ---       --------    ------";
+    private static final String sino = " si/no ";
+    private static final String cadenaDatosAlumno = "\nid   Nombre      Apellidos           DNI       Telefono    Estado"
+                                                  + "\n--   ------      ---------           ---       --------    ------";
     
     public ComponenteAlumno (){
         alumno = new Alumno();
@@ -25,6 +25,7 @@ public class ComponenteAlumno implements Componente<Alumno>{
 
     @Override
     public Alumno get() {
+        alumno = new Alumno();
         // Obtener los datos del alumno pidiendoselos al usuario por consola
         alumno.setNombre(Utilidades.getCadena("Nombre"));
         alumno.setApellidos(Utilidades.getCadena("Apellidos"));
@@ -37,7 +38,6 @@ public class ComponenteAlumno implements Componente<Alumno>{
     
     @Override
     public Alumno update(Alumno alumnoOriginal) {
-        String sino = " si/no ";
         // Devolver un clon del original
         try{
             alumno = (Alumno) alumnoOriginal.clone();

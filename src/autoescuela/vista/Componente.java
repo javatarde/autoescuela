@@ -11,6 +11,7 @@ import java.util.List;
 /**
  *
  * @author Formacion
+ * @param <T>
  */
 public interface Componente<T> {
     public T get();

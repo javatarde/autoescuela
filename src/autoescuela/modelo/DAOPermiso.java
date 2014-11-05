@@ -11,7 +11,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  *
@@ -59,7 +58,7 @@ public class DAOPermiso implements GestionCrud<Permiso>{
             conn=ConnectDB.closeInstance().getConnect();
         
         }catch (SQLException e){
-            System.out.println("Error al crear permiso de conducir en la BD: "+e);
+//            System.out.println("Error al crear permiso de conducir en la BD: "+e);
             ok = false;
         }
         return ok;
@@ -93,7 +92,7 @@ public class DAOPermiso implements GestionCrud<Permiso>{
             conn=ConnectDB.closeInstance().getConnect();
             
         }catch(SQLException e){
-            System.out.println("Error al consultar los permisos de conducir en la BD: "+e);
+//            System.out.println("Error al consultar los permisos de conducir en la BD: "+e);
         }
         return lista;
     }
@@ -130,7 +129,7 @@ public class DAOPermiso implements GestionCrud<Permiso>{
             conn=ConnectDB.closeInstance().getConnect();
             
         }catch(SQLException e){
-            System.out.println("Error al leer los permisos de conducir en la BD: "+e);
+//            System.out.println("Error al leer los permisos de conducir en la BD: "+e);
         }
         
         return lista;
@@ -152,7 +151,7 @@ public class DAOPermiso implements GestionCrud<Permiso>{
             st_default.close();
             conn=ConnectDB.closeInstance().getConnect();
         }catch(SQLException e){
-            System.out.println("Error al actualizar permiso de conducir en la BD: "+e);
+//            System.out.println("Error al actualizar permiso de conducir en la BD: "+e);
             ok=false;
         }
         return ok;
@@ -170,13 +169,13 @@ public class DAOPermiso implements GestionCrud<Permiso>{
             
             rs=st_default.executeQuery(SQL);
           
-            System.out.println("El permiso con ID "+IDPermiso+ " ha sido eliminado");
+//            System.out.println("El permiso con ID "+IDPermiso+ " ha sido eliminado");
             
             rs.close();
             st_default.close();
             conn=ConnectDB.closeInstance().getConnect();
         }catch(SQLException e){
-            System.out.println("Error al eliminar permiso de conducir en la BD: "+e);
+//            System.out.println("Error al eliminar permiso de conducir en la BD: "+e);
             ok=false;
         }
         return ok;

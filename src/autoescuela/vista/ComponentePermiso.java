@@ -7,7 +7,6 @@
 package autoescuela.vista;
 
 import autoescuela.modelo.Permiso;
-import autoescuela.vista.Utilidades;
 import java.util.List;
 
 /**
@@ -16,9 +15,10 @@ import java.util.List;
  */
 public class ComponentePermiso implements Componente<Permiso>{
     private Permiso permiso;
-    private final String cadenaDatosPermiso = "****--Consulta de Permisos de conducir disponibles--****" + 
-                                              "\nid   Valor      Descripcion" + 
-                                              "\n--   -----      -----------";
+    private static final String sino = " si/no ";
+    private static final String cadenaDatosPermiso = "****--Consulta de Permisos de conducir disponibles--****" + 
+                                                   "\nid   Valor      Descripcion" + 
+                                                   "\n--   -----      -----------";
     
     public ComponentePermiso (){
         permiso = new Permiso();
@@ -26,8 +26,8 @@ public class ComponentePermiso implements Componente<Permiso>{
 
     @Override
     public Permiso get() {
+        permiso = new Permiso();
         // Obtener los datos del permiso pidiendoselos al usuario por consola
-//        permiso.setId(Utilidades.getNumero("id."));
         permiso.setValor(Utilidades.getCadena("Valor"));
         permiso.setDescripcion(Utilidades.getCadena("Descripcion"));
         return permiso;
@@ -35,7 +35,6 @@ public class ComponentePermiso implements Componente<Permiso>{
     
     @Override
     public Permiso update(Permiso permisoOriginal) {
-        String sino = " si/no ";
         // Devolver un clon del original
         try{
             permiso = (Permiso) permisoOriginal.clone();

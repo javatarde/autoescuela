@@ -6,7 +6,6 @@
 package autoescuela.vista;
 
 import java.sql.Date;
-import gestion_fechas.GestorFechas;
 import java.util.Scanner;
 
 /**

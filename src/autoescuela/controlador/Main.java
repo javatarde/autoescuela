@@ -15,7 +15,14 @@ import autoescuela.modelo.DAOAlumno;
 import autoescuela.modelo.Alumno;
 import autoescuela.vista.Utilidades;
 import autoescuela.controlador.Menu.Opcion;
+import autoescuela.modelo.DAOMatricula;
+import autoescuela.modelo.DAOTipoMatricula;
+import autoescuela.modelo.Matricula;
+import autoescuela.modelo.TipoMatricula;
+import autoescuela.vista.ComponenteMatricula;
+import autoescuela.vista.ComponenteTipoMatricula;
 import static java.lang.System.exit;
+import java.util.List;
 
 /**
  *
@@ -25,50 +32,58 @@ public class Main {
     private final Menu menuAlumno;
     private final Menu menuPermiso;
     private final Menu menuMatricula;
+    private final Menu menuTipoMatricula;
     private final Menu menu;
-    private final String tituloPrograma = "Autoescuela FORINEMAS. Software de gestion de alumnos:  ";
+    private static final String tituloPrograma = "Autoescuela FORINEMAS. Software de gestion de alumnos:  ";
     
     
     public Main() {
-        // Inicializar componentes de la vista
+        // Inicializar componentes para la vista
         Componente<Alumno> compAlumno = new ComponenteAlumno();
         Componente<Permiso> compPermiso = new ComponentePermiso();
-//        Componente<TipoMatricula> compTipoMatricula = new ComponenteTipoMatricula();
-//        Componente<Matricula> compMatricula = new ComponenteMatricula();
+        Componente<TipoMatricula> compTipoMatricula = new ComponenteTipoMatricula();
+        Componente<Matricula> compMatricula = new ComponenteMatricula();
         
         
-        // Inicializar DAOs
+        // Inicializar DAOs del modelo
         GestionCrud<Alumno> daoAlumno =  new DAOAlumno();
         GestionCrud<Permiso> daoPermiso =  new DAOPermiso();
-//        GestionCrud<TipoMatricula> daoTipoMatricula =  new DAOTipoMatricula();
-//        GestionCrud<Matricula> daoMatricula =  new DAOMatricula();
+        GestionCrud<TipoMatricula> daoTipoMatricula =  new DAOTipoMatricula();
+        GestionCrud<Matricula> daoMatricula =  new DAOMatricula();
         
         
         // Crear menus del programa
         menu = new Menu();
-        
 //        MenuGenerico<Alumno> constructorMenuAlumno = new MenuGenerico<>(compAlumno,
 //                                                        daoAlumno,"alumno",menu,null);
-        MenuAlumno constructorMenuAlumno = new MenuAlumno(compAlumno,daoAlumno,"alumno",menu,null);
+        MenuAlumno constructorMenuAlumno = new MenuAlumno(compAlumno,daoAlumno,
+                                                          "alumno",menu,null);
         menuAlumno = constructorMenuAlumno.getMenu();
-        MenuPermiso constructorMenuPermiso = new MenuPermiso(compPermiso,daoPermiso,"permiso",menu,null);
+        MenuPermiso constructorMenuPermiso = new MenuPermiso(compPermiso,daoPermiso,
+                                                             "permiso",menu,null);
         menuPermiso = constructorMenuPermiso.getMenu();
-//        MenuGenerico<Matricula> constructorMenuMatricula = new MenuGenerico<>(compMatricula,
-//                                                        daoMatricula,"matricula",menu,null);
-//        menuMatricula = constructorMenuMatricula.getMenu();
-        menuMatricula = null;
+        MenuTipoMatricula constructorMenuTipoMatricula = new MenuTipoMatricula(compTipoMatricula,
+                                                             daoTipoMatricula,
+                                                             "tipo de matricula",menu,null);
+        menuTipoMatricula = constructorMenuTipoMatricula.getMenu();
+        MenuMatricula constructorMenuMatricula = new MenuMatricula(compMatricula,
+                                                     daoMatricula,"matricula",menu,null);
+        menuMatricula = constructorMenuMatricula.getMenu();
 
-        // Opciones del Menu principal
+        // Crear opciones del menu principal
         final Opcion opcion1 = menu.new Opcion("Gestion de alumnos", (Accion) () -> {
             return menuAlumno;
         });
-        final Opcion opcion2 = menu.new Opcion("Gestion de permisos", (Accion) () -> {
-            return menuPermiso;
-        });
-        final Opcion opcion3 = menu.new Opcion("Gestion de matriculas", (Accion) () -> {
+        final Opcion opcion2 = menu.new Opcion("Gestion de matriculas", (Accion) () -> {
             return menuMatricula;
         });
-        final Opcion opcion4 = menu.new Opcion("Salir", (Accion) () -> {
+        final Opcion opcion3 = menu.new Opcion("Gestion de permisos de conducir", (Accion) () -> {
+            return menuPermiso;
+        });
+        final Opcion opcion4 = menu.new Opcion("Gestion de tipos de matricula de autoescuela", (Accion) () -> {
+            return menuTipoMatricula;
+        });
+        final Opcion opcion5 = menu.new Opcion("Salir", (Accion) () -> {
             Utilidades.showCadena("\n Fin del programa");
             exit(0);
             return null;
@@ -77,8 +92,9 @@ public class Main {
         // Incluir las opciones en el menu pricipal
         menu.addOpcion(opcion1);
         menu.addOpcion(opcion2);
-//        menu.addOpcion(opcion3);
+        menu.addOpcion(opcion3);
         menu.addOpcion(opcion4);
+        menu.addOpcion(opcion5);
         menu.setRotuloMenu("Menu principal");
         
     }
