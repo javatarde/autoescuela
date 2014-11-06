@@ -93,8 +93,12 @@ public class ComponenteMatricula implements Componente<Matricula>{
             fechaAlta = m.getFechaAlta().toString();
         }
         String fechaBaja = "   -   ";
-        if (m.getFechaAlta()!=null){
+        if (m.getFechaBaja()!=null){
             fechaBaja = m.getFechaBaja().toString();
+        }
+        String motivoBaja = "";
+        if (m.getMotivoBaja()!=null){
+            motivoBaja = m.getMotivoBaja();
         }
         Utilidades.showCadena(
             new Integer(m.getId()).toString() + "  " +
@@ -103,7 +107,7 @@ public class ComponenteMatricula implements Componente<Matricula>{
             new Integer(m.getIdTipoMatricula()).toString() + "  " +
             fechaAlta + "  " + 
             fechaBaja + "  " + 
-            m.getMotivoBaja()
+            motivoBaja
         );
     }
     
