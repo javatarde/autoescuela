@@ -226,9 +226,10 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         pst.setString (5, m.getMotivoBaja());
         pst.setInt(6, m.getIdAlumno());
         pst.setInt(7, m.getId());
-
         
         int filas=pst.executeUpdate();
+        
+        
 //        System.out.println("Datos solicitados actualizados");
 //        System.out.println("Filas afectadas: "+filas);
         
