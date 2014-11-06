@@ -14,9 +14,9 @@ import java.util.Objects;
  */
 public class Alumno extends Persona implements Cloneable {
   private static final long serialVersionUID = -847759666675389221L;
-  private int id;
-  private String estado;
-  private String comentarios;
+  private int id = -1;
+  private String estado = "";
+  private String comentarios = "";
 
   public Alumno() {
     super();

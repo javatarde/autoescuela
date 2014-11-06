@@ -88,13 +88,21 @@ public class ComponenteMatricula implements Componente<Matricula>{
     
     private void mostrarMatricula(Matricula m) {
         // Mostrar todos los campos de matricula en una linea
+        String fechaAlta = "   -   ";
+        if (m.getFechaAlta()!=null){
+            fechaAlta = m.getFechaAlta().toString();
+        }
+        String fechaBaja = "   -   ";
+        if (m.getFechaAlta()!=null){
+            fechaBaja = m.getFechaBaja().toString();
+        }
         Utilidades.showCadena(
             new Integer(m.getId()).toString() + "  " +
             new Integer(m.getIdAlumno()).toString() + "  " +
             new Integer(m.getIdPermiso()).toString() + "  " +
             new Integer(m.getIdTipoMatricula()).toString() + "  " +
-            m.getFechaAlta().toString() + "  " +
-            m.getFechaBaja().toString() + "  " +
+            fechaAlta + "  " + 
+            fechaBaja + "  " + 
             m.getMotivoBaja()
         );
     }

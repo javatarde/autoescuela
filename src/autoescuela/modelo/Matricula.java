@@ -15,13 +15,13 @@ import java.util.Objects;
  * @author Formacion
  */
 public class Matricula {
-    private int id;
-    private int idAlumno;
-    private int idPermiso;
-    private int idTipoMatricula;
-    private Date fechaAlta;
-    private Date fechaBaja;
-    private String motivoBaja;
+    private int id = -1;
+    private int idAlumno = -1;
+    private int idPermiso = -1;
+    private int idTipoMatricula = -1;
+    private Date fechaAlta = null;
+    private Date fechaBaja = null;
+    private String motivoBaja = "";
 
     public Matricula() {
     }

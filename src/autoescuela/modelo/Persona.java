@@ -20,10 +20,10 @@ import java.util.Objects;
  */
 public abstract class Persona implements Serializable, Cloneable {
   private static final long serialVersionUID = 3798673479082438008L;
-  private String nombre;
-  private String apellidos;
-  private String dni;
-  private String telefono;
+  private String nombre = "";
+  private String apellidos = "";
+  private String dni = "";
+  private String telefono = "";
 
   public Persona() {
   }

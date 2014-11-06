@@ -13,7 +13,7 @@ import java.util.Objects;
  */
 public class TipoMatricula implements Cloneable{
     private int id = -1;
-    private String valor = null;
+    private String valor = "";
 
     public TipoMatricula() {
     }

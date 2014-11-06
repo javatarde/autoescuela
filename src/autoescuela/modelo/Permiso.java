@@ -13,8 +13,8 @@ import java.util.Objects;
  */
 public class Permiso implements Cloneable{
     private int id = -1;
-    private String valor = null;
-    private String descripcion = null;
+    private String valor = "";
+    private String descripcion = "";
 
     public Permiso() {
     }
