@@ -43,20 +43,6 @@ public class ConnectDB {
         return instancia;
     }
     
-    //se cierra la conexion
-    //********VERSION ORIGINAL***********
-//    public static void closeInstance(){
-//        try{
-//            conexion.close();
-//            instancia=null;
-//            System.out.println("BBDD OFFLINE");
-//        }
-//        catch(SQLException e){
-//            System.out.println("Error al cerrar conexion: "+e.getMessage());
-//        }
-//    }
-    
-    //****PRUEBA que FUNCIONA OK*****
    
     public static ConnectDB closeInstance(){
         try{

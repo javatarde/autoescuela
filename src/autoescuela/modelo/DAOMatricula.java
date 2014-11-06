@@ -214,6 +214,7 @@ public class DAOMatricula implements GestionCrud<Matricula>{
                 +",FECHA_ALTA=?"
                 +",FECHA_BAJA=?"
                 +",MOTIVO_BAJA=?"
+                +",ID_ALUMNO=?"
                 +" WHERE ID=?";
         
         PreparedStatement pst = conn.prepareStatement(SQL);
@@ -223,9 +224,11 @@ public class DAOMatricula implements GestionCrud<Matricula>{
         pst.setDate(3, m.getFechaAlta());
         pst.setDate(4, m.getFechaBaja());
         pst.setString (5, m.getMotivoBaja());
-        pst.setInt(6, m.getId());
+        pst.setInt(6, m.getIdAlumno());
+        pst.setInt(7, m.getId());
+
         
-//        int filas=pst.executeUpdate();
+        int filas=pst.executeUpdate();
 //        System.out.println("Datos solicitados actualizados");
 //        System.out.println("Filas afectadas: "+filas);
         
