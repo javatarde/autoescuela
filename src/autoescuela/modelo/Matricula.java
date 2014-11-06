@@ -150,8 +150,11 @@ public class Matricula {
     }
     
     @Override
-    public Object clone() throws CloneNotSupportedException {
-      return super.clone(); //To change body of generated methods, choose Tools | Templates.
+    public Matricula clone() throws CloneNotSupportedException {
+//      return super.clone(); //To change body of generated methods, choose Tools | Templates.
+        Matricula matricula = new Matricula(id, idAlumno, idPermiso, idTipoMatricula, 
+                                            fechaAlta, fechaBaja, motivoBaja);
+        return matricula;
     }
 
 }
